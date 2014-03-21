@@ -1,0 +1,29 @@
+/**
+ * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
+package com.mulgasoft.emacsplus.commands;
+
+import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
+
+/**
+ * Class to use as the handler for a named kbd macro
+ * 
+ * @author Mark Feber - initial API and implementation
+ */
+public class KbdMacroNameExecuteHandler extends KbdMacroExecuteHandler {
+
+	KbdMacroNameExecuteHandler(String name) {
+		setKbdMacroName(name);
+	}
+	
+	protected boolean hasKbdMacro() {
+		// allows execution within definition of another macro
+		return KbdMacroSupport.getInstance().hasKbdMacro(getKbdMacroName()); 
+	}
+	
+}

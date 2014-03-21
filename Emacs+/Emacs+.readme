@@ -1,0 +1,463 @@
+Emacs+ is designed to provide a more Emacs like experience in the Eclipse text editors.  Included are enhancements for keyboard driven command execution and keyboard macros, Emacs style region selection, Emacs style search and query/replace, a kill ring for deleted text, balanced expression (S-expression) behavior, keyboard driven editor window splitting, transposition behavior, simple text manipulation and, for the java editor, append line comment operations.  In cases where the normal Emacs binding interferes with the default Eclipse binding, the Emacs binding is preferred.
+
+    The plugin supports Kepler and later versions and is compiled with 1.6 jdk. 
+    This plug-in is provided as is and may be used freely (see the Emacs+ plug-in license). 
+    You may contact support at: support@mulgasoft.com. If you find this plug-in useful, please: Rate this plug-in
+
+Installation: Add the update site http://www.mulgasoft.com/emacsplus/update-site to the eclipse update manager (Help > Software Updates...) and install the desired features.  A zip file with the current release is available here as well.
+
+The Emacs+ Key Scheme extends the Emacs Key Scheme accessible from > Preferences > General > Keys.
+Eclipse text editors are enhanced with the following new or extended features:
+
+Commands and Command Execution - Provides the ability to execute an arbitrary Eclipse command from the keyboard. The status area is used as the minibuffer in a way similar to incremental find.  Completion is available.  For example, typing "Alt-X" then "show<SPACE>" will pop up the set of commands beginning with show. See the command description for more information.
+
+    * Execute Extended Command (Alt-X): Reads a command name from the minibuffer (with completion and wildcards) and executes it
+
+    * Universal-Argument (Ctrl-U) Reads a numeric argument for the following command.  The universal-argument is applicable to text and most movement and text editing commands.  Note that Ctrl-U may be followed by an Alt-X <command>.
+          o Digits or minus sign following Ctrl-U make up the numeric argument
+          o Ctrl-U following the digits or minus sign ends the argument
+          o Ctrl-U without digits or minus sign provides 4 as the argument
+          o Repeating Ctrl-U without digits or minus sign multiplies the argument by 4 each time
+    * Digit Argument (Alt--, Alt-0, Alt-1, Alt-2, Alt-3, Alt-4, Alt-5, Alt-6, Alt-7, Alt-8, Alt-9,
+                      Ctrl-Alt--, Ctrl-Alt-0, Ctrl-Alt-1, Ctrl-Alt-2, Ctrl-Alt-3, Ctrl-Alt-4, Ctrl-Alt-5, Ctrl-Alt-6, Ctrl-Alt-7, Ctrl-Alt-8, Ctrl-Alt-9
+                      for C-<number> optional bindings - see below)
+          o Part of the numeric argument for the next command
+    
+    * Apropos Command (Optional binding - Ctrl-H A - see below): Reads a string from the minibuffer and displays list of matching commands
+    * Describe Bindings (Optional binding - Ctrl-H B - see below): Shows a list of all currently active key bindings and the associated commands
+    * Describe Key Briefly (Optional binding Ctrl-H C - see below): Reads a key sequence from the minibuffer and displays the command name in the status bar
+    * Describe Command (Optional binding - Ctrl-H D, Ctrl-H F - see below): Reads a command name from the minibuffer and displays information about it
+    * Describe Key (Optional binding - Ctrl-H K - see below): Reads a key sequence from the minibuffer and displays information about the associated command
+    * Emacs+ News (Optional binding - Ctrl-H N - see below): Display a history of user visible changes to Emacs+
+    * Where Is Command (Optional binding - Ctrl-H W - see below): Reads a command name from the minibuffer and displays just key-binding information about it
+    * Describe Help Commands (Optional binding - Ctrl-H ? - see below): Provide help about the Emacs+ help commands
+
+
+Keyboard Macros - A keyboard macro is a command defined by the Eclipse user to stand for another sequence of command and key invocations.  The current version of Emacs+ keyboard macros does not support editing macros.  Once kbd macros have been saved, they can be set up for subsequent auto-loading on Eclipse restart via the Kbd Macros Preference page.
+  
+    * Kbd Macro Start (Ctrl-X (): Start the definition of a Kbd Macro
+          o If called with Ctrl-U, append keys to the last keyboard macro after re-executing it.
+          o If called with Ctrl-U Ctrl-U, append keys to the last keyboard macro without re-executing it.
+    * Kbd Macro End (Ctrl-X )): End the definition of a Kbd Macro
+    * Kbd Macro End Or Call (Optional-binding <F4> - see below): If a Kbd Macro is being defined, end the definition; otherwise, execute the most recent Kbd Macro
+    * Kbd Macro Call (Ctrl-X E, Ctrl-X Ctrl-K K): Execute the most recent Kbd Macro
+          o If called with Ctrl-U 0 repeat Kbd Macro execution until error/interrupt
+    * Save Kbd Macro: Save the named Kbd Macro to an external file
+    * Load Kbd Macro: Load the named Kbd Macro from an external file
+          o By default Kbd Macros are saved to the Emacs+ state area.  Use the Kbd Macro Storage Directory preference to specify a different location.          
+    * Apply Macro To Region Lines (Ctrl-X Ctrl-K R): Run the last Kbd Macro on each line that begins in the region
+    * Name Last Kbd Macro (Ctrl-X Ctrl-K N): Give a command name (for the duration of the Eclipse session) to the most recently defined keyboard macro
+          o Defining a keyboard macro in this way makes it a valid command name for calling with `M-x'
+    * Kbd Macro Bind To Key (Ctrl-X Ctrl-K B): Offer to bind last macro to a key when not defining or executing a macro
+          o If called with Ctrl-U, prompt for named Kbd Macro to bind 
+          o Due to internal constraints, the key sequence can not end with a modifier key (i.e. use Ctrl-X Ctrl-K A not Ctrl-X Ctrl-K Ctrl-A)
+    * Kbd Macro Cycle Ring Next (Ctrl-X Ctrl-K Ctrl-N): Rotate the keyboard macro ring to the next macro (defined earlier)
+    * Kbd Macro Cycle Ring Previous    (Ctrl-X Ctrl-K Ctrl-P): Rotate the keyboard macro ring to the previous macro (defined later)
+    * View Kbd Macro (Ctrl-X Ctrl-K Ctrl-E): View Kbd Macro
+
+
+Emacs Style Text Selection (transient-mark-mode) - Modifies the motion keys (including: C-f, C-b, M-f, M-b, C-n, C-p, C-a, C-e, M-<, M->, etc.) to extend the current selection when adjacent to an active selection or activated mark.    
+
+    * Keyboard Quit (Ctrl-G):  deactivate the current selection (does not change point or mark)         
+          o Corrects Eclipse semantics
+          
+    * Mark Paragraph (Alt-H): Select forward one paragraph
+    * Mark Sexp (Ctrl-Alt-SPACE): Select forward one balanced expression
+    * Mark Word (Alt-@): Select forward one word
+    * Mark Whole Buffer (Ctrl-X H): select entire buffer, putting point at the beginning and mark at the end
+          o Corrects Eclipse semantics of Select All
+
+
+Paragraph Commands - 
+
+    * Forward paragraph (Alt-}): Move forward to end of paragraph
+    * Backward paragraph (Alt-{): Move backward to start of paragraph
+    * Mark Paragraph (Alt-H): Select forward one paragraph
+    * Transpose Paragraphs (unbound): Interchange the current paragraph with the next one
+		o If called with positive Ctrl-U, moves the current paragraph forwards
+		o If called with negative Ctrl-U moves it backwards. 
+		o If called with Ctrl-U zero, exchanges the current paragraph with the one containing the mark.
+
+
+Emacs Style Search and Query/Replace - Enhances Ctrl-S and Ctrl-R and adds additional search and replace commands. Each search command has a history list (implemented as a ring buffer) traversed by Alt-P and Alt-N (NB: MacOS users can use Alt-SHIFT-N and Alt-SHIFT-P) and supports these additional sub-commands on the search or query string:
+
+          o Ctrl-W - Yanks the next word from the buffer onto end of the search string and search for result
+          o Ctrl-Y - Yanks the rest of line onto the end of the search string and search for result
+          o Alt-Y - Yanks the last killed text onto end of the search string and search for result
+          o Ctrl-Alt-W - Delete one character from the end of the search string and search for result
+          o Ctrl-Alt-Y - Yank one character from current position and search for result
+          o Ctrl-Q - Quotes a control character to search for it.
+          o Ctrl-J - Adds an end of line for matching
+          o Ctrl-G - While searching or when search has failed cancels the input back to what has been found successfully.
+          o Ctrl-G - When search is successful aborts and moves back to the starting point.
+
+    * I-Search forward (Ctrl-S) - Incremental search forward
+    * Regexp I-Search forward (Ctrl-Alt-S) - Incremental search forward for a regular expression.
+    * I-Search backward (Ctrl-R) - Incremental search backward
+    * Regexp I-Search backward (Ctrl-Alt-R) - Incremental search backward for a regular expression.
+
+          o Alt-C - Toggle the case sensitivity of the i-search
+          o Wrapped searches are denoted by an asterisk in the command prompt.   
+
+    Replacement Commands - [differs from Emacs behavior by incrementally searching for the search-string as in I-Search] 
+          o If GNU yank preference is set (default) then Ctrl-Y and Alt-Y will yank and yank pop respectively onto search string
+          
+    * replace-string (no binding) - Replace occurrences of search-string after point with replacement string.
+    * replace-regexp (no binding) - Replace occurrences of (regular expression) search-string after starting point with (substitution expression) replacement string.
+       
+    * Query-Replace (Alt-%) - Replace some occurrences of query-string after starting point with replacement-string.
+    * Query-Replace-Regexp (Ctrl-Alt-%) - Replace some occurrences of (regular expression) query-string after starting point with (substitution expression) replacement string. 
+
+          As each match is found, the user must type a character saying what to do with it.  Supported characters are:
+
+          o SPACE or y to replace one match
+          o DEL or n to skip to next
+          o RET or q to exit
+          o . (period) to replace one match and exit
+          o , (comma) to replace one match but not move point immediately
+          o ! to replace all remaining matches with no more questions
+
+Replace commands preserve case in each match if search-string has no uppercase letters. (Preserving case means that if the string matched is all caps, or capitalized, then its replacement is uppercased or capitalized.)
+
+
+Kill Ring Behavior - The kill ring expands the ability to retrieve killed text in the Eclipse text editors beyond the most recent kill/copy. The kill ring remembers recent line, region and word deletions (adjacent word deletions - forward or back - are collected into a single entry) as well as balanced expression (S-expression) deletions.  By default, word deletions are not copied to the system clipboard; but balanced expression deletions are.  The length of the kill ring defaults to 30 entries.  These and other kill ring behaviors can be modified on the preferences page.
+
+    * Yank (Ctrl-Y):  Insert the last stretch of killed text
+          o If called with Ctrl-U, then restore the text from the kill ring, counting back from the most recent as 1
+    * Yank-Pop (Alt-Y) or (ESC-Y): Replace a just-yanked stretch of killed text with a different stretch
+    * Append Next Kill (Ctrl-Alt-W): If the following command is a kill/copy command, append its text to the last killed text, instead of starting a new entry on the kill ring
+
+    * Rotate Yank Pointer (Ctrl-Alt-Y): Rotate the yank pointer in the kill ring - displays a hint in the status bar
+    * Browse Kill Ring: Browse the kill ring in the Emacs+ console window.  The background is alternately highlighted on alternate entries. (The highlight color can be set in the preferences.)
+          o When the auto browse preference is checked, browse the kill ring on a Yank Pop when not preceded by a Yank
+          o Supports the sub-commands:
+                i - insert
+                y - insert
+                <SPC> - insert
+                <RET> - insert and quit (activate text editor)
+                n - next entry
+                p - previous entry
+                g - refresh kill ring display
+                q - quit (activate text editor)
+                U - undo last operation in the text editor
+
+
+Undo/Redo - Enhance the Eclipse Undo operation to (partially) mimic the Emacs linkage of undo/redo.  When performing one or more undo commands any non-edit command, other than an undo command, breaks the sequence of undo commands.  Starting from that moment, the entire sequence of undo commands just performed acts as if placed onto the undo stack (i.e. they will be redone in sequence on subsequent undo commands).  Thus, you can redo changes you have undone by typing `C-f' or any other command that has no important effect, and then using more undo commands.  Note, however, that unlike Emacs, as soon as the document is altered other than by an undo/redo command, the redo stack is discarded (as shocking as this discard may sound, this is the normal Eclipse behavior).
+
+    * Undo+ (Ctrl-_, Ctrl-X U): Undo some previous change(s)
+          o Enabled when the Emacs-Undo preference is set (default) otherwise acts just as the unmodified Eclipse command
+    
+    
+Balance Expression Behavior (S-expressions) - These commands deal with balanced expressions, also called sexps.  Balanced expressions typically include symbols, numbers, and string constants, as well as any pair of matching delimiters and their contents.
+
+          o If the strict balanced expression preference is set (default) then the commands will not move out of the containing expression 
+          o If the period as a word separator preference is set (default) then the commands will stop at embedded periods
+          o If the underscore as a word separator preference is set (default is not set) then the commands will stop at underscores
+
+    * Forward Sexp (Ctrl-Alt-F): Move forward one balanced expression
+    * Backward Sexp (Ctrl-Alt-B): Move back one balanced expression
+    * Kill Sexp (Ctrl-Alt-K): Kill forward one balanced expression
+    * Kill Backward Sexp (Ctrl-Alt-BS): Kill backward one balanced expression
+    * Mark Sexp (Ctrl-Alt-SPACE): Select forward one balanced expression
+
+    * Down List (Ctrl-Alt-D): Move forward down one level of brackets
+    * Backward Up List (Ctrl-Alt-U): Move backward out of one level of brackets
+          o with a negative argument, the command moves forward and up one or more levels
+    * Up List (unbound): Move backward out of one level of brackets
+          o with a negative argument, the command moves backward and up one or more levels    
+
+
+Tags search behavior (without tags) - Adapt the Emacs notion of tags-search to Eclipse.  Search for the minibuffer string in the Project, current Working Set, or Workspace.  The minibuffer string is pre-populated with the current selection, or next word (if on the same line) and can be edited by the user.  Add a convenience binding (Alt-,) as an analog to tags-loop-continue.
+          o On tags-search (and find-tag if the optional features are loaded - see below) before the command is executed the current location is stored in a ring buffer.  Use pop-tag-mark to return this location. 
+          
+    * Search in Project (Alt-S): Search for text in the Project
+          o Alt-C - Toggle the case sensitivity of the tags-search    
+    * Search in Working Set (Ctrl-U Alt-S): Search for text in the Current Working Set (or Workspace, if no Working Set)
+    * Search in Workspace (Ctrl-U Ctrl-U Alt-S): Search for text in the Workspace
+    * Occur: Search for text in the current buffer
+    * List Matching Lines: Alias for Occur
+    * Next (Alt-,): Navigate to the next search result (Eclipse provides Ctrl-, for previous search result)
+
+    * Pop Tag Mark (Alt-*): Pop back to where the last tags command (tags-seartch or find-tag) was invoked 
+    
+Transposition behavior - NB: the key binding for Transpose Characters, (Ctrl-T), overrides the open quick type hierarchy (rebound to Ctrl-[ if the optional binding feature is installed)
+
+    * Transpose Characters (Ctrl-T):  Interchange characters around point
+    * Transpose Words (Alt-T): Interchange words around point, leaving point at end of them.
+    * Transpose Lines (Ctrl-X Ctrl-T): Exchange current line and previous line, leaving point after both.
+    * Transpose Balanced Expressions (Ctrl-Alt-T): Interchange balanced expressions around point, leaving point at end of them.
+
+
+Case conversion commands -
+
+    * Capitalize (Alt-C): Capitalize the selected region or the following word
+    * Lowercase (Alt-L): Lower case the selected region or the following word
+    * Uppercase (Alt-U): Upper case the selected region or the following word
+
+          o All the case conversion commands support Alt-- (i.e. Alt-minus) to case convert the immediately preceding word without moving the cursor. So, for example, entering Alt-- Alt-C will capitalize the previous word.
+
+Space handling -
+
+    * Back To Indent (Alt-M): Move point to first non-whitespace character on the line
+    * Delete Blank Lines (Ctrl-X Ctrl-O):
+          o On blank line, delete all surrounding blank lines, leaving just one
+          o On isolated blank line, delete that one
+          o On non-blank line, delete any immediately following blank 
+    * Delete Horizontal Space (Alt-\): Delete all tabs and spaces from around the cursor
+    * Just One Space (Alt-SPACE): Delete all spaces and tabs around the cursor, leaving one space
+    * Split Line (Ctrl-Alt-O): Split current line, moving portion beyond point vertically down
+    * Delete Indentation (Alt-^): Join this line to previous and fix up whitespace at join
+          o If called with Ctrl-U, then join to following line
+
+Split window behavior - Adapt the Emacs notion of window splitting to the Eclipse editor stack [Disabled since Juno due to internal Eclipse modifications]
+
+    * Split Window Horizontally (Ctrl-X 2): Split the editor stack horizontally and put the current editor below the others
+          o When the split editor preference is checked (default), the current editor is split and placed below itself
+    * Split Window Vertically (Ctrl-X 3): Split the editor stack vertically and put the current editor beside the others
+          o When the split editor preference is checked (default), the current editor is split and placed beside itself
+    * Join Other Window (Ctrl-X 1): Join a previously split editor window to the (upper left) editor stack
+          o When the split editor preference is checked (default), duplicate instances of the editor are closed
+    * Deactivate Window (Ctrl-X 0):  Remove (duplicate) editor from the display. 
+          o If the editor is the only one in its stack, the stack is deleted as well.
+          o If the editor is the last instance, then it is not removed - the previous editor is activated
+    * Scroll Other Window (Ctrl-Alt-V or Alt-PageDown):  Scroll the other window one block of lines
+    * Scroll Other Window Down (Alt-PageUp):  Scroll the other window down one block of lines
+    * Begin Other Window (Alt-Home):  Go to the beginning of the buffer in the other window
+    * End Other Window (Alt-End):  Go to the end of the buffer in the other window
+    * Recenter Other Window (Alt-Insert):  Center point in the other window
+      [NB: The other-window commands can cause some title/window flicker, especially if the editor area is not maximized.]
+
+Window navigation -
+
+    * Switch To Buffer (Ctrl-X B): Activate current text editor and prompt in the minibuffer for a buffer to which to switch
+        o Replaces Eclipse version with minibuffer based implementation that provides:
+            - Defaulting to the previous editor buffer
+            - Buffer completion - typing Ctrl-X B<SPACE> or Ctrl-X B<TAB> will bring up the complete set of buffers 
+            - If more than one file has the same name they are disambiguated by appending project and path to the name 
+            - Ctrl-X B<some characters><SPACE> or <TAB> will bring up the buffers completions of <some characters>
+            - Accepts wild cards (? and *) as well as simple regex strings
+            - A history ring buffer
+        o Search For Buffer (Ctrl-S, Ctrl-R): When in Switch To Buffer, entering Ctrl-S or Ctrl-R will enter i-search mode.  Characters entered will be searched for within the buffer list and the first (or last) match is displayed in the prompt area.  A subsequent Ctrl-S or Ctrl-R will display the next (or previous) match in the list.  <CR> will switch to the buffer currently displayed in the prompt area and exit Switch To Buffer.  Select Ctrl-G to exit i-search mode.    
+    * Other Window (Ctrl-X O): Navigate to the previous editor window
+          o Prefer a previous editor stack window if present
+    * Backwards Other Window (Ctrl-U Ctrl-X O): Navigate to the oldest previous editor window
+
+
+Narrow Region - 
+
+    * Narrow to Region (Ctrl-X N N): Restrict editing of the buffer to the selected region
+    * Widen (Ctrl-X N W): Remove the narrowing restriction from the buffer
+
+
+Mark Rings - When the mark is set in a text buffer, the previous mark (if any) is pushed onto the buffer-local Mark Ring.  Each buffer remembers up to sixteen previous locations of the mark.  Each time a buffer is visited (or re-visited), the first mark that is set is added to the global Mark Ring (which also has a length of sixteen) as long as the entry at the top of the global Mark Ring is not from the same buffer. Several commands allow you to set marks and move between marks both locally and globally.
+
+    * Set Mark Command (Ctrl-SPACE): Sets the mark and activates it, pushing previous mark to the mark rings
+    * Push Mark (Ctrl-SPACE Ctrl-SPACE): Sets the mark without activating it, pushing previous mark to the mark rings
+    * Pop To Mark (Ctrl-U Ctrl-SPACE): Pop the next mark from the mark ring and move to it, saving previous mark to the mark rings
+    * Pop Global Mark (Ctrl-X Ctrl-SPACE) : Pop the next global mark from the mark ring and move to it
+    * Rotate Global Mark (unbound) : Like Pop Global Mark, but in the reverse direction
+    * Exchange Point and Mark (Ctrl-X Ctrl-X): Swap point and mark and activate the selection (if necessary)
+          o When called on a mouse (or other non-mark) selection, move point and set mark, leaving it active
+          
+
+Rectangle Commands - Rectangle commands operate on rectangular areas of the text: all the characters between a certain pair of columns, in a certain range of lines.
+
+    * Kill Rectangle (Ctrl-X R K): Kill the text of the rectangle, saving its contents as the last killed rectangle
+    * Delete Rectangle (Ctrl-X R D): Delete the text of the region-rectangle
+    * Yank Rectangle (Ctrl-X R Y): Yank the last killed rectangle with its upper left corner at point
+    * Open Rectangle (Ctrl-X R O): Insert blank space to fill the space of the rectangle. This pushes the previous contents of the rectangle rightward
+    * Clear Rectangle (Ctrl-X R C): Clear the region-rectangle by replacing all of its contents with spaces
+    * Delete Whitespace Rectangle:  Delete initial whitespace in each of the lines on the specified rectangle
+    * String Rectangle (Ctrl-X R T <STRING>): Replace rectangle contents with STRING on each line
+    * String Insert Rectangle:  Insert STRING on each line of the rectangle
+
+Named Registers - Named registers are places in which you can save text or locations for later use. They emulate and extend the venerable TECO's 'register' feature. Each register has a name which is a single character.  Once you save text in a register, you can copy it into the buffer once or many times; a location saved in a register is used by moving point to that position.  Whatever you store in a register remains there until you store something else in that register.  Additional bindings for the most common commands are available in Optional bindings.
+
+    * Copy To Register (Ctrl-X R S):  Copy selection into register *R*
+          o If called with Ctrl-U, then also delete selection
+    * Copy Rectangle To Register (Ctrl-X R R):  Copy selection into register *R*
+          o If called with Ctrl-U, then also delete the rectangle
+    * Append To Register:  Append selection to text stored in register *R*
+          o If called with Ctrl-U, then also delete selection
+    * Prepend To Register:  Prepend selection to text stored in register *R*
+          o If called with Ctrl-U, then also delete selection
+    * Insert Register (Ctrl-X R I, Ctrl-X R G):  Insert contents of register *R*
+          o If called with Ctrl-U, then position point at end of inserted text
+          o If register contains a rectangle then it will be inserted at point
+
+    * Point To Register (Ctrl-X R SPACE):  Store current location of point in register *R*
+    * Jump To Register (Ctrl-X R J):  Move point to location stored in register *R*
+
+    * Number To Register    (Ctrl-X R N) Store a number in register *R*
+          o If called with Ctrl-U, use universal argument as number
+          o else use selection or number after point in the buffer - defaults to 0
+    * Increment Register    (Ctrl-X R +) Store a number in register *R*
+          o If called with Ctrl-U, use universal argument as increment, else increment by 1
+
+    * View Register (Ctrl-X R V):  Display what is contained in register *R*
+    * List Registers (Ctrl-U Ctrl-X R V): Display information about all named registers in use
+
+   
+Line and character commands
+
+    * Forward block of lines (unbound): Move down n lines (default 6)
+    * Backward block of lines (unbound): Move up n lines (default 6)
+          o The value of n may be set on the preference page
+
+    * Delete Trailing Whitespace (unbound): Delete all the trailing whitespace in the current buffer
+          o Differs from the Eclipse command in that it respects narrowing, created by Ctrl-X N N and friends
+          
+    * Goto Char (unbound): Move point to specified character position
+    * Goto Line (Alt-G): Goto line, counting from line 1 at beginning of buffer.  Move point in the current buffer, and leave mark at the previous position.  
+    
+    * Join Line: Correct Eclipse semantics - Join this line to previous line and fix up whitespace at join.
+          o If called with Ctrl-U, join this line to following line.
+          
+    * Recenter Top Bottom (Ctrl-L): Enhance Eclipse recenter to move current line to window center, top, and bottom, successively.
+          o With no prefix argument, the first call redraws the frame and centers point vertically within the window.  Successive calls scroll the window, placing point on the top, bottom, and middle consecutively.  The cycling order is middle -> top -> bottom.
+          o If called with Ctrl-U, move current line to window-line universal argument.
+          
+    * Count Lines Buffer (Ctrl-X L): Print number of lines in current buffer, and how many are before or after point
+    * Count Lines Region (Alt-=): Print number of lines and characters in the region
+    * Count Matches (unbound): Print and return number of matches for REGEXP following point
+    * What Cursor Position (Ctrl-X =): Print info on cursor position (on screen and within buffer)
+    * What Line: Print the current buffer line number and narrowed line number of point
+    * Zap to Char: (Alt-Z) - Combines killing with searching: It reads a character and kills from point up to (and including) the next occurrence of that character in the buffer.  
+          o A numeric argument acts as a repeat count
+          o A negative argument means to search backward and kill text before point. 
+
+    * Line Number Mode (unbound): Toggle display of line numbers in buffer
+    * Hl Line Mode (unbound): Toggle mode that highlights the line about the buffer's point in all buffers globally
+    
+    
+Line sorting behavior
+
+    * Sort Lines: Sort lines in region alphabetically
+          o If called with an argument, sort in descending order
+    
+    * Sort Fields: Sort lines in region lexicographically by the ARGth field (default 1) of each line.
+            o  Fields are separated by whitespace and numbered from 1 up.
+            o  If called with a negative ARG, sorts by the ARGth field counted from the right.
+    * Sort Numeric Fields: Sort lines in region numerically by the ARGth field of each line.
+            o  The field may begin with "0x" or "0" for hexadecimal and octal values
+            
+    * Sort Fold Case: Toggle variable `SortFoldCase' which determines whether alphabetic case affects the sort order.
+           o If called with argument show current value without change
+    
+    * Reverse Region: Reverse the order of lines in a region
+    
+
+Line comment behavior - these are only indicated for the Java editor
+
+    * Indent For Comment (Ctrl-;): Add or jump to comment at line end
+    * Comment Next (Alt-N): Append line comment to next line
+    * Comment Previous (Alt-P): Append line comment previous line
+    
+
+Indenting and Alignment
+
+    * Align Regexp (unbound): Align the current region using an ad-hoc rule read from the minibuffer.
+          o Prompts for the regexp to align with.  If no prefix arg was specified, you only need to supply the characters to be lined up and any preceding whitespace is replaced.
+          o If a prefix arg is specified, the full regexp with parenthesized whitespace should be supplied; it will also prompt for which parenthesis group within regexp to modify, the amount of spacing to use, and whether or not to repeat the rule throughout the line.
+          
+    * Indent Rigidly (Ctrl-X TAB): Indent all lines starting in the region sideways by ARG columns (default 1)
+    
+    * Indent For Tab (unbound): Indent line or region in the proper way for the current major mode
+          o This command is unbound by default as it is not Emacs+ policy to rebind fundamental keys.  It can be bound to TAB on the keys preference page using the dropdown next to the Binding: key field entry. The command uses some heuristics to invoke the 'proper' command for the given editor (if one can be found) or else inserts tabs (or the equivalent spaces as described below).  It should not be bound to Ctrl+I, as that will result in a no-op.
+          o If called with Ctrl-U, then insert tabs or spaces at the beginning of the region and on each following line of the region.
+          When invoked with Ctrl-U, there is no good way for Emacs+ to determine whether a given editor class has been configured to use tabs or spaces nor is there a way to determine what some other plugin may do in this regard.  Therefore, Emacs+ uses the setting of the 'primary' tabs preference (at General -> Editors -> Text Editors) to determine which is most likely appropriate, although different editors use different preferences (or even internal heuristics) when inserting tabs/spaces.
+
+Miscellaneous
+
+    * Eval Expression (Alt-:) or (ESC :): Set/Show an internal variable dynamically
+          o While not truly a read-eval-print mechanism, it uses the minibuffer to eval or setq a limited set of variables (using the normal Emacs+ completion mechanism)
+          o Preference variables set in this manner persist to all subsequent sessions
+          
+Optional bindings:
+
+ Additional commands and convenience override bindings of standard Eclipse editor commands are available when the optional binding feature is installed.
+
+    * Apropos Command (Ctrl-H A)
+    * Describe Bindings (Ctrl-H B)
+    * Describe Key Briefly (Ctrl-H C)
+    * Describe Command (Ctrl-H D, Ctrl-H-F)
+    * Describe Key (Ctrl-H K)
+    * Emacs+ News (Ctrl-H N)
+    * Where Is Command (Ctrl-H W)
+    * Describe Help Commands (Ctrl-H ?)
+          o Rebind override - Open Search Dialog (Ctrl-H S)       
+
+    * Kbd Macro Start (<F3>): Start the definition of a Kbd Macro
+    * Kbd Macro End Or Call (<F4>): If a Kbd Macro is being defined, end the definition; otherwise, execute the most recent Kbd Macro
+    
+    * Forward Balanced Expression (Alt-RIGHT)
+          o Rebind override - Forward History (Ctrl-X-RIGHT)
+    * Backward Balanced Expression (Alt-LEFT)
+          o Rebind override - Backward History (Ctrl-X-LEFT)
+
+    * down-list (Ctrl-Alt-DOWN)
+    * backward-up-list (Ctrl-Alt-UP)
+
+    * Next editor (Ctrl-Alt-L)
+    * Next view (Ctrl-Alt-SHIFT-L)
+        o The combination of these two commands allow navigation through all visible tabs
+
+    * Open line (Ctrl-O): Insert newline and leave cursor before it
+          o Rebind override -  Show Outline: (Ctrl-]).
+    * New line indent (Ctrl-J): Insert newline, move cursor and potentially indent
+          o Any potential indentation is handled directly by the current editor
+
+    * Transpose Characters
+          o Rebind override - Show Hierarchy: (Ctrl-[)
+
+    * Undo+ (Ctrl-/)
+          o Rebind override - Toggle Comment (Alt-;) or (ESC-;) (aka comment-dwim in GNU-Emacs)
+
+    * Named Registers - Alternate bindings
+          o Copy To Register (Ctrl-X X)
+          o Insert Register (Ctrl-X G)
+          o Jump To Register (Ctrl-X J)
+          o Point To Register (Ctrl-X /)
+
+    * Digit Argument (Ctrl--, Ctrl-0, Ctrl-1, Ctrl-2, Ctrl-3, Ctrl-4, Ctrl-5, Ctrl-6, Ctrl-7, Ctrl-8, Ctrl-9) controlled by an Emacs+ preference (For Mac OS X users, this applies to Command-<some number>) 
+          o To enable the use of Ctrl-<number> as digit-argument the "Force digit-argument interpretation" preference should be set. A number of editors/plugins use Ctrl-<some number> as either a command or a prefix argument.  For example, the java editor uses Ctrl-2 as a prefix key for assorted Quick Assist functionality. When the preference is on, then all the Ctrl-<number> keys will always provide the digit-argument functionality. If the preference is off, then none of the Ctrl-<number> keys will provide the digit-argument functionality. To make sure that Eclipse's internal key bindings are built consistently, a restart of the workbench is strongly suggested whenever the preference is changed.
+
+    * GNU-style shift select mode: Holding down the SHIFT key while typing a cursor motion command sets the mark before moving point so that the region extends from the original position of point to its new position. Any subsequent SHIFTED cursor motion command avoids setting the mark anew; therefore, a series of shifted cursor motion commands will continuously extend the region. In addition to the usual ways of deactivating the mark, the mark is deactivated by any UNSHIFTED cursor motion command.
+          o forward-character (Ctrl-SHIFT-F)
+          o backward-character (Ctrl-SHIFT-B)
+                + Rebind override - toggle-breakpoint (Ctrl-X SPACE). See GUD bindings below
+          o forward-word (Alt-SHIFT-F)
+          o backward-word (Alt-SHIFT-B)
+          o forward-sexp (Ctrl-Alt-SHIFT-F)
+          o backward-sexp (Ctrl-Alt-SHIFT-B)
+          o forward-paragraph (Ctrl-SHIFT-DOWN)
+          o backward-paragraph (Ctrl-SHIFT-UP)
+          o previous-line (Ctrl-SHIFT-P)
+          o next-line (Ctrl-SHIFT-N)
+          o begin-line (Ctrl-SHIFT-A)
+          o end-line (Ctrl-SHIFT-E)
+          o scroll-up (Ctrl-SHIFT-V)
+          o scroll-down (Alt-SHIFT-V)
+
+          o shift-select-mode (unbound): Toggle value on command. If set, enable GNU-style shift-selection (see the GNU Emacs manual for more information)
+               + If called with Ctrl-U, show current value without changing
+
+
+    * GNU-style GUD bindings for debugging
+          o toggle-breakpoint (Ctrl-X <SPC>, Ctrl-X Ctrl-A <SPACE>): Toggle a breakpoint on the source line that point is on.
+          o step-into (Ctrl-C Ctrl-S, Ctrl-X Ctrl-A Ctrl-S): Execute a single line of code.  If the line contains a function call, execution stops after entering the called function.
+          o step-over (Ctrl-C Ctrl-N, Ctrl-X Ctrl-A Ctrl-N): Execute a single line of code, stepping across entire function calls
+          o resume (Ctrl-C Ctrl-R, Ctrl-X Ctrl-A Ctrl-R): Continue execution without specifying any stopping point.
+          o run-to-line (Ctrl-C Ctrl-U, Ctrl-X Ctrl-A Ctrl-U): Continue execution to the line point is on
+          o step-return (Ctrl-C Ctrl-F, Ctrl-X Ctrl-A Ctrl-F): Run the program until the current stack frame returns or stops for some other reason.
+
+    
+Optional Language Specific Functionality
+
+    * Find Tag (Alt-.): Open an editor on the selected element.  The mark is set on the current location before the command is executed.
+          o Currently available in Java, JavaScript, C/C++, and Aptana Ruby 
+          o Alternate binding - Open Declaration (Ctrl-C Ctrl-V Ctrl-Y)
+
+    * Select Enclosing Element (Ctrl-Alt-U): Select the enclosing element
+          o Currently available in Java and JavaScript
+

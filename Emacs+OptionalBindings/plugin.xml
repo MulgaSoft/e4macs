@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<!-- plugin id="com.mulgasoft.emacsplus.bindings" 
+		name="Emacs+ Optional Bindings"
+		provider-name="MulgaSoft" -->
+		
+<!-- ******** remove eclipse's incremental-find binding ********* -->
+
+  <extension point="org.eclipse.ui.bindings">
+	<key
+		contextId="org.eclipse.ui.textEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+J"/>
+  </extension>		
+  
+<!-- ****************** Rebranded keybindings  ****************** -->
+  
+  <extension point="org.eclipse.ui.bindings">
+	<key
+		commandId="org.eclipse.ui.edit.text.smartEnterInverse" 
+		contextId="org.eclipse.ui.textEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+O"/>
+	<key
+		commandId="org.eclipse.ui.window.nextEditor" 
+		contextId="org.eclipse.ui.contexts.window" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+M3+L"/>
+	<key
+		commandId="org.eclipse.ui.edit.undo" 
+		contextId="org.eclipse.ui.contexts.window" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+/"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.undoRedo"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+/"/>
+	<key
+		commandId="org.eclipse.ui.navigate.backwardHistory"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+ARROW_LEFT"/>
+	<key
+		commandId="org.eclipse.ui.navigate.backwardHistory"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X ARROW_LEFT"/>
+	<key
+		commandId="org.eclipse.ui.navigate.forwardHistory"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+ARROW_RIGHT"/>
+	<key
+		commandId="org.eclipse.ui.navigate.forwardHistory"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X ARROW_RIGHT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+ARROW_RIGHT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+ARROW_LEFT"/>
+          
+<!-- Moved the following commands to the DynamicInitializer to get rid of annoying 'Cannot bind' Warnings -->
+
+	<!-- pde defs -->
+     
+	<!-- key
+		commandId="org.eclipse.pde.ui.quickOutline" 
+		contextId="org.eclipse.pde.ui.pdeEditorContext" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+]"/ -->	      
+	      
+  <!-- java defs -->
+     
+	<!-- key
+		commandId="org.eclipse.jdt.ui.edit.text.java.show.outline" 
+		contextId="org.eclipse.jdt.ui.javaEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+]"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.open.hierarchy" 
+		contextId="org.eclipse.jdt.ui.javaEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+["/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.select.enclosing" 
+		contextId="org.eclipse.jdt.ui.javaEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+M3+U"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
+		contextId="org.eclipse.jdt.ui.javaEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="M3+;"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
+		contextId="org.eclipse.jdt.ui.javaEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence=" ESC ;"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
+		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="M3+;"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
+		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="ESC ;"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+C CTRL+V CTRL+Y"/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+."/>
+	<key
+		commandId="org.eclipse.jdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC ."/ -->
+
+  <!-- javascript defs -->
+     
+	<!-- key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.show.outline"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+]"/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+["/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing" 
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+M3+U"/>	      
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="M3+;"/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="ESC ;"/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+C CTRL+V CTRL+Y"/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+."/>
+	<key
+		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.open.editor"
+		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC ."/ -->
+     
+   <!-- c-editor-defs -->
+   
+     <!--
+	<key
+		commandId="org.eclipse.cdt.ui.edit.open.outline"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+]"/>
+	<key
+		commandId="org.eclipse.cdt.ui.edit.text.c.toggle.comment"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="M3+;"/>
+	<key
+		commandId="org.eclipse.cdt.ui.edit.text.c.toggle.comment"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="ESC ;"/>
+	<key
+		commandId="org.eclipse.cdt.ui.edit.open.quick.type.hierarchy"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="CTRL+["/>	      
+	<key
+		commandId="org.eclipse.cdt.ui.edit.opendecl"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="M3+."/>
+	<key
+		commandId="org.eclipse.cdt.ui.edit.opendecl"
+		contextId="org.eclipse.cdt.ui.cEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="ESC ."/>
+-->
+          
+  </extension>
+  
+<!-- **************** Add new/additional bindings **************** -->
+  <extension
+		point="org.eclipse.ui.bindings">
+		
+	<!-- remove the rebind to new key sequence as it interferes with international keyboards -->
+	<!-- key
+		commandId="org.eclipse.ui.edit.text.copyLineDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+[">
+	</key>
+	<key
+		commandId="org.eclipse.ui.edit.text.copyLineUp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+]">
+	</key -->
+	
+    <!-- add bindings for new commands -->
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+ARROW_DOWN">
+	</key>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+ARROW_UP">
+	</key>
+	
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardUpList"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+ARROW_UP">
+	</key>
+	<key
+		commandId="com.mulgasoft.emacsplus.downList"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+ARROW_DOWN">
+	</key>
+	
+	<!-- add additional binding to existing command -->
+	<key
+		commandId="org.eclipse.ui.window.nextView"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SHIFT+L">
+	</key>
+	
+  </extension>	
+ 
+<!-- **************** GNU Emacs-23 shift selection **************** -->
+  <extension
+		point="org.eclipse.ui.handlers">
+    <!-- only enable the handler when options are loaded -->		
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ShiftSelectModeHandler"
+		commandId="com.mulgasoft.emacsplus.shiftSelect"/>
+  </extension>
+ 
+  <extension
+		point="org.eclipse.ui.bindings">
+    <!-- Add all the SHIFT bindings -->		
+    <key
+		commandId="com.mulgasoft.emacsplus.forwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+F"/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+B"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+B"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.nextLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+N">
+	</key>
+	<key
+		commandId="com.mulgasoft.emacsplus.previousLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+P">
+	</key>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+ARROW_DOWN">
+	</key>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+ARROW_UP">
+	</key>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.nextLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="SHIFT+ARROW_DOWN"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.previousLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="SHIFT+ARROW_UP"/>           
+                
+	<key
+		commandId="com.mulgasoft.emacsplus.beginLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+A"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="SHIFT+HOME"/>               
+	<key
+		commandId="com.mulgasoft.emacsplus.endLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+E"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="SHIFT+END"/>                
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollUp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+V"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC SHIFT+V"/>              
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+V"/>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SHIFT+F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SHIFT+B"/>
+
+  </extension>
+    
+<!-- ******** Enable help command key bindings ******** -->
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.commandApropos"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H A"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandBindings"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandDescribeBriefKey"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H C"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandDescribe"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H D"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandDescribe"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandDescribeKey"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H K"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.getNews"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.commandWhereIs"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H W"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.getHelp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H ?"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.variableDescribe"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H V"/>
+		
+	<!-- rebinding -->
+	<key
+		commandId="org.eclipse.search.ui.openSearchDialog"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+H S"/>		
+  </extension>		
+
+<!-- **************** Named Registers **************** -->
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.copyToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X X"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.insertRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X G"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.pointToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X /"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.jumpToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X J"/>
+  </extension>		
+   
+<!-- **************** Kbd Macros **************** -->
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.startKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="F3"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endCallKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="F4"/>
+  </extension>		
+
+<!-- **************** GUD Debugging **************** -->
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+	  commandId="org.eclipse.debug.ui.commands.ToggleBreakpoint"
+      contextId="org.eclipse.ui.contexts.window"
+	  schemeId="com.mulgasoft.emacsplusConfiguration"
+	  sequence="CTRL+X SPACE"/>
+	<key
+	  commandId="org.eclipse.debug.ui.commands.ToggleBreakpoint"
+      contextId="org.eclipse.ui.contexts.window"
+	  schemeId="com.mulgasoft.emacsplusConfiguration"
+	  sequence="CTRL+X CTRL+A SPACE"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepOver"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+N"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepOver"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+N"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepInto"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+S"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepInto"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+S"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.Resume"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+R"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.Resume"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+R"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.RunToLine"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+U"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.RunToLine"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+U"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepReturn"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+F"/>
+    <key
+      commandId="org.eclipse.debug.ui.commands.StepReturn"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+F"/>
+  </extension>		
+
+<!-- *************** Universal Argument Bindings *************** -->
+
+  <extension
+		point="org.eclipse.ui.bindings">
+		
+  <!-- C-<number> -->	
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+-" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+1"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+2" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+3" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+4" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+5" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+6" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+7" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+8" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+9" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+0" />
+		
+  </extension>		
+		
+</plugin>

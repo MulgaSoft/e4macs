@@ -1,0 +1,11 @@
+# ignore build directories
+bin/
+target/
+# ignore local deployment directory
+Local+Update/
+# ignore cruft files
+*~
+#ignore eclipse metatdata
+.metadata
+#ignore eclipse plug-in artifact directory
+External\ Plug-in\ Libraries/

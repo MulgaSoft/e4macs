@@ -1,0 +1,3609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+		
+	<scheme
+		description="%emacsplus.scheme.description"
+		id="com.mulgasoft.emacsplusConfiguration"
+		name="%emacsplus.scheme.name"
+		parentId="org.eclipse.ui.emacsAcceleratorConfiguration"/>
+
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.commands">
+   	<category
+		name="gazonk.del"
+		description="%gazonk.category.description"
+		id="gazonk.del">
+    </category>
+  </extension>    
+
+ <!-- *************** C-u Universal Argument *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<commandParameterType
+		id="com.mulgasoft.emacsplus.Integer"
+		converter="com.mulgasoft.emacsplus.IntegerConverter"
+		type="java.lang.Integer"/>
+	<commandParameterType
+		id="com.mulgasoft.emacsplus.String"
+		converter="com.mulgasoft.emacsplus.StringConverter"
+		type="java.lang.String"/>
+	<commandParameterType
+		id="com.mulgasoft.emacsplus.Boolean"
+		converter="com.mulgasoft.emacsplus.BooleanConverter"
+		type="java.lang.Boolean"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%universal.command.description"
+		id="com.mulgasoft.emacsplus.universalArgument"
+		name="%universal.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.UniversalHandler"
+		commandId="com.mulgasoft.emacsplus.universalArgument"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+U" />
+		
+ 	<!-- remove offending Eclipse Emacs binding -->          
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+0 Ctrl+K"/>
+
+ 	<!-- M-<number> -->			
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+-" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+1" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+2" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+3" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+4" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+5" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+6" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+7" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+8" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+9" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+0" />
+		
+ 	<!-- C-M-<number> -->	
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+-" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+1" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+2" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+3" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+4" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+5" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+6" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+7" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+8" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+9" />
+	<key
+		commandId="com.mulgasoft.emacsplus.universalArgument"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+0" />
+  </extension>
+   
+ <!-- *************** ^U Kill Line Commands *************** -->
+   
+  <extension
+		point="org.eclipse.ui.commands">
+         
+ <!-- These are categorized "gazonk.del", as they shouldn't be called via M-x -->
+	<command
+		categoryId="gazonk.del"
+		description="Internal Backward Kill Line"
+		id="com.mulgasoft.emacsplus.backwardKillLine"
+		name="Backward Kill Line"/>
+	<command
+		categoryId="gazonk.del"
+		description="Internal Kill Line"
+		id="com.mulgasoft.emacsplus.killLine"
+		name="Kill Line">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>	  
+	<command
+		categoryId="gazonk.del"
+		description="Internal Backward Delete Line"
+		id="com.mulgasoft.emacsplus.backwardDeleteLine"
+		name="Backward Delete Line"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardKillLineHandler"
+		commandId="com.mulgasoft.emacsplus.backwardKillLine"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KillLineHandler"
+		commandId="com.mulgasoft.emacsplus.killLine"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardDeleteLineHandler"
+		commandId="com.mulgasoft.emacsplus.backwardDeleteLine"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.killLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+K" />
+  </extension>
+  
+ <!-- **********************  Commands  ********************** -->
+  <extension
+  		point="org.eclipse.ui.commands">
+	<command
+      	categoryId="org.eclipse.ui.category.textEditor"
+		description="%lowercase.command.description" 
+		id="com.mulgasoft.emacsplus.lowercase"
+		name="%lowercase.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%uppercase.command.description"
+		id="com.mulgasoft.emacsplus.uppercase"
+		name="%uppercase.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%capitalize.command.description"
+		id="com.mulgasoft.emacsplus.capitalize"
+		name="%capitalize.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%transposechar.command.description"
+		id="com.mulgasoft.emacsplus.transposechar"
+		name="%transposechar.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+      </command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%transposeline.command.description"
+		id="com.mulgasoft.emacsplus.transposeline"
+		name="%transposeline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%toggleallowedit.command.description"
+		id="com.mulgasoft.emacsplus.toggleAllowEdit"
+		name="%toggleallowedit.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%togglelinehighlight.command.description"
+		id="com.mulgasoft.emacsplus.toggleLineHighlight"
+		name="%togglelinehighlight.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%keyboardquit.command.description"
+		id="com.mulgasoft.emacsplus.keyboardQuit"
+		name="%keyboardquit.command.name"/>
+  </extension>
+  
+ <!-- **********************  Handlers  ********************** -->
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CapitalizeCaseHandler"
+		commandId="com.mulgasoft.emacsplus.capitalize"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.UpperCaseHandler"
+		commandId="com.mulgasoft.emacsplus.uppercase"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.LowerCaseHandler"
+		commandId="com.mulgasoft.emacsplus.lowercase"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TransposeCharHandler"
+		commandId="com.mulgasoft.emacsplus.transposechar"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TransposeLineHandler"
+		commandId="com.mulgasoft.emacsplus.transposeline"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ToggleAllowEdit"
+		commandId="com.mulgasoft.emacsplus.toggleAllowEdit"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ToggleLineHighlight"
+		commandId="com.mulgasoft.emacsplus.toggleLineHighlight"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KeyboardQuitHandler"
+		commandId="com.mulgasoft.emacsplus.keyboardQuit"/>
+  </extension>
+        
+ <!-- **********************  Keys  ********************** -->
+
+  <extension
+  		point="org.eclipse.ui.bindings">
+  
+	<key
+		commandId="com.mulgasoft.emacsplus.lowercase"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+L"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.uppercase"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+U" />
+	<key
+		commandId="com.mulgasoft.emacsplus.capitalize"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+C"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.transposechar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+T"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.transposeline"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+T"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.toggleAllowEdit"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+Q"/>
+  </extension>
+        
+ <!-- ***************** Space Handling ******************* -->        
+  <extension
+		point="org.eclipse.ui.commands">
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%ws.command.description"
+		id="com.mulgasoft.emacsplus.deletehorizspace"
+		name="%ws.command.name"/>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%justonespace.command.description"
+		id="com.mulgasoft.emacsplus.justOneSpace"
+		name="%justonespace.command.name"/>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%deleteblanklines.command.description"
+		id="com.mulgasoft.emacsplus.deleteBlankLines"
+		name="%deleteblanklines.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+  </extension>
+
+  <extension
+  		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.HorizontalSpaceHandler"
+		commandId="com.mulgasoft.emacsplus.deletehorizspace"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OneSpaceHandler"
+		commandId="com.mulgasoft.emacsplus.justOneSpace"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BlankLineHandler"
+		commandId="com.mulgasoft.emacsplus.deleteBlankLines"/>
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.deleteBlankLines"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+O"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deletehorizspace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+\"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.justOneSpace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SPACE"/>
+  </extension>
+      
+ <!-- ***************** Line Handling ******************* -->        
+   
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%splitline.command.description"
+		id="com.mulgasoft.emacsplus.splitLine"
+		name="%splitline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%newlineindent.command.description"
+		id="com.mulgasoft.emacsplus.newLineIndent"
+		name="%newlineindent.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backtoindent.command.description"
+		id="com.mulgasoft.emacsplus.backToIndent"
+		name="%backtoindent.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%mergeline.command.description"
+		id="com.mulgasoft.emacsplus.mergeLine"
+		name="%mergeline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+   </command>
+
+ 	<!-- Re-implement recenter -->   
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%recenter.command.description"
+		id="com.mulgasoft.emacsplus.recenterTopBottom"
+		name="%recenter.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+
+ 	<!-- Emacs+ version that respects narrowed regions -->   
+ 	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%trailingwhitespace.command.description"
+		id="com.mulgasoft.emacsplus.deleteTrailingWhitespace"
+		name="%trailingwhitespace.command.name"/>
+		
+ 	<!-- Gnu alias -->   
+ 	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%globalwhitespace.command.description"
+		id="com.mulgasoft.emacsplus.whitespaceMode"
+		name="%globalwhitespace.command.name"/>
+ 	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%linenumber.command.description"
+		id="com.mulgasoft.emacsplus.linenumberMode"
+		name="%linenumber.command.name"/>
+  </extension>
+   
+  <extension
+  		point="org.eclipse.ui.handlers">
+   
+	<handler
+		class="com.mulgasoft.emacsplus.commands.LineModeHandler"
+		commandId="com.mulgasoft.emacsplus.linenumberMode"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.GlobalWhitespaceHandler"
+		commandId="com.mulgasoft.emacsplus.whitespaceMode"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SplitLineHandler"
+		commandId="com.mulgasoft.emacsplus.splitLine"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.NewLineIndentHandler"
+		commandId="com.mulgasoft.emacsplus.newLineIndent"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ToIndentHandler"
+		commandId="com.mulgasoft.emacsplus.backToIndent"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.JoinLineHandler"
+		commandId="com.mulgasoft.emacsplus.mergeLine"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RecenterHandler"
+		commandId="com.mulgasoft.emacsplus.recenterTopBottom"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.DeleteWhitespaceHandler"
+		commandId="com.mulgasoft.emacsplus.deleteTrailingWhitespace"/> 
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.splitLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+O"/>            
+	<key
+		commandId="com.mulgasoft.emacsplus.backToIndent"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+M"/>            
+	<key
+		commandId="com.mulgasoft.emacsplus.mergeLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+^"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.mergeLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+6"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.recenterTopBottom"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+L"/>
+  </extension>
+
+ <!-- ********************  Comment  ********************* -->        
+  <extension
+   		point="org.eclipse.ui.commands">
+   		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%appendcomment.command.description"
+		id="com.mulgasoft.emacsplus.appendcomment"
+		name="%appendcomment.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%preappendcomment.command.description"
+		id="com.mulgasoft.emacsplus.preappendcomment"
+		name="%preappendcomment.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%postappendcomment.command.description"
+		id="com.mulgasoft.emacsplus.postappendcomment"
+		name="%postappendcomment.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backwardblockoflines.command.description"
+		id="com.mulgasoft.emacsplus.backwardBlockOfLines"
+		name="%backwardblockoflines.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+        </command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%forwardblockoflines.command.description"
+		id="com.mulgasoft.emacsplus.forwardBlockOfLines"
+		name="%forwardblockoflines.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+         </command>
+  </extension>
+    
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.AppendCommentHandler"
+		commandId="com.mulgasoft.emacsplus.appendcomment"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.PAppendCommentHandler"
+		commandId="com.mulgasoft.emacsplus.preappendcomment"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.NAppendCommentHandler"
+		commandId="com.mulgasoft.emacsplus.postappendcomment"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BlockForwardHandler"
+		commandId="com.mulgasoft.emacsplus.forwardBlockOfLines"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BlockBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.backwardBlockOfLines"/>
+  </extension>
+        
+  <extension
+  		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.appendcomment"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+;"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.preappendcomment"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC P"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.preappendcomment"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+P"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.postappendcomment"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.postappendcomment"
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+N"/>
+	<!-- disable on Mac OS X as it conflicts with <Option>+n non-spacing-mark ñ -->	
+	<key
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="M3+N"/>
+	<key
+		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="carbon"
+		sequence="M3+N"/>
+  </extension>
+        
+<!-- *************** Paragraph Commands *************** -->
+ <extension
+         point="org.eclipse.ui.commands">
+      
+  <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%forwardparagraph.mark.description"
+		id="com.mulgasoft.emacsplus.forwardMarkParagraph"
+		name="%forwardparagraph.mark.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  <command
+		categoryId="gazonk.del"
+		description="%forwardparagraph.command.description"
+		id="com.mulgasoft.emacsplus.forwardParagraph"
+		name="%forwardparagraph.command.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  <command
+		categoryId="gazonk.del"
+		description="%forwardparagraph.select.description"
+		id="com.mulgasoft.emacsplus.forwardSelectParagraph"
+		name="%forwardparagraph.select.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  
+  <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backwardparagraph.mark.description"
+		id="com.mulgasoft.emacsplus.backwardMarkParagraph"
+		name="%backwardparagraph.mark.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  <command
+		categoryId="gazonk.del"
+		description="%backwardparagraph.command.description"
+		id="com.mulgasoft.emacsplus.backwardParagraph"
+		name="%backwardparagraph.command.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  <command
+		categoryId="gazonk.del"
+		description="%backwardparagraph.select.description"
+		id="com.mulgasoft.emacsplus.backwardSelectParagraph"
+		name="%backwardparagraph.select.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  
+  <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%transposeparagraphs.command.description"
+		id="com.mulgasoft.emacsplus.transposeParagraph"
+		name="%transposeparagraphs.command.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+  
+  <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%mark.paragraph.description"
+		id="com.mulgasoft.emacsplus.markParagraph"
+		name="%mark.paragraph.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+  </command>
+ </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphForwardHandler"
+             commandId="com.mulgasoft.emacsplus.forwardParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphMarkForwardHandler"
+             commandId="com.mulgasoft.emacsplus.forwardMarkParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphSelectForwardHandler"
+             commandId="com.mulgasoft.emacsplus.forwardSelectParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphMarkBackwardHandler"
+             commandId="com.mulgasoft.emacsplus.backwardMarkParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphBackwardHandler"
+             commandId="com.mulgasoft.emacsplus.backwardParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphSelectBackwardHandler"
+             commandId="com.mulgasoft.emacsplus.backwardSelectParagraph"/> 
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphTransposeHandler"
+             commandId="com.mulgasoft.emacsplus.transposeParagraph"/>
+      <handler
+             class="com.mulgasoft.emacsplus.commands.ParagraphMarkHandler"
+             commandId="com.mulgasoft.emacsplus.markParagraph"/>              
+   </extension>
+   
+  <extension
+         point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+}"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+]"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+{"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+["/>
+	<key
+		commandId="com.mulgasoft.emacsplus.markParagraph"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+H"/>		
+  </extension>		
+
+ <!-- **********************  Yank  ********************** -->   
+  <extension
+  		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%yankpop.command.description" 
+		id="com.mulgasoft.emacsplus.yankpop"
+		name="%yankpop.command.name" />
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%yank.command.description" 
+		id="com.mulgasoft.emacsplus.yank"
+		name="%yank.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%yankrotate.command.description" 
+		id="com.mulgasoft.emacsplus.yankrotate"
+		name="%yankrotate.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+  </extension>
+        
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.YankPopHandler"
+		commandId="com.mulgasoft.emacsplus.yankpop"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.YankHandler"
+		commandId="com.mulgasoft.emacsplus.yank"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.YankRotateHandler"
+		commandId="com.mulgasoft.emacsplus.yankrotate"/>
+  </extension>
+        
+  <extension
+  		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.yankpop"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+Y"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.yankpop"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC Y"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.yank"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+Y"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.yankrotate"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+Y"/>          
+  </extension>
+        
+ <!-- **********************  Sexp  ********************** -->   
+  
+  <extension
+  		point="org.eclipse.ui.commands">
+  
+	<command
+ 		categoryId="gazonk.del"
+		description="%forwardsexp.command.description" 
+		id="com.mulgasoft.emacsplus.forwardsexp"
+		name="%forwardsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+                  
+	<command
+ 		categoryId="gazonk.del"
+		description="%backwardsexp.command.description" 
+		id="com.mulgasoft.emacsplus.backwardsexp"
+		name="%backwardsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+        </command>
+                
+	<command
+		categoryId="org.eclipse.ui.category.edit"
+		description="%killforwardsexp.command.description" 
+		id="com.mulgasoft.emacsplus.killforwardsexp"
+		name="%killforwardsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+                
+	<command
+		categoryId="org.eclipse.ui.category.edit"
+		description="%killbackwardsexp.command.description" 
+		id="com.mulgasoft.emacsplus.killbackwardsexp"
+		name="%killbackwardsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+                  
+	<command
+		categoryId="org.eclipse.ui.category.edit"
+		description="%transposesexp.command.description" 
+		id="com.mulgasoft.emacsplus.transposesexp"
+		name="%transposesexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%marksexp.command.description"
+		id="com.mulgasoft.emacsplus.markSexp"
+		name="%marksexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+                  
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markword.command.description"
+		id="com.mulgasoft.emacsplus.markWord"
+		name="%markword.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+                  
+	<command
+		categoryId="org.eclipse.ui.category.edit"
+		description="%transposeword.command.description" 
+		id="com.mulgasoft.emacsplus.transposeword"
+		name="%transposeword.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%upList.command.description"
+		id="com.mulgasoft.emacsplus.upList"
+		name="%upList.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backwardUpList.command.description"
+		id="com.mulgasoft.emacsplus.backwardUpList"
+		name="%backwardUpList.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%downList.command.description"
+		id="com.mulgasoft.emacsplus.downList"
+		name="%downList.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+        
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpForwardHandler"
+		commandId="com.mulgasoft.emacsplus.forwardsexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.backwardsexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpKillForwardHandler"
+		commandId="com.mulgasoft.emacsplus.killforwardsexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpKillBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.killbackwardsexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TransposeSexpHandler"
+		commandId="com.mulgasoft.emacsplus.transposesexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpMarkHandler"
+		commandId="com.mulgasoft.emacsplus.markSexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkWordHandler"
+		commandId="com.mulgasoft.emacsplus.markWord"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TransposeWordHandler"
+		commandId="com.mulgasoft.emacsplus.transposeword"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.UpListHandler"
+		commandId="com.mulgasoft.emacsplus.upList"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardUpListHandler"
+		commandId="com.mulgasoft.emacsplus.backwardUpList"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.DownListHandler"
+		commandId="com.mulgasoft.emacsplus.downList"/> 
+  </extension>
+        
+  <extension
+  		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.killforwardsexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+K"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.killbackwardsexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+BS"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.transposesexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+T"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.markSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SPACE"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.markWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+@"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.markWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+2"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.transposeword"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+T"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardUpList"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+U"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.downList"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+D"/>
+  </extension>
+        
+ <!-- ************** Window manipulation ************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%splithorizontal.command.description" 
+		id="com.mulgasoft.emacsplus.splitHorizontalWindow"
+		name="%splithorizontal.command.name" />
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%splitvertical.command.description" 
+		id="com.mulgasoft.emacsplus.splitVerticalWindow"
+		name="%splitvertical.command.name" />
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%joinwindow.command.description" 
+		id="com.mulgasoft.emacsplus.joinWindow"
+		name="%joinwindow.command.name" />
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%deletewindow.command.description" 
+		id="com.mulgasoft.emacsplus.deleteWindow"
+		name="%deletewindow.command.name" />            
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%closeother.command.description"
+		id="com.mulgasoft.emacsplus.closeOtherInstances"
+		name="%closeother.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowother.command.description"
+		id="com.mulgasoft.emacsplus.otherWindow"
+		name="%windowother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+            
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowbackwards.command.description"
+		id="com.mulgasoft.emacsplus.backwardsWindow"
+		name="%windowbackwards.command.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowSplitHorizHandler"
+		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowSplitVertHandler"
+		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowJoinHandler"
+		commandId="com.mulgasoft.emacsplus.joinWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowDeleteHandler"
+		commandId="com.mulgasoft.emacsplus.deleteWindow"/>            
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CloseOtherInstancesHandler"
+		commandId="com.mulgasoft.emacsplus.closeOtherInstances"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowPreviousHandler"
+		commandId="com.mulgasoft.emacsplus.otherWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WindowBackwardsHandler"
+		commandId="com.mulgasoft.emacsplus.backwardsWindow"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.joinWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 1"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 2"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 3"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deleteWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 0"/>
+            
+	<key
+		commandId="com.mulgasoft.emacsplus.otherWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X O"/>
+  </extension>
+
+ <!-- **** Now uses universal-argument mechanism **** -->
+ <!-- key
+		commandId="com.mulgasoft.emacsplus.backwardsWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+U CTRL+X O"/ -->
+            
+   
+ <!-- *************** Other Window Operations *************** -->
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherup.command.description"
+		id="com.mulgasoft.emacsplus.scrollOther"
+		name="%otherup.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherdown.command.description"
+		id="com.mulgasoft.emacsplus.scrollOtherDown"
+		name="%otherdown.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherbegin.command.description"
+		id="com.mulgasoft.emacsplus.beginOther"
+		name="%otherbegin.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherend.command.description"
+		id="com.mulgasoft.emacsplus.endOther"
+		name="%otherend.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherrecenter.command.description"
+		id="com.mulgasoft.emacsplus.recenterOther"
+		name="%otherrecenter.command.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OtherWindowScrollHandler"
+		commandId="com.mulgasoft.emacsplus.scrollOther"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OtherWindowScrollDownHandler"
+		commandId="com.mulgasoft.emacsplus.scrollOtherDown"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OtherWindowBeginHandler"
+		commandId="com.mulgasoft.emacsplus.beginOther"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OtherWindowEndHandler"
+		commandId="com.mulgasoft.emacsplus.endOther"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OtherWindowRecenterHandler"
+		commandId="com.mulgasoft.emacsplus.recenterOther"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+V"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+PAGE_DOWN"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOtherDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+PAGE_UP"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+HOME"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+END"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.recenterOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+INSERT"/>
+  </extension>		
+     
+ <!-- ********************** Meta X ********************** -->
+  <extension
+		point="org.eclipse.ui.commands"> 
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%metax.command.description"
+		id="com.mulgasoft.emacsplus.metaX"
+		name="%metax.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>            
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MetaXHandler"
+		commandId="com.mulgasoft.emacsplus.metaX"/>
+  </extension>
+      
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.metaX"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+X" />
+  </extension>
+   
+ <!-- *************** Command Help Commands *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%whereis.command.description"
+		id="com.mulgasoft.emacsplus.commandWhereIs"
+		name="%whereis.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%describe.command.description"
+		id="com.mulgasoft.emacsplus.commandDescribe"
+		name="%describe.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%describekey.command.description"
+		id="com.mulgasoft.emacsplus.commandDescribeKey"
+		name="%describekey.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%describebriefkey.command.description"
+		id="com.mulgasoft.emacsplus.commandDescribeBriefKey"
+		name="%describebriefkey.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%apropos.command.description"
+		id="com.mulgasoft.emacsplus.commandApropos"
+		name="%apropos.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%binding.command.description"
+		id="com.mulgasoft.emacsplus.commandBindings"
+		name="%binding.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%news.command.descriptions" 
+		id="com.mulgasoft.emacsplus.getNews"
+		name="%news.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%help.command.description"
+		id="com.mulgasoft.emacsplus.getHelp"
+		name="%help.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%describevar.command.description"
+		id="com.mulgasoft.emacsplus.variableDescribe"
+		name="%describevar.command.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandWhereIsHandler"
+		commandId="com.mulgasoft.emacsplus.commandWhereIs"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandDescribeHandler"
+		commandId="com.mulgasoft.emacsplus.commandDescribe"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandKeyHandler"
+		commandId="com.mulgasoft.emacsplus.commandDescribeKey"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandBriefKeyHandler"
+		commandId="com.mulgasoft.emacsplus.commandDescribeBriefKey"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandAproposHandler"
+		commandId="com.mulgasoft.emacsplus.commandApropos"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CommandBindingHandler"
+		commandId="com.mulgasoft.emacsplus.commandBindings"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.EmacsNewsHandler"
+		commandId="com.mulgasoft.emacsplus.getNews"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.EmacsHelpHandler"
+		commandId="com.mulgasoft.emacsplus.getHelp"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.VariableDescribeHandler"
+		commandId="com.mulgasoft.emacsplus.variableDescribe"/> 
+  </extension>
+   
+ <!-- ******************** Tags Search ******************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%tagsp.command.description"
+		id="com.mulgasoft.emacsplus.tagsSearchProject"
+		name="%tagsp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%tagsset.command.description"
+		id="com.mulgasoft.emacsplus.tagsSearchSet"
+		name="%tagsset.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%tagsspace.command.description"
+		id="com.mulgasoft.emacsplus.tagsSearchSpace"
+		name="%tagsspace.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+                                                        
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%occur.command.description"
+		id="com.mulgasoft.emacsplus.occur"
+		name="%occur.command.name"/>
+ <!-- alias for occur -->		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%listmatch.command.description"
+		id="com.mulgasoft.emacsplus.listMatching"
+		name="%listmatch.command.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TagsProjectHandler"
+		commandId="com.mulgasoft.emacsplus.tagsSearchProject"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TagsSetHandler"
+		commandId="com.mulgasoft.emacsplus.tagsSearchSet"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.TagsSpaceHandler"
+		commandId="com.mulgasoft.emacsplus.tagsSearchSpace"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OccurHandler"
+		commandId="com.mulgasoft.emacsplus.occur"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.OccurHandler"
+		commandId="com.mulgasoft.emacsplus.listMatching"/> 
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+         
+	<key
+		commandId="com.mulgasoft.emacsplus.tagsSearchProject"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+S"/> 
+ <!-- **** Now uses universal-argument mechanism **** -->
+ <!-- key
+		commandId="com.mulgasoft.emacsplus.tagsSearchSet"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+U M3+S"/>          
+	<key
+		commandId="com.mulgasoft.emacsplus.tagsSearchSpace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+U CTRL+U M3+S"/ -->
+	<key
+		commandId="org.eclipse.ui.navigate.next"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+,"/>               
+		
+	<!-- this binding is missing in OS X -->		
+	<key
+		commandId="org.eclipse.ui.navigate.previous"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="CTRL+,"/>               
+	<key
+		commandId="org.eclipse.ui.navigate.previous"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="carbon"
+		sequence="CTRL+,"/>               
+  </extension>
+
+ <!-- *************** Mark Handling **************** -->
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markset.command.description"
+		id="com.mulgasoft.emacsplus.setMark"
+		name="%markset.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	  <commandParameter
+		id="shiftArg"
+		name="Shift"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.String">
+	  </commandParameter>
+	</command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markexchange.command.description"
+		id="com.mulgasoft.emacsplus.exchangeMark"
+		name="%markexchange.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markpush.command.description"
+		id="com.mulgasoft.emacsplus.pushMark"
+		name="%markpush.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markpop.command.description"
+		id="com.mulgasoft.emacsplus.popMark"
+		name="%markpop.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markglobalpop.command.description"
+		id="com.mulgasoft.emacsplus.popGlobalMark"
+		name="%markglobalpop.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markglobalrotate.command.description"
+		id="com.mulgasoft.emacsplus.rotateGlobalMark"
+		name="%markglobalrotate.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%marktagpop.command.description"
+		id="com.mulgasoft.emacsplus.popTagMark"
+		name="%marktagpop.command.name"/>
+
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkExchangeHandler"
+		commandId="com.mulgasoft.emacsplus.exchangeMark"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkSetHandler"
+		commandId="com.mulgasoft.emacsplus.setMark"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkPushHandler"
+		commandId="com.mulgasoft.emacsplus.pushMark"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkPopHandler"
+		commandId="com.mulgasoft.emacsplus.popMark"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkGlobalPopHandler"
+		commandId="com.mulgasoft.emacsplus.popGlobalMark"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkGlobalRotateHandler"
+		commandId="com.mulgasoft.emacsplus.rotateGlobalMark"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkTagPopHandler"
+		commandId="com.mulgasoft.emacsplus.popTagMark"/>             
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+         
+	<key
+		commandId="com.mulgasoft.emacsplus.exchangeMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+X" />
+	<key
+		commandId="com.mulgasoft.emacsplus.setMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SPACE" />
+ <!-- replace binding with augmented command -->
+	<key
+		commandId="com.mulgasoft.emacsplus.keyboardQuit"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+G"/>               
+	<key
+		commandId="com.mulgasoft.emacsplus.popGlobalMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+SPACE" />
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.popTagMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+*" />
+	<key
+		commandId="com.mulgasoft.emacsplus.popTagMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+8" />
+	<key
+		commandId="com.mulgasoft.emacsplus.popTagMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC *" />
+	<key
+		commandId="com.mulgasoft.emacsplus.popTagMark"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC SHIFT+8" />
+  </extension>
+   
+ <!-- *************** Improve Mark Handling *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%markall.command.description"
+		id="com.mulgasoft.emacsplus.markAll"
+		name="%markall.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MarkAllHandler"
+		commandId="com.mulgasoft.emacsplus.markAll"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.markAll"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X H"/>
+  </extension>		
+
+ <!-- *************** Emacs Style Selection *************** -->
+  <extension
+		point="org.eclipse.ui.commands">
+		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%shiftselect.mode.description"
+		id="com.mulgasoft.emacsplus.shiftSelect"
+		name="%shiftselect.mode.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+	</command>
+		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%forwardchar.command.description"
+		id="com.mulgasoft.emacsplus.forwardChar"
+		name="%forwardchar.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backwardchar.command.description"
+		id="com.mulgasoft.emacsplus.backwardChar"
+		name="%backwardchar.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">             
+	  </commandParameter>
+	</command>
+                
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%forwardword.command.description"
+		id="com.mulgasoft.emacsplus.forwardWord"
+		name="%forwardword.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%backwardword.command.description"
+		id="com.mulgasoft.emacsplus.backwardWord"
+		name="%backwardword.command.name">                             
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+                
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%nextline.command.description"
+		id="com.mulgasoft.emacsplus.nextLine"
+		name="%nextline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%previousline.command.description"
+		id="com.mulgasoft.emacsplus.previousLine"
+		name="%previousline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>                
+    
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%beginline.command.description"
+		id="com.mulgasoft.emacsplus.beginLine"
+		name="%beginline.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%endline.command.description"
+		id="com.mulgasoft.emacsplus.endLine"
+		name="%endline.command.name"/>
+                
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%scrollup.command.description"
+		id="com.mulgasoft.emacsplus.scrollUp"
+		name="%scrollup.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%scrolldown.command.description"
+		id="com.mulgasoft.emacsplus.scrollDown"
+		name="%scrolldown.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>                
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%beginbuffer.command.description"
+		id="com.mulgasoft.emacsplus.beginBuffer"
+		name="%beginbuffer.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%endbuffer.command.description"
+		id="com.mulgasoft.emacsplus.endBuffer"
+		name="%endbuffer.command.name"/>
+                                                                
+	<command
+ 		categoryId="gazonk.del"
+		description="%forwardselectsexp.command.description" 
+		id="com.mulgasoft.emacsplus.forwardSelectSexp"
+		name="%forwardselectsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+        
+	<command
+ 		categoryId="gazonk.del"
+		description="%backwardselectsexp.command.description" 
+		id="com.mulgasoft.emacsplus.backwardSelectSexp"
+		name="%backwardselectsexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+	<command
+		categoryId="org.eclipse.ui.category.edit"
+		description="%forwardmarksexp.command.description" 
+		id="com.mulgasoft.emacsplus.forwardMarkSexp"
+		name="%forwardmarksexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+	<command	
+		categoryId="org.eclipse.ui.category.edit"
+		description="%backwardmarksexp.command.description" 
+		id="com.mulgasoft.emacsplus.backwardMarkSexp"
+		name="%backwardmarksexp.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+    
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<!-- handler
+		class="com.mulgasoft.emacsplus.commands.ShiftSelectModeHandler"
+		commandId="com.mulgasoft.emacsplus.shiftSelect"/-->
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ForwardCharHandler"
+		commandId="com.mulgasoft.emacsplus.forwardChar"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardCharHandler"
+		commandId="com.mulgasoft.emacsplus.backwardChar"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ForwardWordHandler"
+		commandId="com.mulgasoft.emacsplus.forwardWord"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardWordHandler"
+		commandId="com.mulgasoft.emacsplus.backwardWord"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ForwardLineHandler"
+		commandId="com.mulgasoft.emacsplus.previousLine"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BackwardLineHandler"
+		commandId="com.mulgasoft.emacsplus.nextLine"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BeginLineHandler"
+		commandId="com.mulgasoft.emacsplus.beginLine"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.EndLineHandler"
+		commandId="com.mulgasoft.emacsplus.endLine"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ScrollDownHandler"
+		commandId="com.mulgasoft.emacsplus.scrollDown"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ScrollUpHandler"
+		commandId="com.mulgasoft.emacsplus.scrollUp"/>                                       
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BeginOfBufferHandler"
+		commandId="com.mulgasoft.emacsplus.beginBuffer"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.EndOfBufferHandler"
+		commandId="com.mulgasoft.emacsplus.endBuffer"/>                                       
+ <!-- behind the scenes handlers -->      
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpSelectForwardHandler"
+		commandId="com.mulgasoft.emacsplus.forwardSelectSexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpSelectBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.backwardSelectSexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpMarkForwardHandler"
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SexpMarkBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+         
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+F"/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ARROW_RIGHT"/>                 
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardChar"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ARROW_LEFT"/>         
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+ARROW_RIGHT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+ARROW_LEFT"/>              
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardWord"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC B"/>
+                
+	<key
+		commandId="com.mulgasoft.emacsplus.nextLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.previousLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+P"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.nextLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ARROW_DOWN"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.previousLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ARROW_UP"/>           
+                
+	<key
+		commandId="com.mulgasoft.emacsplus.beginLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+A"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="HOME"/>               
+	<key
+		commandId="com.mulgasoft.emacsplus.endLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+E"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="END"/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.beginBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+&lt;"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC &lt;"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+,"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC SHIFT+,"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+HOME"/>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.endBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+>"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC >"/>              
+	<key
+		commandId="com.mulgasoft.emacsplus.endBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+."/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC SHIFT+."/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.endBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+END"/>             
+
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+V"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC V"/>              
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollUp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+V"/>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+F"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+B"/>
+  </extension>
+   
+ <!-- ******************** Miscellaneous ******************** -->   
+  
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%emacspref.command.description"
+		id="com.mulgasoft.emacsplus.emacsPref"
+		name="%emacspref.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%keyspref.command.description"
+		id="com.mulgasoft.emacsplus.eclipseKeys"
+		name="%keyspref.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.EmacsPreferenceHandler"
+		commandId="com.mulgasoft.emacsplus.emacsPref"/>
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KeysPreferenceHandler"
+		commandId="com.mulgasoft.emacsplus.eclipseKeys"/>
+  </extension>
+   
+ <!-- *************** Search/Replace Commands *************** -->
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%queryreplace.command.description"
+		id="com.mulgasoft.emacsplus.queryReplace"
+		name="%queryreplace.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%queryreplacer.command.description"
+		id="com.mulgasoft.emacsplus.queryRegexpReplace"
+		name="%queryreplacer.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%replacestring.command.description"
+		id="com.mulgasoft.emacsplus.stringReplace"
+		name="%replacestring.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%replaceregexp.command.description"
+		id="com.mulgasoft.emacsplus.regexpReplace"
+		name="%replaceregexp.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%isearchforward.command.description"
+		id="com.mulgasoft.emacsplus.isearchForward"
+		name="%isearchforward.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%isearchforwardr.command.description"
+		id="com.mulgasoft.emacsplus.isearchRegexpForward"
+		name="%isearchforwardr.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%isearchbackward.command.description"
+		id="com.mulgasoft.emacsplus.isearchBackward"
+		name="%isearchbackward.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%isearchbackwardr.command.description"
+		id="com.mulgasoft.emacsplus.isearchRegexpBackward"
+		name="%isearchbackwardr.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ReplaceQueryHandler"
+		commandId="com.mulgasoft.emacsplus.queryReplace"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ReplaceRegexpQueryHandler"
+		commandId="com.mulgasoft.emacsplus.queryRegexpReplace"/>              
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ReplaceStringHandler"
+		commandId="com.mulgasoft.emacsplus.stringReplace"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ReplaceRegexpHandler"
+		commandId="com.mulgasoft.emacsplus.regexpReplace"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ISearchForwardHandler"
+		commandId="com.mulgasoft.emacsplus.isearchForward"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ISearchRegexpForwardHandler"
+		commandId="com.mulgasoft.emacsplus.isearchRegexpForward"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ISearchBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.isearchBackward"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ISearchRegexpBackwardHandler"
+		commandId="com.mulgasoft.emacsplus.isearchRegexpBackward"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.queryReplace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+%" />
+	<key
+		commandId="com.mulgasoft.emacsplus.queryRegexpReplace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+%" />
+	<key
+		commandId="com.mulgasoft.emacsplus.queryReplace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+5" />
+	<key
+		commandId="com.mulgasoft.emacsplus.queryRegexpReplace"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SHIFT+5" />
+	<key
+		commandId="com.mulgasoft.emacsplus.isearchForward"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+S" />
+	<key
+		commandId="com.mulgasoft.emacsplus.isearchRegexpForward"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+S" />
+	<key
+		commandId="com.mulgasoft.emacsplus.isearchBackward"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+R" />
+	<key
+		commandId="com.mulgasoft.emacsplus.isearchRegexpBackward"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+R" />
+  </extension>		
+
+ <!-- ******************** Narrow Region ******************** --> 
+  
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%narrow.command.description"
+		id="com.mulgasoft.emacsplus.narrowRegion"
+		name="%narrow.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%widen.command.description"
+		id="com.mulgasoft.emacsplus.widenRegion"
+		name="%widen.command.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegionNarrowHandler"
+		commandId="com.mulgasoft.emacsplus.narrowRegion"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegionWidenHandler"
+		commandId="com.mulgasoft.emacsplus.widenRegion"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.narrowRegion"
+		contextId="org.eclipse.ui.textEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="Ctrl+X N N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.widenRegion"
+		contextId="org.eclipse.ui.textEditorScope" 
+		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		sequence="Ctrl+X N W"/>
+  </extension>
+   
+ <!-- *************** Register Commands *************** -->
+  
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.copy.description"
+		id="com.mulgasoft.emacsplus.copyToRegister"
+		name="%register.copy.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+   
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.rectangle.description"
+		id="com.mulgasoft.emacsplus.rectangleToRegister"
+		name="%register.rectangle.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+			
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.append.description"
+		id="com.mulgasoft.emacsplus.appendToRegister"
+		name="%register.append.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.prepend.description"
+		id="com.mulgasoft.emacsplus.prependToRegister"
+		name="%register.prepend.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.insert.description"
+		id="com.mulgasoft.emacsplus.insertRegister"
+		name="%register.insert.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+			
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.number.description"
+		id="com.mulgasoft.emacsplus.numberToRegister"
+		name="%register.number.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.increment.description"
+		id="com.mulgasoft.emacsplus.incrementRegister"
+		name="%register.increment.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+			
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.point.description"
+		id="com.mulgasoft.emacsplus.pointToRegister"
+		name="%register.point.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.jump.description"
+		id="com.mulgasoft.emacsplus.jumpToRegister"
+		name="%register.jump.name"/>
+			
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.view.description"
+		id="com.mulgasoft.emacsplus.viewRegister"
+		name="%register.view.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%register.list.description"
+		id="com.mulgasoft.emacsplus.listRegister"
+		name="%register.list.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterCopyHandler"
+		commandId="com.mulgasoft.emacsplus.copyToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterRectangleHandler"
+		commandId="com.mulgasoft.emacsplus.rectangleToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterAppendHandler"
+		commandId="com.mulgasoft.emacsplus.appendToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterPrependHandler"
+		commandId="com.mulgasoft.emacsplus.prependToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterInsertHandler"
+		commandId="com.mulgasoft.emacsplus.insertRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterNumberHandler"
+		commandId="com.mulgasoft.emacsplus.numberToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterIncrementHandler"
+		commandId="com.mulgasoft.emacsplus.incrementRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterPointHandler"
+		commandId="com.mulgasoft.emacsplus.pointToRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterJumpToHandler"
+		commandId="com.mulgasoft.emacsplus.jumpToRegister"/> 
+             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterViewHandler"
+		commandId="com.mulgasoft.emacsplus.viewRegister"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RegisterListHandler"
+		commandId="com.mulgasoft.emacsplus.listRegister"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.copyToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R S"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.rectangleToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R R"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.insertRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R G"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.insertRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R I"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.numberToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.incrementRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R +"/>
+
+	<key
+		commandId="com.mulgasoft.emacsplus.pointToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R SPACE"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.jumpToRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R J"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.viewRegister"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R V"/>
+  </extension>		
+
+ <!-- *************** Rectangles *************** -->   
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.kill.description"
+		id="com.mulgasoft.emacsplus.killRectangle"
+		name="%rectangle.kill.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.delete.description"
+		id="com.mulgasoft.emacsplus.deleteRectangle"
+		name="%rectangle.delete.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.yank.description"
+		id="com.mulgasoft.emacsplus.yankRectangle"
+		name="%rectangle.yank.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.open.description"
+		id="com.mulgasoft.emacsplus.openRectangle"
+		name="%rectangle.open.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.clear.description"
+		id="com.mulgasoft.emacsplus.clearRectangle"
+		name="%rectangle.clear.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.replace.description"
+		id="com.mulgasoft.emacsplus.replaceRectangle"
+		name="%rectangle.replace.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.insert.description"
+		id="com.mulgasoft.emacsplus.insertRectangle"
+		name="%rectangle.insert.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%rectangle.whitespace.description"
+		id="com.mulgasoft.emacsplus.whitespaceRectangle"
+		name="%rectangle.whitespace.name"/>
+    <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%indent.rigidly.description"
+		id="com.mulgasoft.emacsplus.indentRigidly"
+		name="%indent.rigidly.name">
+	 <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+      </commandParameter>
+    </command>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+         
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleKillHandler"
+		commandId="com.mulgasoft.emacsplus.killRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleDeleteHandler"
+		commandId="com.mulgasoft.emacsplus.deleteRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleYankHandler"
+		commandId="com.mulgasoft.emacsplus.yankRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleOpenHandler"
+		commandId="com.mulgasoft.emacsplus.openRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleClearHandler"
+		commandId="com.mulgasoft.emacsplus.clearRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleReplaceHandler"
+		commandId="com.mulgasoft.emacsplus.replaceRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleInsertHandler"
+		commandId="com.mulgasoft.emacsplus.insertRectangle"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RectangleWhitespaceHandler"
+		commandId="com.mulgasoft.emacsplus.whitespaceRectangle"/> 
+    <handler
+        class="com.mulgasoft.emacsplus.commands.IndentRigidlyHandler"
+        commandId="com.mulgasoft.emacsplus.indentRigidly"/>              
+  </extension>
+      
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.killRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R K"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deleteRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R D"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.yankRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R Y"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.openRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R O"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.clearRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R C"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.replaceRectangle"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X R T"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.indentRigidly"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X TAB"/>
+  </extension>		
+
+ <!-- *************** Re-implement switch to buffer *************** -->   
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%switchbuffer.command.description"
+		id="com.mulgasoft.emacsplus.switchToBuffer"
+		name="%switchbuffer.command.name"/>
+
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SwitchToBufferHandler"
+		commandId="com.mulgasoft.emacsplus.switchToBuffer"/> 
+  </extension>
+      
+  <extension
+		point="org.eclipse.ui.bindings">
+ <!--contextId="org.eclipse.ui.contexts.window" -->
+ <!--contextId="org.eclipse.ui.textEditorScope" -->
+	<key
+		commandId="com.mulgasoft.emacsplus.switchToBuffer"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+X B"/>
+  </extension>		
+   
+ <!-- *************** Generic Indent Command *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%indent.fortab.description"
+		id="com.mulgasoft.emacsplus.indentForTab"
+		name="%indent.fortab.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.IndentForTabHandler"
+		commandId="com.mulgasoft.emacsplus.indentForTab"/> 
+  </extension>
+
+ <!-- *************** Harmless Gotos *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%gotochar.command.description" 
+		id="com.mulgasoft.emacsplus.gotoChar"
+		name="%gotochar.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%gotoline.command.description" 
+		id="com.mulgasoft.emacsplus.gotoLine"
+		name="%gotoline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.GotoChar"
+		commandId="com.mulgasoft.emacsplus.gotoChar"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.GotoLine"
+		commandId="com.mulgasoft.emacsplus.gotoLine"/>             
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.gotoLine"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+G"/>
+  </extension>
+         
+ <!-- *************** Line Count and Information *************** -->
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%countlinesbuffer.command.description"
+		id="com.mulgasoft.emacsplus.countLinesBuffer"
+		name="%countlinesbuffer.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%countlinesregion.command.description"
+		id="com.mulgasoft.emacsplus.countLinesRegion"
+		name="%countlinesregion.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%countmatches.command.description"
+		id="com.mulgasoft.emacsplus.countMatches"
+		name="%countmatches.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%whatcursor.command.description"
+		id="com.mulgasoft.emacsplus.cursorPosition"
+		name="%whatcursor.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%whatline.command.description"
+		id="com.mulgasoft.emacsplus.whatLine"
+		name="%whatline.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CountLinesBuffer"
+		commandId="com.mulgasoft.emacsplus.countLinesBuffer"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CountLinesRegion"
+		commandId="com.mulgasoft.emacsplus.countLinesRegion"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.CountMatchesHandler"
+		commandId="com.mulgasoft.emacsplus.countMatches"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WhatCursorPosition"
+		commandId="com.mulgasoft.emacsplus.cursorPosition"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.WhatLine"
+		commandId="com.mulgasoft.emacsplus.whatLine"/>             
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.countLinesBuffer"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X L"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.cursorPosition"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X ="/>
+	<key
+		commandId="com.mulgasoft.emacsplus.countLinesRegion"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+="/>
+  </extension>
+ 
+ <!-- *************** Undo/Redo *************** -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%undo.command.description"
+		id="com.mulgasoft.emacsplus.undoRedo"
+		name="%undo.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.UndoRedoHandler"
+		commandId="com.mulgasoft.emacsplus.undoRedo"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.undoRedo"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+SHIFT+-"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.undoRedo"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X U"/>
+  </extension>		
+
+ 
+ <!-- ******************** Kill Ring ******************** -->
+ 
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%browsekillring.command.description"
+		id="com.mulgasoft.emacsplus.browseKillRing"
+		name="%browsekillring.command.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%appendnextkill.command.description"
+		id="com.mulgasoft.emacsplus.appendNextKill"
+		name="%appendnextkill.command.name"/>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.BrowseKillRingHandler"
+		commandId="com.mulgasoft.emacsplus.browseKillRing"/>             
+	<handler
+		class="com.mulgasoft.emacsplus.commands.AppendNextKillHandler"
+		commandId="com.mulgasoft.emacsplus.appendNextKill"/>             
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.appendNextKill"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+W"/>
+  </extension>		
+
+ <!-- ******************* Align Regexp ******************* -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%align.regexp.description"
+		id="com.mulgasoft.emacsplus.alignRegexp"
+		name="%align.regexp.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.AlignRegexpHandler"
+		commandId="com.mulgasoft.emacsplus.alignRegexp"/> 
+  </extension>
+
+ <!-- ******************* Join Line ******************* -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%join.line.description"
+		id="com.mulgasoft.emacsplus.joinLine"
+		name="%join.line.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>     
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.JoinLineHandler"
+		commandId="com.mulgasoft.emacsplus.joinLine"/> 
+  </extension>
+   
+ <!-- ******************* Zap to Char ******************* -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%zap.tochar.description"
+		id="com.mulgasoft.emacsplus.zapToChar"
+		name="%zap.tochar.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>     
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ZapToCharHandler"
+		commandId="com.mulgasoft.emacsplus.zapToChar"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.zapToChar"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+Z"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.zapToChar"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC Z"/>
+  </extension>		
+
+ <!-- ******************* Keyboard Macros ******************* -->
+
+  <extension
+		point="org.eclipse.ui.commands">
+	<category
+		name="%kbdmacro.category.name"
+		description="%kbdmacro.category.description"
+		id="emacsplus.keyboard.macros">
+    </category>
+  </extension>    
+
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.start.description"
+		id="com.mulgasoft.emacsplus.startKbdMacro"
+		name="%kbdmacro.start.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+			
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.end.description"
+		id="com.mulgasoft.emacsplus.endKbdMacro"
+		name="%kbdmacro.end.name"/>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.endcall.description"
+		id="com.mulgasoft.emacsplus.endCallKbdMacro"
+		name="%kbdmacro.endcall.name"/>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.call.description"
+		id="com.mulgasoft.emacsplus.executeKbdMacro"
+		name="%kbdmacro.call.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+     
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.apply.description"
+		id="com.mulgasoft.emacsplus.kbdMacroApply"
+		name="%kbdmacro.apply.name"/>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.next.description"
+		id="com.mulgasoft.emacsplus.nextKbdMacro"
+		name="%kbdmacro.next.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.previous.description"
+		id="com.mulgasoft.emacsplus.previousKbdMacro"
+		name="%kbdmacro.previous.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+     
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.view.description"
+		id="com.mulgasoft.emacsplus.viewKbdMacro"
+		name="%kbdmacro.view.name">
+     <commandParameter
+          id="universalArg"
+          name="Arg"
+          optional="true"
+          typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+    </command>
+		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.name.description"
+		id="com.mulgasoft.emacsplus.nameKbdMacro"
+		name="%kbdmacro.name.name"/>
+
+    <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.bind.description"
+		id="com.mulgasoft.emacsplus.kbdMacroBind"
+		name="%kbdmacro.bind.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+    			
+    <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.load.description"
+		id="com.mulgasoft.emacsplus.loadKbdMacro"
+		name="%kbdmacro.load.name">
+	  <commandParameter
+		id="Name"
+		name="Name"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.String">
+	  </commandParameter>
+	  <commandParameter
+		id="Force"
+		name="Force"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Boolean">
+	  </commandParameter>
+    </command>
+        
+    <command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%kbdmacro.save.description"
+		id="com.mulgasoft.emacsplus.saveKbdMacro"
+		name="%kbdmacro.save.name">
+     <commandParameter
+          id="universalArg"
+          name="Arg"
+          optional="true"
+          typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+    </command>
+   </extension>
+   
+  <!-- *************** Kbd Binding *************** -->
+
+<extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroStartHandler"
+		commandId="com.mulgasoft.emacsplus.startKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroEndHandler"
+		commandId="com.mulgasoft.emacsplus.endKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroEndCallHandler"
+		commandId="com.mulgasoft.emacsplus.endCallKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroExecuteHandler"
+		commandId="com.mulgasoft.emacsplus.executeKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroApplyHandler"
+		commandId="com.mulgasoft.emacsplus.kbdMacroApply"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroEditHandler"
+		commandId="com.mulgasoft.emacsplus.viewKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroNextHandler"
+		commandId="com.mulgasoft.emacsplus.nextKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroPreviousHandler"
+		commandId="com.mulgasoft.emacsplus.previousKbdMacro"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.KbdMacroNameHandler"
+		commandId="com.mulgasoft.emacsplus.nameKbdMacro"/> 
+    <handler
+        class="com.mulgasoft.emacsplus.commands.KbdMacroBindHandler"
+        commandId="com.mulgasoft.emacsplus.kbdMacroBind"/> 
+    <handler
+        class="com.mulgasoft.emacsplus.commands.KbdMacroSaveHandler"
+        commandId="com.mulgasoft.emacsplus.saveKbdMacro"/> 
+    <handler
+        class="com.mulgasoft.emacsplus.commands.KbdMacroLoadHandler"
+        commandId="com.mulgasoft.emacsplus.loadKbdMacro"/> 
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.startKbdMacro"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X ("/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X )"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.executeKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X E"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.executeKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K K"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.kbdMacroApply"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K R"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.nextKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K CTRL+N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.previousKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K CTRL+P"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.nameKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K N"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.viewKbdMacro"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K CTRL+E"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.kbdMacroBind"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X CTRL+K B"/>
+  </extension>		
+
+<!-- *************** Sorting *************** -->
+  <extension
+        point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%sort.case.description"
+		id="com.mulgasoft.emacsplus.sortCase"
+		name="%sort.case.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+	</command>
+	
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%sort.lines.description"
+		id="com.mulgasoft.emacsplus.sortLines"
+		name="%sort.lines.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+	</command>
+	
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%reverse.region.description"
+		id="com.mulgasoft.emacsplus.reverseRegion"
+		name="%reverse.region.name"/>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%sort.numeric.description"
+		id="com.mulgasoft.emacsplus.sortNumeric"
+		name="%sort.numeric.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+	</command>
+
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%sort.fields.description"
+		id="com.mulgasoft.emacsplus.sortFields"
+		name="%sort.fields.name">
+     <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+     </commandParameter>
+	</command>
+  </extension>
+         
+  <extension
+         point="org.eclipse.ui.handlers">
+        
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SortLinesHandler"
+		commandId="com.mulgasoft.emacsplus.sortLines"/> 
+    <handler
+        class="com.mulgasoft.emacsplus.commands.ReverseRegionHandler"
+        commandId="com.mulgasoft.emacsplus.reverseRegion"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SortFieldsHandler"
+		commandId="com.mulgasoft.emacsplus.sortFields"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.SortNumericHandler"
+		commandId="com.mulgasoft.emacsplus.sortNumeric"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.LineHandler"
+		commandId="com.mulgasoft.emacsplus.sortCase"/> 
+  </extension>
+   
+ <!-- ******************** Console Expansion ******************** -->
+
+ <!-- Enhance activation of emacs console -->
+  <extension
+		point="org.eclipse.ui.console.consolePageParticipants">
+	<consolePageParticipant
+		class="com.mulgasoft.emacsplus.execute.EmacsPlusConsoleParticipant"
+		id="com.mulgasoft.emacsplus.emacsPlusConsole">
+      <enablement>
+	    <instanceof value="com.mulgasoft.emacsplus.execute.EmacsPlusConsole"/>
+      </enablement>
+    </consolePageParticipant>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.commands">
+      
+	<command
+		categoryId="gazonk.del"
+		description="Cut"
+		id="com.mulgasoft.emacsplus.consoleCut"
+		name="Cut"/>
+	<command
+		categoryId="gazonk.del"
+		description="Copy"
+		id="com.mulgasoft.emacsplus.consoleCopy"
+		name="Copy"/>
+	
+	<command
+		categoryId="gazonk.del"
+		description="Delete Char"
+		id="com.mulgasoft.emacsplus.deleteChar"
+		name="Delete Char">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="gazonk.del"
+		description="Delete Next Word"
+		id="com.mulgasoft.emacsplus.deleteNextWord"
+		name="Delete Next Word">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="gazonk.del"
+		description="Delete Previous Word"
+		id="com.mulgasoft.emacsplus.deletePreviousWord"
+		name="Delete Previous Word">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.DeleteCharHandler"
+		commandId="com.mulgasoft.emacsplus.deleteChar"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.DeleteNextHandler"
+		commandId="com.mulgasoft.emacsplus.deleteNextWord"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.DeletePreviousHandler"
+		commandId="com.mulgasoft.emacsplus.deletePreviousWord"/> 
+
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ConsoleCopyCutHandler"
+		commandId="com.mulgasoft.emacsplus.consoleCut"/> 
+	<handler
+		class="com.mulgasoft.emacsplus.commands.ConsoleCopyCutHandler"
+		commandId="com.mulgasoft.emacsplus.consoleCopy"/> 
+  </extension>
+   
+ <!-- ******** Enable some bindings for ConsoleView ******** --> 
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+         
+ <!-- **** Deletes **** -->         
+	<key
+		commandId="com.mulgasoft.emacsplus.killLine"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+K"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deleteChar"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+D"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deleteNextWord"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC D"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deletePreviousWord"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+BS"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.deletePreviousWord"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC BS"/>
+		
+		
+ <!-- **** Cut & Copy **** -->
+
+	<key
+		commandId="com.mulgasoft.emacsplus.consoleCut"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+W"/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.consoleCopy"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+W"/>                
+	<key
+		commandId="com.mulgasoft.emacsplus.consoleCopy"
+		contextId="org.eclipse.ui.console.ConsoleView"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC W"/>                
+  </extension>
+   
+ <!-- ******************** Preference ******************** -->
+  
+  <extension
+		point="org.eclipse.ui.preferencePages">
+	<page
+		category="org.eclipse.ui.preferencePages.Keys"
+		class="com.mulgasoft.emacsplus.preferences.EmacsPlusPreferencePage"
+		id="com.mulgasoft.emacsplus.preferences.EmacsPlusPreferencePage"
+		name="%preference.main.name"/>
+	<page
+		category="com.mulgasoft.emacsplus.preferences.EmacsPlusPreferencePage"
+		class="com.mulgasoft.emacsplus.preferences.KbdMacroPreferencePage"
+		id="com.mulgasoft.emacsplus.preferences.KbdMacros"
+		name="%preference.kbdmacro.name"/>
+	<page
+		category="com.mulgasoft.emacsplus.preferences.EmacsPlusPreferencePage"
+		class="com.mulgasoft.emacsplus.preferences.CategoriesPreferencePage"
+		id="com.mulgasoft.emacsplus.preferences.Categories"
+		name="%preference.categories.name"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.core.runtime.preferences">
+	<initializer
+		class="com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceInitializer"/>
+  </extension>
+
+  <!-- Utility command for setting values typically controlled by preferences -->	
+  <extension
+		point="org.eclipse.ui.commands">
+		
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%eval.command.description"
+		id="com.mulgasoft.emacsplus.eval"
+		name="%eval.command.name">
+	    <commandParameter
+           id="universalArg"
+           name="Arg"
+           optional="true"
+           typeId="com.mulgasoft.emacsplus.Integer">
+        </commandParameter>
+	</command>
+	
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%sv.command.description"
+		id="com.mulgasoft.emacsplus.setvariable"
+		name="%sv.command.name">
+	</command>
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.preferences.EvalHandler"
+		commandId="com.mulgasoft.emacsplus.eval" />
+		
+	<handler
+		class="com.mulgasoft.emacsplus.preferences.SetVariableHandler"
+		commandId="com.mulgasoft.emacsplus.setvariable" />
+  </extension>
+   
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.eval"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+SHIFT+;"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.eval"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC SHIFT+;"/>
+  </extension>
+   
+
+ <!-- ******************** Start Up ******************** -->
+ 
+  <extension
+		point="org.eclipse.ui.startup">
+	<startup
+		class="com.mulgasoft.emacsplus.StartUp"/>
+  </extension>
+
+</plugin>
