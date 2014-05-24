@@ -183,7 +183,7 @@ public class KbdMacroExecuteHandler extends EmacsPlusNoEditHandler {
 	}
 
 	/**
-	 * Iterated through the macro events once.
+	 * Iterate through the macro events once.
 	 * After each event is submitted to the ui-thread wait for the event to be processed before moving to the next event
 	 * This guarantees that keyboard events will be read properly before the next event is submitted 
 	 * 

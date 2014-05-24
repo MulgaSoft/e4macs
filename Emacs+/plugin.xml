@@ -1203,37 +1203,28 @@
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
 	</command>
-            
-	<command
-		categoryId="org.eclipse.ui.category.textEditor"
-		description="%windowbackwards.command.description"
-		id="com.mulgasoft.emacsplus.backwardsWindow"
-		name="%windowbackwards.command.name"/>
   </extension>
   
   <extension
 		point="org.eclipse.ui.handlers">
 	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowSplitHorizHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.WindowSplitHorizHandler"
 		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"/>
 	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowSplitVertHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.WindowSplitVertHandler"
 		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"/>
 	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowJoinHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.WindowJoinHandler"
 		commandId="com.mulgasoft.emacsplus.joinWindow"/>
 	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowDeleteHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.WindowDeleteHandler"
 		commandId="com.mulgasoft.emacsplus.deleteWindow"/>            
 	<handler
 		class="com.mulgasoft.emacsplus.commands.CloseOtherInstancesHandler"
 		commandId="com.mulgasoft.emacsplus.closeOtherInstances"/>
 	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowPreviousHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.WindowOtherHandler"
 		commandId="com.mulgasoft.emacsplus.otherWindow"/>
-	<handler
-		class="com.mulgasoft.emacsplus.commands.WindowBackwardsHandler"
-		commandId="com.mulgasoft.emacsplus.backwardsWindow"/>
   </extension>
   
   <extension
@@ -1266,14 +1257,6 @@
 		sequence="CTRL+X O"/>
   </extension>
 
- <!-- **** Now uses universal-argument mechanism **** -->
- <!-- key
-		commandId="com.mulgasoft.emacsplus.backwardsWindow"
-		contextId="org.eclipse.ui.contexts.window"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="CTRL+U CTRL+X O"/ -->
-            
-   
  <!-- *************** Other Window Operations *************** -->
   <extension
 		point="org.eclipse.ui.commands">
@@ -1324,19 +1307,19 @@
   <extension
 		point="org.eclipse.ui.handlers">
 	<handler
-		class="com.mulgasoft.emacsplus.commands.OtherWindowScrollHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.OtherWindowScrollHandler"
 		commandId="com.mulgasoft.emacsplus.scrollOther"/> 
 	<handler
-		class="com.mulgasoft.emacsplus.commands.OtherWindowScrollDownHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.OtherWindowScrollDownHandler"
 		commandId="com.mulgasoft.emacsplus.scrollOtherDown"/> 
 	<handler
-		class="com.mulgasoft.emacsplus.commands.OtherWindowBeginHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.OtherWindowBeginHandler"
 		commandId="com.mulgasoft.emacsplus.beginOther"/> 
 	<handler
-		class="com.mulgasoft.emacsplus.commands.OtherWindowEndHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.OtherWindowEndHandler"
 		commandId="com.mulgasoft.emacsplus.endOther"/> 
 	<handler
-		class="com.mulgasoft.emacsplus.commands.OtherWindowRecenterHandler"
+		class="com.mulgasoft.emacsplus.e4.commands.OtherWindowRecenterHandler"
 		commandId="com.mulgasoft.emacsplus.recenterOther"/> 
   </extension>
    

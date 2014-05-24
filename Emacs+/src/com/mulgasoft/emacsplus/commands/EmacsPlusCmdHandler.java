@@ -239,7 +239,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	 * @param event
 	 * @return the value of the universal-argument if set, else 1
 	 */
-	int extractUniversalCount(ExecutionEvent event) {
+	protected int extractUniversalCount(ExecutionEvent event) {
 		int result = 1;
 		setUniversalPresent(false);
 		// Retrieve the universal-argument parameter value if passed 
@@ -1110,7 +1110,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	 * 
 	 * @return the universalCount
 	 */
-	protected int getUniversalCount() {
+	public int getUniversalCount() {
 		return universalCount;
 	}
 	
