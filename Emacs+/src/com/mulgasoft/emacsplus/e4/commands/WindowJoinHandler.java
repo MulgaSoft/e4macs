@@ -9,7 +9,7 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static com.mulgasoft.emacsplus.e4.commands.WindowJoinCmd.JOIN;
+import static com.mulgasoft.emacsplus.e4.commands.WindowJoinCmd.Join;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 
@@ -28,7 +28,7 @@ public class WindowJoinHandler extends E4WindowHandler<WindowJoinCmd> {
 	
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, JOIN.All);
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, Join.ALL);
 		super.addToContext(ctx);
 	}
 

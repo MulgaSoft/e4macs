@@ -159,16 +159,21 @@ public abstract class E4WindowCmd {
 	 * @return the target stack 
 	 */
 	@SuppressWarnings("unchecked")  // for safe cast to MElementContainer<MUIElement>
-	protected MElementContainer<MUIElement> getAdjacentStack(MElementContainer<MUIElement> dragStack) {
+	protected MElementContainer<MUIElement> getAdjacentElement(MElementContainer<MUIElement> dragStack, boolean stackp) {
 		MElementContainer<MUIElement> result = null;
-		MElementContainer<MUIElement> psash = dragStack.getParent();
-		// Trust but verify
-		if ((MPartSashContainerElement)psash instanceof MPartSashContainer) {
-			List<MUIElement> children = psash.getChildren();
-			int size = children.size(); 
-			if (size > 1) {
-				int index = children.indexOf(dragStack)+1;
-				result =  findNextStack((MElementContainer<MUIElement>)children.get((index == size) ? 0 : index));
+		if (dragStack != null) {
+			MElementContainer<MUIElement> psash = dragStack.getParent();
+			// Trust but verify
+			if ((MPartSashContainerElement)psash instanceof MPartSashContainer) {
+				List<MUIElement> children = psash.getChildren();
+				int size = children.size(); 
+				if (size > 1) {
+					int index = children.indexOf(dragStack)+1;
+					result = (MElementContainer<MUIElement>)children.get((index == size) ? 0 : index);
+					if (stackp) {
+						result =  findNextStack(result);
+					}
+				}
 			}
 		}
 		return result;

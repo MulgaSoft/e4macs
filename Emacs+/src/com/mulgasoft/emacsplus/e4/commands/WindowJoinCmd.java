@@ -38,19 +38,19 @@ public class WindowJoinCmd extends E4WindowCmd {
 
 	@Inject private Shell shell;	
 	
-	public static enum JOIN {
-		One, All;
+	public static enum Join {
+		ONE, ALL;
 	}
 	
 	@Execute
-	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)JOIN jtype) {
+	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)Join jtype) {
 
 		preJoin(editor);
 		switch (jtype) {
-		case One:
+		case ONE:
 			joinOne(apart);
 			break;
-		case All:
+		case ALL:
 			joinAll(apart);
 			break;
 		}
@@ -82,7 +82,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 		MElementContainer<MUIElement> pstack = ps.getStack();
 		MPart part = ps.getPart();		
 		
-		if (pstack == null || join2Stacks(pstack, getAdjacentStack(pstack), part) == null) {
+		if (pstack == null || join2Stacks(pstack, getAdjacentElement(pstack, true), part) == null) {
 			// Invalid state 
 			Beeper.beep();
 		}

@@ -5,32 +5,28 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 
-import static com.mulgasoft.emacsplus.e4.commands.WindowJoinCmd.Join;
+import com.mulgasoft.emacsplus.e4.commands.WindowShrinkCmd.Col;
 
 /**
- * Implements: delete-window
+ * Enlarge window's PartStack if more than one PartStack
  * 
- * As Eclipse uses PartStacks (which roughly correspond to an emacs frame - except they 
- * can contain more than one buffer), merge and delete the selected PartStack.
- * 
- * @author Mark Feber - initial API and implementation
+ * @author mfeber - Initial API and implementation
  */
-public class WindowDeleteHandler extends E4WindowHandler<WindowJoinCmd> {
+public class WindowEnlargeHandler extends E4WindowHandler<WindowShrinkCmd> {
 
-	public WindowDeleteHandler() {
-		super(WindowJoinCmd.class);
+	public WindowEnlargeHandler() {
+		super(WindowShrinkCmd.class);
 	}
-	
+
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, Join.ONE);
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, Col.ENLARGE);
 		super.addToContext(ctx);
 	}
-	
+
 }

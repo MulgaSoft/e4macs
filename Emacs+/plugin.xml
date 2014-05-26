@@ -1203,6 +1203,36 @@
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
 	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowbalance.command.description"
+		id="com.mulgasoft.emacsplus.balanceWindow"
+		name="%windowbalance.command.name" />
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowshrink.command.description"
+		id="com.mulgasoft.emacsplus.shrinkWindow"
+		name="%windowshrink.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowenlarge.command.description"
+		id="com.mulgasoft.emacsplus.enlargeWindow"
+		name="%windowenlarge.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+
   </extension>
   
   <extension
@@ -1225,6 +1255,15 @@
 	<handler
 		class="com.mulgasoft.emacsplus.e4.commands.WindowOtherHandler"
 		commandId="com.mulgasoft.emacsplus.otherWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.WindowBalanceHandler"
+		commandId="com.mulgasoft.emacsplus.balanceWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.WindowShrinkHandler"
+		commandId="com.mulgasoft.emacsplus.shrinkWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.WindowEnlargeHandler"
+		commandId="com.mulgasoft.emacsplus.enlargeWindow"/>
   </extension>
   
   <extension
@@ -1255,6 +1294,22 @@
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X O"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.balanceWindow"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X +"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.shrinkWindow"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X {"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.enlargeWindow"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X }"/>
   </extension>
 
  <!-- *************** Other Window Operations *************** -->

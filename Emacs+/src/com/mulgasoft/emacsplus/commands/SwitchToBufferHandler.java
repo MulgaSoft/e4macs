@@ -13,12 +13,14 @@ package com.mulgasoft.emacsplus.commands;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.common.CommandException;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -97,6 +99,17 @@ public class SwitchToBufferHandler extends MinibufferExecHandler implements INon
 	private void activatePart(IWorkbenchPart part) {
 		IWorkbenchPage page = getWorkbenchPage();
 		page.bringToTop(part);
-		page.activate(part);		
+		page.activate(part);
+		forceActivate();
 	}
+	
+	/**
+	 * Cursor enablement for E4
+	 */
+	private void forceActivate() {
+		EPartService partService = (EPartService)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getService(EPartService.class);
+		partService.activate(null);
+		partService.activate(partService.getActivePart(),true);
+	}
+
 }

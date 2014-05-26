@@ -66,11 +66,13 @@ public class WindowSplitCmd extends E4WindowCmd {
 	private void splitIt(MPart apart, IEditorPart editor, int location) {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> pstack = ps.getStack();
-		MPart newpart = ps.getPart();		
-		
-		MPartStack nstack = getStack(newpart, pstack);
-		// Let the model service take care of the rest of the split
-		modelService.insert(nstack, (MPartSashContainerElement)pstack, location, ratio);
+		if (pstack.getChildren().size() > 1) {
+			MPart newpart = ps.getPart();		
+
+			MPartStack nstack = getStack(newpart, pstack);
+			// Let the model service take care of the rest of the split
+			modelService.insert(nstack, (MPartSashContainerElement)pstack, location, ratio);
+		}
 	}
 	
 	/**
