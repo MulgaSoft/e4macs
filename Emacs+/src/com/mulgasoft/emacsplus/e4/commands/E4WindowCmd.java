@@ -41,6 +41,12 @@ public abstract class E4WindowCmd {
 	@Inject private EPartService partService;
 	@Inject protected EModelService modelService;
 
+	/**
+	 * This is the default "size" for the layout, but for some reason it is not exposed and neither is a method
+	 * for getting the total size by computation.  
+	 */
+	public static final int TOTAL_SIZE = 10000;
+	
 	// split editor in two when true, else just rearrange editors in stack
 	private static boolean splitSelf = EmacsPlusUtils.getPreferenceBoolean(ENABLE_SPLIT_SELF.getPref());
 	
@@ -195,4 +201,47 @@ public abstract class E4WindowCmd {
 		return result;
 	}
 
+	/**
+	 * @param apart the selected part
+	 * @return the most distant parent just below the MArea
+	 */
+	private MElementContainer<MUIElement> getTopArea (MPart apart) {
+		MElementContainer<MUIElement> parent = apart.getParent();
+		while (!((MPartSashContainerElement)parent instanceof MArea)) {
+			parent = parent.getParent();
+		}
+		return parent;
+	}
+
+	protected int getTotalSize(MPart apart) {
+		int result = 0;
+		List<MUIElement> topParts = getTopArea(apart).getChildren();
+		for (MUIElement mui : topParts) {
+			result += sizeIt(mui);
+		}
+		return (result == 0 ? TOTAL_SIZE : result);
+	}
+	
+	private int sizeIt(MUIElement ele) {
+		int result = 0;
+		if (ele.getContainerData() != null) {
+			result = getIntData(ele);
+		} else if (ele instanceof MElementContainer) {
+			@SuppressWarnings("unchecked") //checked
+			List<MUIElement> mlist = ((MElementContainer<MUIElement>)ele).getChildren();
+			for (MUIElement mui : mlist) {
+				result += sizeIt(mui);
+			}
+		}
+		return result;
+	}
+	
+	protected int getIntData(MUIElement mui) {
+		try {
+			return Integer.parseInt(mui.getContainerData());
+		} catch (NumberFormatException e) {
+			// Ignore - someone has messed with the container data
+			return 0;
+		}
+	}
 }

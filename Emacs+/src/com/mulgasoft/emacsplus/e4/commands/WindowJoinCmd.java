@@ -122,7 +122,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	}
 	
 	/**
-	 * Given 2 partStacks, move children of dragStack into dropStack
+	 * Given 2 partStacks, move children of pstack into dropStack
 	 * @param pstack - source stack
 	 * @param dropStack - destination stack
 	 * @param apart - the initiating part

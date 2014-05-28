@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.0.0.7"
+      version="4.0.0.8"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,44 +11,14 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
-3.6.5:
-- Add eval-expression (M-:) to set/show certain internal variables dynamically
-- If the internal variable `kill-whole-line&apos; is non-`nil&apos;, &apos;C-k&apos;
-at the beginning of a line kills the entire line including the
-following newline.
-- Disable beep when moving cursor in content assist dialogs
-- Fix issue where C-x 0 may close the last instance of a buffer
-3.6.4:
-- Internal changes
-3.6.3:
-- Optionally, save region replace text on the kill ring
-- Fix edge case on history kill ring 
-3.6.3:
-- Internal changes
-3.6.2:
-- Set the mark on tag-search or find-tag
-- Add pop-tag-mark (M-*) to return to where the last tag command
-was initiated
-- Fix edge case error in switch-to-buffer
-3.6.1:
-- Correct semantics of ^U ^K to more closely resemble GNU Emacs
-- Update system clipboard on copy after append-next-kill
-- In switch-to-buffer protect against plugins that construct
-buffers with empty names
-- Correct (harmless) trace errors from edge case mini-buffer
-entry
-3.6.0:
-- Improve Emacs+ behavior under Europa
-3.5.9:
-- Add rotate-global-mark (like pop-global-mark, but in the reverse
-direction)
-- Fix issues with incomplete plugin initialization in rare cases
-3.5.8:
-- Fix issues with incorrect interpretation of ^U in goto-line
-- Fix issue with case replace in the query-replace family applied
-to xml/html editors
-3.5.7:
-- Preserve backward compatibility with Ganymede
+4.0.1:
+- Restore support for split windows
+- Add shrink window and related commands
+- Not backward compatible with pre-E4 versions of Eclipse
+4.0.0:
+- Initial E4 version - reset numbering
+- Remove non-E4 version of split window commands - Eclipse internals
+have changed radically
    </description>
 
    <copyright url="http://www.mulgasoft.com/emacs-plug-in-license">

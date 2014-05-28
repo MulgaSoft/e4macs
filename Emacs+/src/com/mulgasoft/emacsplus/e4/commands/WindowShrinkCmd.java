@@ -30,9 +30,9 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 public class WindowShrinkCmd extends E4WindowCmd {
 	
 	// The use of container data to establish size does not directly correspond to columns,
-	// so pick a reasonable amount... could be set up as a property.
-	private static final int adjustment = 500;  
-	private static final int minsize = 500;
+	// so pick a reasonable amount as a fraction of the total "size"
+	private static final float adjustment = 0.025f;  
+	private static final float minsize = 0.05f;
 	
 	public static enum Col {
 		BALANCE, SHRINK, ENLARGE;
@@ -43,14 +43,15 @@ public class WindowShrinkCmd extends E4WindowCmd {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> stack = ps.getStack();
 		MElementContainer<MUIElement> next = getAdjacentElement(stack, false);
+		
 		int count = handler.getUniversalCount();
 		if (next != null) {
 			switch (stype) {
 			case SHRINK:
-				adjustContainerData((MUIElement)stack, (MUIElement)next, adjustment * count);
+				adjustContainerData((MUIElement)stack, (MUIElement)next, count, getTotalSize(apart));
 				break;
 			case ENLARGE:
-				adjustContainerData((MUIElement)next, (MUIElement)stack, adjustment * count);
+				adjustContainerData((MUIElement)next, (MUIElement)stack, count, getTotalSize(apart));
 				break;
 			case BALANCE:
 				balancePartSash(stack);
@@ -68,22 +69,18 @@ public class WindowShrinkCmd extends E4WindowCmd {
 	 * @param to adjacent PartStack
 	 * @param amount by which to adjust each
 	 */
-	private void adjustContainerData(MUIElement from, MUIElement to, Integer amount) {
-		try {
-			int adjust = Integer.parseInt(from.getContainerData());
-			int adjustTo = Integer.parseInt(to.getContainerData());
-			if (amount != null) {
-				if (adjust - amount < minsize) {
-					// enforce minimum size					
-					amount = adjust - minsize;
-				}
-				// take from the rich and give to the poor
-				from.setContainerData(String.valueOf(adjust - amount));
-				to.setContainerData(String.valueOf(adjustTo + amount));
-			}
-		} catch (NumberFormatException e) {
-			// Ignore - someone has messed with the container data
+	private void adjustContainerData(MUIElement from, MUIElement to, int count, int size) {
+		int adjust = getIntData(from);;
+		int adjustTo = getIntData(to);;
+		int amount = (Math.round(size * adjustment)) * count;
+		int minim = Math.round(size * minsize);
+		if (adjust - amount < minim) {
+			// enforce minimum size					
+			amount = adjust - minim;
 		}
+		// take from the rich and give to the poor
+		from.setContainerData(String.valueOf(adjust - amount));
+		to.setContainerData(String.valueOf(adjustTo + amount));
 	}	
 	
 	/**
@@ -110,6 +107,5 @@ public class WindowShrinkCmd extends E4WindowCmd {
 				// Ignore - someone has messed with the container data
 			}
 		}
-
 	}
 }
