@@ -157,7 +157,7 @@ public abstract class E4WindowCmd {
 			}
 		}
 	}
-	
+
 	/**
 	 * Find the first stack with which we should join
 	 * 
@@ -175,7 +175,7 @@ public abstract class E4WindowCmd {
 				int size = children.size(); 
 				if (size > 1) {
 					int index = children.indexOf(dragStack)+1;
-					result = (MElementContainer<MUIElement>)children.get((index == size) ? 0 : index);
+					result = (MElementContainer<MUIElement>)children.get((index == size) ? index - 2 : index);
 					if (stackp) {
 						result =  findNextStack(result);
 					}
@@ -205,7 +205,7 @@ public abstract class E4WindowCmd {
 	 * @param apart the selected part
 	 * @return the most distant parent just below the MArea
 	 */
-	private MElementContainer<MUIElement> getTopArea (MPart apart) {
+	protected MElementContainer<MUIElement> getTopArea (MPart apart) {
 		MElementContainer<MUIElement> parent = apart.getParent();
 		while (!((MPartSashContainerElement)parent instanceof MArea)) {
 			parent = parent.getParent();

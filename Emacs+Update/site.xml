@@ -12,7 +12,7 @@
    <feature url="features/com.mulgasoft.emacsplus.optional.features_4.0.0.jar" id="com.mulgasoft.emacsplus.optional.features" version="4.0.0">
       <category name="Emacs+"/>
    </feature>
-   <feature url="features/com.mulgasoft.emacsplus.feature_4.0.0.8.jar" id="com.mulgasoft.emacsplus.feature" version="4.0.0.8">
+   <feature url="features/com.mulgasoft.emacsplus.feature_4.0.0.v11.jar" id="com.mulgasoft.emacsplus.feature" version="4.0.0.v11">
       <category name="Emacs+"/>
    </feature>
    <category-def name="Emacs+" label="Emacs+">

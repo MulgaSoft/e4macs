@@ -153,8 +153,28 @@ public class WindowJoinCmd extends E4WindowCmd {
 				drops.add(0,apart);
 				dropStack.setSelectedElement(apart);
 			}
+			checkSizeData(pstack,dropStack);
 		} 
 		return dropStack;
+	}
+
+	/**
+	 * Check if containerData size needs updating.
+	 * This should be handled by the Eclipse framework, but apparently not...
+	 * @param pstack - source stack
+	 * @param dropStack - destination stack
+	 */
+	private void checkSizeData(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack) {
+		if (pstack.getParent().getContainerData() == null) {
+			int s1 = getIntData(pstack);;
+			if (dropStack.getParent().getContainerData() == null) {
+				// stacks are vertically size by side, add their sizes together 
+				dropStack.setContainerData(String.valueOf(s1 + getIntData(dropStack)));
+			} else {
+				// source is vertical & dest is in a horizontal containing PartSash
+				dropStack.getParent().setContainerData(String.valueOf(s1 + getIntData(dropStack.getParent())));
+			}
+		}
 	}
 
 	/**

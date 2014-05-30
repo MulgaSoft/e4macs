@@ -11,7 +11,7 @@ package com.mulgasoft.emacsplus.e4.commands;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.LEFT_OF;
+import static org.eclipse.e4.ui.workbench.modeling.EModelService.RIGHT_OF;
 
 /**
  * Split window vertically
@@ -26,7 +26,7 @@ public class WindowSplitVertHandler extends E4WindowHandler<WindowSplitCmd> {
 	
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, LEFT_OF);
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, RIGHT_OF);
 		super.addToContext(ctx);
 	}
 }
