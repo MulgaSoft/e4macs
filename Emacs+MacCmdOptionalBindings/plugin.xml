@@ -18,17 +18,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
 		sequence="CTRL+COMMAND+L"/>
-	<key
-		contextId="org.eclipse.ui.contexts.window" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="CTRL+M3+L"/>
-	<key
-		commandId="org.eclipse.ui.window.nextEditor" 
-		contextId="org.eclipse.ui.contexts.window" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="CTRL+COMMAND+L"/>		
 		
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
@@ -41,17 +30,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+ARROW_RIGHT"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="M3+ARROW_RIGHT"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+ARROW_RIGHT"/>		
 		
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
@@ -64,35 +42,13 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+ARROW_LEFT"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="M3+ARROW_LEFT"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+ARROW_LEFT"/>	
 		
 	<!-- gnu emacs 23 shift selection --> 	
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
- 		sequence="M3+SHIFT+F"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
  		sequence="M3+SHIFT+F"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.forwardWord"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
- 		sequence="COMMAND+SHIFT+F"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.forwardWord"
 		contextId="org.eclipse.ui.textEditorScope"
@@ -103,19 +59,8 @@
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="M3+SHIFT+B"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"		
 		sequence="M3+SHIFT+B"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.backwardWord"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="COMMAND+SHIFT+B"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.backwardWord"
 		contextId="org.eclipse.ui.textEditorScope"
@@ -123,23 +68,11 @@
 		platform="cocoa"		
 		sequence="COMMAND+SHIFT+B"/>
 
-	
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
- 		sequence="M3+SHIFT+V"/>
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
  		sequence="M3+SHIFT+V"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.scrollDown"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
- 		sequence="COMMAND+SHIFT+V"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.scrollDown"
 		contextId="org.eclipse.ui.textEditorScope"
@@ -150,19 +83,8 @@
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="CTRL+M3+SHIFT+F"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"		
 		sequence="CTRL+M3+SHIFT+F"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="CTRL+COMMAND+SHIFT+F"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
 		contextId="org.eclipse.ui.textEditorScope"
@@ -173,19 +95,8 @@
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="CTRL+M3+SHIFT+B"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"		
 		sequence="CTRL+M3+SHIFT+B"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
-		sequence="CTRL+COMMAND+SHIFT+B"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
 		contextId="org.eclipse.ui.textEditorScope"
@@ -218,17 +129,6 @@
 		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
-		sequence="CTRL+COMMAND+U"/>
-   	<key
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="CTRL+M3+U"/>	      
-	<key
-		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing" 
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
 		sequence="CTRL+COMMAND+U"/ -->
 		
 	<!-- key
@@ -242,17 +142,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
 		sequence="COMMAND+;"/>
-	<key
-		contextId="org.eclipse.jdt.ui.javaEditorScope" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="M3+;"/>
-	<key
-		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
-		contextId="org.eclipse.jdt.ui.javaEditorScope" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="COMMAND+;"/>		
 
 	<key
 		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
@@ -265,17 +154,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
 		sequence="COMMAND+;"/>
-	<key
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="M3+;"/>
-	<key
-		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="COMMAND+;"/>		
 
 	<key
 		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
@@ -287,17 +165,6 @@
 		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
-		sequence="COMMAND+;"/>
-	<key
-		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
-		sequence="M3+;"/>
-	<key
-		commandId="org.eclipse.jdt.ui.edit.text.java.toggle.comment" 
-		contextId="org.eclipse.jdt.ui.propertiesEditorScope" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
-		platform="carbon"
 		sequence="COMMAND+;"/ -->		
 
 	<!-- key
@@ -311,17 +178,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+."/>
-	<key
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="M3+."/>
-	<key
-		commandId="org.eclipse.jdt.ui.edit.text.java.open.editor"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+."/>		
 
 	<key
 		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
@@ -333,17 +189,6 @@
 		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
-		sequence="COMMAND+."/>
-	<key
-		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="M3+."/>
-	<key
-		commandId="org.eclipse.wst.jsdt.ui.edit.text.java.open.editor"
-		contextId="org.eclipse.wst.jsdt.ui.javascriptViewScope"          
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
 		sequence="COMMAND+."/ -->		
 
 <!-- ****************** Provide COMMAND keybindings  ****************** -->
@@ -352,13 +197,13 @@
 	<key
 		contextId="org.eclipse.ui.console.ConsoleView"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
+		platform="cocoa"		
 		sequence="M3+D"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.deleteNextWord"
 		contextId="org.eclipse.ui.console.ConsoleView"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"		
+		platform="cocoa"		
 		sequence="COMMAND+D"/>		
 
 	<key
@@ -366,11 +211,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+M3+ARROW_UP"
 		platform="cocoa"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="CTRL+M3+ARROW_UP"
-		platform="carbon"/>
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.backwardUpList"
@@ -378,22 +218,11 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="CTRL+COMMAND+ARROW_UP"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.backwardUpList"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="CTRL+COMMAND+ARROW_UP"/>		
 
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
-		sequence="CTRL+M3+ARROW_DOWN"/>
-	<key
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
 		sequence="CTRL+M3+ARROW_DOWN"/>
 		
 	<key
@@ -402,22 +231,11 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="CTRL+COMMAND+ARROW_DOWN"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.downList"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="CTRL+COMMAND+ARROW_DOWN"/>		
 
 	<key
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
-		sequence="CTRL+M3+SHIFT+L"/>
-	<key
-		contextId="org.eclipse.ui.contexts.window"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
 		sequence="CTRL+M3+SHIFT+L"/>
 		
 	<key
@@ -426,12 +244,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="CTRL+COMMAND+SHIFT+L"/>
-	<key
-		commandId="org.eclipse.ui.window.nextView"
-		contextId="org.eclipse.ui.contexts.window"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="CTRL+COMMAND+SHIFT+L"/>		
 
   </extension>
 
@@ -448,20 +260,8 @@
 		commandId="com.mulgasoft.emacsplus.universalArgument"
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+-" />		
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+1" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+1" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -469,12 +269,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+2" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+2" />		
 				
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -482,12 +276,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+3" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+3" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -495,12 +283,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+4" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+4" />		
 				
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -508,12 +290,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+5" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+5" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -521,12 +297,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+6" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+6" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -534,12 +304,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+7" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+7" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -547,12 +311,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+8" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+8" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -560,12 +318,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+9" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+9" />		
 		
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
@@ -573,12 +325,6 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+0" />
-	<key
-		commandId="com.mulgasoft.emacsplus.universalArgument"
-		contextId="org.eclipse.ui.textEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="carbon"
-		sequence="COMMAND+0" />		
 
   </extension>
 		
