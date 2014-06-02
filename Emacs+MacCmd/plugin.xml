@@ -40,7 +40,14 @@
 		schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
 		platform="cocoa"		
 		sequence="M3+W"/>                
-<!--		contextId="org.eclipse.ui.contexts.dialogAndWindow" -->
+	<!-- Force removal of conflicting default Eclipse binding --> 
+	<!-- as bug(s) on some E4 platforms do not properly override --> 
+	<key
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" 
+		platform="cocoa"
+		sequence="COMMAND+W"/>                
+	<!-- and add in the emacs binding -->
 	<key
 		commandId="org.eclipse.ui.edit.copy"
 		contextId="org.eclipse.ui.contexts.window"
