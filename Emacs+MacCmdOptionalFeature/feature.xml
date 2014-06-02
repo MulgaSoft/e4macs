@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.maccmd.optional.features"
       label="Emacs+ OS X Cmd Key Optional Bindings"
-      version="4.0.0"
+      version="4.0.0.v1"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus"
       os="macosx">
