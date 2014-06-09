@@ -34,9 +34,10 @@ import com.mulgasoft.emacsplus.commands.BlockHandler;
 import com.mulgasoft.emacsplus.commands.BrowseKillRingHandler;
 import com.mulgasoft.emacsplus.commands.SexpHandler;
 import com.mulgasoft.emacsplus.commands.UndoRedoHandler;
-import com.mulgasoft.emacsplus.commands.WindowHandler;
 import com.mulgasoft.emacsplus.commands.YankPopHandler;
+import com.mulgasoft.emacsplus.e4.commands.E4WindowCmd;
 import com.mulgasoft.emacsplus.minibuffer.SearchReplaceMinibuffer;
+
 import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_SEXP_TO_CLIPBOARD;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_WORD_TO_CLIPBOARD;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_SPLIT_SELF;
@@ -187,8 +188,7 @@ public class EmacsPlusPreferencePage extends EmacsPlusPreferenceBase {
 					PreferenceConverter.getColor(getPreferenceStore(), EmacsPlusPreferenceConstants.P_AUTO_BROWSE_HIGHLIGHT));
 			killring.setSelectionReplace(getPreferenceStore().getBoolean(REPLACE_TEXT_TO_KILLRING.getPref()));
 			
-			WindowHandler.setSplitSelf(getPreferenceStore().getBoolean(ENABLE_SPLIT_SELF.getPref()));
-
+			E4WindowCmd.setSplitSelf(getPreferenceStore().getBoolean(ENABLE_SPLIT_SELF.getPref()));
 			BlockHandler.setBlockSize(getPreferenceStore().getInt(EmacsPlusPreferenceConstants.P_BLOCK_MOVE_SIZE));
 			UndoRedoHandler.setEmacsUndo(getPreferenceStore().getBoolean(EmacsPlusPreferenceConstants.P_EMACS_UNDO));
 

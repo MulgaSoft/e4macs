@@ -7,7 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package com.mulgasoft.emacsplus.commands;
+package com.mulgasoft.emacsplus.e4.commands;
+
+import static com.mulgasoft.emacsplus.e4.commands.WindowJoinCmd.Join;
+
+import org.eclipse.e4.core.contexts.IEclipseContext;
 
 /**
  * Implements: join-other-window
@@ -16,6 +20,16 @@ package com.mulgasoft.emacsplus.commands;
  * 
  * @author Mark Feber - initial API and implementation
  */
-public class WindowJoinHandler extends WindowHandler {
-	// TODO Leave stub for Luna (?) implementation	
+public class WindowJoinHandler extends E4WindowHandler<WindowJoinCmd> {
+		
+	public WindowJoinHandler() {
+		super(WindowJoinCmd.class);
+	}
+	
+	@Override
+	protected void addToContext(IEclipseContext ctx) {
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, Join.ALL);
+		super.addToContext(ctx);
+	}
+
 }

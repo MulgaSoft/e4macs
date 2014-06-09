@@ -7,11 +7,17 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package com.mulgasoft.emacsplus.commands;
+package com.mulgasoft.emacsplus.e4.commands;
 
 /**
+ * Implements: other-window
+ * 
+ * Activate the next most recent editor
+ * 
  * @author Mark Feber - initial API and implementation
  */
-public class OtherWindowBeginHandler extends WindowHandler {
-	// TODO Leave stub for Luna (?) implementation
+public class WindowOtherHandler extends E4WindowHandler<WindowOtherCmd> {
+	public WindowOtherHandler() {
+		super(WindowOtherCmd.class);
+	}
 }

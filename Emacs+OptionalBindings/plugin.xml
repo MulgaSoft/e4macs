@@ -5,13 +5,22 @@
 		name="Emacs+ Optional Bindings"
 		provider-name="MulgaSoft" -->
 		
-<!-- ******** remove eclipse's incremental-find binding ********* -->
+<!-- ******** Remove some conflicting binding ********* -->
 
   <extension point="org.eclipse.ui.bindings">
+  
+	<!-- schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" --> 
+    <!-- Remove Eclipse's incremental-find binding -->
 	<key
 		contextId="org.eclipse.ui.textEditorScope" 
-		schemeId="com.mulgasoft.emacsplusConfiguration" 
+		schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" 
 		sequence="CTRL+J"/>
+	<!-- Force removal of conflicting default Eclipse binding --> 
+	<!-- as bug(s) on some E4 platforms do not properly override --> 
+	<key
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" 
+		sequence="Ctrl+W"/>                
   </extension>		
   
 <!-- ****************** Rebranded keybindings  ****************** -->

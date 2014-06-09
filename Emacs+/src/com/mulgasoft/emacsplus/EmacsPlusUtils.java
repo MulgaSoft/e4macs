@@ -157,12 +157,10 @@ public class EmacsPlusUtils {
 	// this isn't added to jface.util.Util until Galileo
 	public static boolean isMac() {
 		return MacCheck.isMac;
-	}
-	
+	}	
 	private static boolean checkMac() {
 		// Hackery to determine if we're macish - is there a better way?
-		String platform = SWT.getPlatform ();
-		return ("carbon".equals (platform) || "cocoa".equals (platform));	//$NON-NLS-1$ //$NON-NLS-2$
+		return "cocoa".equals (SWT.getPlatform ());	//$NON-NLS-1$
 	}
 
 	public static boolean isE4() {
