@@ -38,7 +38,7 @@ import com.mulgasoft.emacsplus.EmacsPlusUtils;
  */
 public abstract class E4WindowCmd {
 
-	@Inject private EPartService partService;
+	@Inject protected EPartService partService;
 	@Inject protected EModelService modelService;
 
 	/**
@@ -159,7 +159,7 @@ public abstract class E4WindowCmd {
 	}
 
 	/**
-	 * Find the first stack with which we should join
+	 * Find the first stack with which we should join within the current sash
 	 * 
 	 * @param dragStack the stack to join
 	 * @return the target stack 
@@ -177,7 +177,7 @@ public abstract class E4WindowCmd {
 					int index = children.indexOf(dragStack)+1;
 					result = (MElementContainer<MUIElement>)children.get((index == size) ? index - 2 : index);
 					if (stackp) {
-						result =  findNextStack(result);
+						result =  findTheStack(result);
 					}
 				}
 			}
@@ -192,15 +192,34 @@ public abstract class E4WindowCmd {
 	 * @return the first PartStack we find
 	 */
 	@SuppressWarnings("unchecked")  // for safe cast to MElementContainer<MUIElement>
-	private MElementContainer<MUIElement> findNextStack(MElementContainer<MUIElement> parent) {
+	private MElementContainer<MUIElement> findTheStack(MElementContainer<MUIElement> parent) {
 		MElementContainer<MUIElement> result = parent;
 		if ((MPartSashContainerElement)parent instanceof MPartSashContainer) {
 			List<MUIElement> children = parent.getChildren();
-			result = findNextStack((MElementContainer<MUIElement>)children.get(0));
+			result = findTheStack((MElementContainer<MUIElement>)children.get(0));
 		}
 		return result;
 	}
 
+	/**
+	 * Rotate through stacks by <count> elements
+	 *  
+	 * @param part the source part
+	 * @param stack the source stack
+	 * @param count the number to rotate by
+	 * @return the destination stack
+	 */
+	protected MElementContainer<MUIElement> findNextStack(MPart part, MElementContainer<MUIElement> stack, int count) {
+		MElementContainer<MUIElement> nstack = null;		
+		List<MElementContainer<MUIElement>> stacks = getOrderedStacks(part);		
+		int size = stacks.size();
+		if (size > 1) {
+			int index = stacks.indexOf(stack) + (count % size);
+			nstack = (index < 0) ? stacks.get(size + index) : (index < size) ? stacks.get(index) : stacks.get(index - size); 
+		}
+		return nstack;
+	}
+	
 	/**
 	 * @param apart the selected part
 	 * @return the most distant parent just below the MArea

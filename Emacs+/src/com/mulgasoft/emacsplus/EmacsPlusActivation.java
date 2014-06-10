@@ -285,7 +285,7 @@ public enum EmacsPlusActivation implements IPartListener2 {
 	}
 	
 	private ITextEditor getActiveEditor(IEditorPart editor) {
-		return EmacsPlusUtils.getTextEditor(editor);
+		return EmacsPlusUtils.getActiveTextEditor(editor);
 	}
 	
 	private static IPageChangedListener pageListener;

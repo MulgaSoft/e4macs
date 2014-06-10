@@ -33,7 +33,6 @@ import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -44,7 +43,6 @@ import org.eclipse.ui.console.TextConsolePage;
 import org.eclipse.ui.console.TextConsoleViewer;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.IPage;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.PageBookView;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorExtension;
@@ -175,7 +173,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	}
 	
 	protected ITextEditor getTextEditor(IEditorPart editor) {
-		return EmacsPlusUtils.getTextEditor(editor);
+		return EmacsPlusUtils.getActiveTextEditor(editor);
 	}
 	
 	/**
@@ -368,23 +366,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		Object result = null;
 		try {
 			IWorkbenchPage wpage = this.getWorkbenchPage();
-			IEditorPart epart = HandlerUtil.getActiveEditor(event);
-			// for multi-page editors, get the associated text editor for activation
-			if (epart != null && epart instanceof MultiPageEditorPart) {
-				MultiPageEditorPart multix = (MultiPageEditorPart)epart;
-				IEditorInput input = multix.getEditorInput();
-				if (input != null) {
-					IEditorPart[] editors = multix.findEditors(input);
-					for (IEditorPart p : editors) {
-						if (p instanceof ITextEditor) {
-							epart = (IEditorPart) p;
-							multix.setActiveEditor(p);
-							multix.setFocus();
-							break;
-						}
-					}
-				}
-			}
+			IEditorPart epart = EmacsPlusUtils.getTextEditor(HandlerUtil.getActiveEditor(event), true);
 			// we're in a loop
 			if (epart != null && epart == lastPart) {
 				epart = null;

@@ -21,10 +21,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
+import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.minibuffer.SwitchMinibuffer;
 /**
  * Implement switch-to-buffer
@@ -53,19 +54,13 @@ public class SwitchToBufferHandler extends MinibufferExecHandler implements INon
 	@Override
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
-		try {
-			IEditorPart eventEditor = this.getEditor(event);
-			if (eventEditor != editor && eventEditor instanceof MultiPageEditorPart) {
-				// this activates the page containing the editor
-				((MultiPageEditorPart) eventEditor).setActiveEditor(editor);						
-				IWorkbenchPage wpage = getWorkbenchPage();
-				wpage.bringToTop(editor);
-				wpage.activate(editor);
-			}				
-			return bufferTransform(new SwitchMinibuffer(this),editor, event);
-		} catch (ExecutionException e) {
+		ITextEditor ted = EmacsPlusUtils.getTextEditor(editor, true);
+		if (ted != null) {
+			// don't use a separate async thread, as we may miss a typed character
+			return bufferTransform(new SwitchMinibuffer(this), ted, event);
+		} else {
+			Beeper.beep();
 		}
-		// don't use a separate async thread, as we may miss a typed character
 		return NO_OFFSET;
 	}
 
@@ -110,6 +105,17 @@ public class SwitchToBufferHandler extends MinibufferExecHandler implements INon
 		EPartService partService = (EPartService)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getService(EPartService.class);
 		partService.activate(null);
 		partService.activate(partService.getActivePart(),true);
+		// E4 activation seems slightly hosed - add this in
+		EmacsPlusUtils.asyncUiRun(new Runnable() {
+			public void run() {
+				try {
+					// this will finish activating
+					EmacsPlusUtils.executeCommand("org.eclipse.ui.window.activateEditor", null);	//$NON-NLS-1$
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

@@ -249,7 +249,7 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 		}
 		minibufferStringImpl = new MinibufferImpl(getDocument(),lowercase);
 		if (initializeBuffer(editor,page)) {
-			ok = install(event);
+			ok = install();
 			if (ok) {
 				if (handlesCtrl() || handlesAlt()){
 					setKeyFilter(false);
@@ -277,7 +277,7 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	/**
 	 * Installs this target. I.e. adds all required listeners.
 	 */
-	private boolean install(ExecutionEvent event) {
+	private boolean install() {
 		if (editor instanceof AbstractTextEditor && !isInstalled()) {
 			bindingService = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
 			viewer = findSourceViewer(editor);

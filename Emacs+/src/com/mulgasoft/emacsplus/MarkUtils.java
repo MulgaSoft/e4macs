@@ -517,7 +517,7 @@ public class MarkUtils {
 
 		public void preExecute(String commandId, ExecutionEvent event) {
 			try {
-				ITextEditor editor = EmacsPlusUtils.getTextEditor(HandlerUtil.getActiveEditorChecked(event));
+				ITextEditor editor = EmacsPlusUtils.getActiveTextEditor(HandlerUtil.getActiveEditorChecked(event));
 				if (editor != null) {
 					MarkUtils.setTagMark(editor,-1);
 				}

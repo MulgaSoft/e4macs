@@ -21,7 +21,7 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 /**
  * Based on info in the article: http://eclipsesource.com/blogs/tutorials/eclipse-4-e4-tutorial-soft-migration-from-3-x-to-eclipse-4-e4
  * by Jonas Helming <jhelming@eclipsesource.com>
- * Copyright (c) 2012 EclipseSource MŸnchen GmbH and others.
+ * Copyright (c) 2012 EclipseSource Mï¿½nchen GmbH and others.
  *  
  * @author mfeber - Initial API and implementation
  * @param <T>
@@ -30,6 +30,7 @@ public abstract class E4CmdHandler<T> extends EmacsPlusCmdHandler {
 
 	private T e4cmd;
 	public final static String CMD_CTX_KEY = "com.mulgasoft.emacsplus.cmdId";
+	public final static String PRE_CTX_KEY = "com.mulgasoft.emacsplus.prefix";
 
 	public E4CmdHandler(Class<T> clazz) {
 		e4cmd = ContextInjectionFactory.make(clazz, getContext());

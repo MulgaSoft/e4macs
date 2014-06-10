@@ -39,7 +39,7 @@ public class WindowSplitCmd extends E4WindowCmd {
 	protected void split(MPart apart, IEditorPart editor, int location) {
 		try {
 			preSplit(apart, editor);
-			splitIt(apart, editor, location);
+			splitIt(apart, location);
 			reactivate(apart);
 		} catch (Exception e) {
 			Beeper.beep();
@@ -63,7 +63,7 @@ public class WindowSplitCmd extends E4WindowCmd {
 		}
 	}
 
-	private void splitIt(MPart apart, IEditorPart editor, int location) {
+	protected void splitIt(MPart apart, int location) {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> pstack = ps.getStack();
 		if (pstack.getChildren().size() > 1) {
