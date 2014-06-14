@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.0.1.alpha-1"
+      version="4.0.1.alpha-3"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 

@@ -132,11 +132,7 @@ public class EmacsPlusUtils {
 	private static final class MacCheck {  
 		static final boolean isMac = checkMac(); 
 	}
-	
-	private static final class e4Check {  
-		static final boolean isE4 = checkE4(); 
-	}
-	
+
 	// control whether to disable pre-edit of Non_Spacing_Marks: i.e. characters intended to be 
 	// combined with another character without taking up extra space (e.g. accents, umlauts, etc.) 
 	private static boolean disableOptionIMEPreferenece = getPreferenceBoolean(EmacsPlusPreferenceConstants.P_DISABLE_INLINE_EDIT);
@@ -164,10 +160,6 @@ public class EmacsPlusUtils {
 		return "cocoa".equals (SWT.getPlatform ());	//$NON-NLS-1$
 	}
 
-	public static boolean isE4() {
-		return e4Check.isE4; 
-	}
-	
 	private static boolean checkE4() {
 		// More hackery - determine if we're 4.x or 3.x - is there a better way?
 		return Platform.getBundle("org.eclipse.e4.ui.workbench") != null;	//$NON-NLS-1$ 
@@ -362,9 +354,6 @@ public class EmacsPlusUtils {
 		IEditorReference[] result = null;
 		if (page != null && page instanceof WorkbenchPage) {
 			result = ((WorkbenchPage) page).getSortedEditors();			
-		}
-		if (EmacsPlusUtils.isE4()) {
-			Collections.reverse(Arrays.asList(result));
 		}
 		return result;
 	}
