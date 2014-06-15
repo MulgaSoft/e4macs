@@ -8,9 +8,6 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.BELOW;
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.RIGHT_OF;
-
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
@@ -20,6 +17,8 @@ import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -29,6 +28,9 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 import com.mulgasoft.emacsplus.commands.MinibufferHandler;
 import com.mulgasoft.emacsplus.minibuffer.IMinibufferExecutable;
 import com.mulgasoft.emacsplus.minibuffer.SwitchMinibuffer;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 
 /**
  * Implements Select/Display buffer in another window
@@ -48,6 +50,26 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 	private EmacsPlusCmdHandler handler;
 	private boolean displayOnly = false;
 	private String prefix = "Buffer%s";	//$NON-NLS-1$
+	
+	// A global, sticky variable to set the default direction of split
+	private static boolean DISPLAY_HORIZONTAL = getPreferenceBoolean(SHOW_OTHER_HORIZONTAL.getPref());
+
+	static {
+		// listen for changes in the property store
+		getPreferenceStore().addPropertyChangeListener(
+				new IPropertyChangeListener() {
+					public void propertyChange(PropertyChangeEvent event) {
+						if (SHOW_OTHER_HORIZONTAL.getPref().equals(event.getProperty())) {
+							setHorizontal((Boolean)event.getNewValue());
+						}
+					}
+				}
+		);
+	}
+	
+	public static void setHorizontal(boolean horizontal) {
+		DISPLAY_HORIZONTAL = horizontal;
+	}
 	
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Active EmacsPlusCmdHandler handler, @Named(E4CmdHandler.CMD_CTX_KEY)boolean display, @Named(E4CmdHandler.PRE_CTX_KEY) String prefix) {
@@ -81,7 +103,7 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 			MPart miniPart = (MPart) ((IEditorPart) minibufferResult).getSite().getService(MPart.class);
 			if (getOrderedStacks(apart).size() == 1) {
 				// case 1: 1 frame, split with miniPart
-				splitIt(miniPart, (isUniversalPresent()) ? RIGHT_OF : BELOW);
+				splitIt(miniPart, getDirection((isUniversalPresent()) ? !DISPLAY_HORIZONTAL : DISPLAY_HORIZONTAL));
 			} else {
 				// case 2: multiple frames, move to adjacent frame
 				// get the starting stack

@@ -1299,12 +1299,12 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 1"/>
 	<key
-		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"
+		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 2"/>
 	<key
-		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"
+		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 3"/>

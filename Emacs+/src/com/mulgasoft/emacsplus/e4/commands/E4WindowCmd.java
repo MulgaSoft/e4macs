@@ -14,8 +14,6 @@ import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_SPLIT_SELF;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.advanced.MArea;
@@ -23,8 +21,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainer;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -36,10 +32,7 @@ import com.mulgasoft.emacsplus.EmacsPlusUtils;
  *
  * @author mfeber - Initial API and implementation
  */
-public abstract class E4WindowCmd {
-
-	@Inject protected EPartService partService;
-	@Inject protected EModelService modelService;
+public abstract class E4WindowCmd extends E4Cmd {
 
 	/**
 	 * This is the default "size" for the layout, but for some reason it is not exposed and neither is a method

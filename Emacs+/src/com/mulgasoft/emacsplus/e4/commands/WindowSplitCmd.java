@@ -16,6 +16,9 @@ import org.eclipse.ui.IEditorPart;
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 
+import static org.eclipse.e4.ui.workbench.modeling.EModelService.RIGHT_OF;
+import static org.eclipse.e4.ui.workbench.modeling.EModelService.BELOW;
+
 /**
  * Split the current window using the direction passed in the context
  * 
@@ -25,6 +28,10 @@ public class WindowSplitCmd extends E4WindowCmd {
 	
 	private static final float ratio = 0.5f;
 
+	public static int getDirection(boolean horizontal) {
+		return (horizontal ? RIGHT_OF : BELOW);
+	}
+	
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)int cmd) {
 		split(apart, editor, cmd);
