@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2014 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -21,6 +21,7 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
+import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.execute.ICommandResult;
 import com.mulgasoft.emacsplus.minibuffer.MetaXMinibuffer;
 
@@ -81,6 +82,8 @@ public class MetaXHandler extends ExecuteCommandHandler implements INonEditingCo
 			final String name = commandR.getName();
 			executeWithSelectionCheck(editor, new IWithSelectionCheck() {
 				public void execute() {
+					String rms = MetaXHandler.this.getResultMessage();
+					boolean isError = MetaXHandler.this.isResultError();
 					try {
 						if (isUniversalPresent()) {
 							executeUniversal(editor,commandR.getCommand(),null,getUniversalCount(),true);
@@ -88,15 +91,24 @@ public class MetaXHandler extends ExecuteCommandHandler implements INonEditingCo
 							executeCommand(commandR.getCommand().getId(), null, editor);
 						}
 					} catch (ExecutionException e) {
-						showResultMessage(editor, name + FAILED_MSG, true);
+						rms = name + FAILED_MSG;
+						isError = true;
 					} catch (NotDefinedException e) {
-						showResultMessage(editor, name + FAILED_MSG, true);
+						rms = name + FAILED_MSG;
+						isError = true;
 					} catch (NotEnabledException e) {
-						showResultMessage(editor, name + NOTENABLED_MSG, true);
+						rms = name + NOTENABLED_MSG;
+						isError = true;
 					} catch (NotHandledException e) {
-						showResultMessage(editor, name + NOTHANDLED_MSG, true);
+						rms = name + NOTHANDLED_MSG;
+						isError = true;
 					} catch (CommandException e) {
-						showResultMessage(editor, name + FAILED_MSG, true);
+						rms = name + FAILED_MSG;
+						isError = true;
+					} finally {
+						if (isError || IEmacsPlusCommandDefinitionIds.statusCommands.get(commandR.getCommand().getId()) == null) {
+							showResultMessage(editor, rms, isError);
+						}
 					}
 				}
 			});

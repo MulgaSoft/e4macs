@@ -26,27 +26,23 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
  * @author mfeber - Initial API and implementation
  */
 public class WindowOtherCmd extends E4WindowCmd {
-
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Active EmacsPlusCmdHandler handler) {
-		PartAndStack ps = getParentStack(apart);
-		MElementContainer<MUIElement> stack = ps.getStack();
-		MPart part = ps.getPart();		
-		
-		List<MElementContainer<MUIElement>> stacks = getOrderedStacks(part);
 		int count = handler.getUniversalCount();
-		int size = stacks.size();
-		if (size > 1) {
-			int index = stacks.indexOf(stack) + (count % size);
-			MElementContainer<MUIElement> nstack = (index < 0) ? stacks.get(size + index) : (index < size) ? stacks.get(index) : stacks.get(index - size); 
-			reactivate((MPart)nstack.getSelectedElement());
+		PartAndStack ps = getParentStack(apart);
+		MPart part = ps.getPart();		
+		MElementContainer<MUIElement> stack = ps.getStack();
+		
+		MElementContainer<MUIElement> nstack = findNextStack(apart, stack, count);
+		if (nstack != null) {
+			part = (MPart)nstack.getSelectedElement();
 		} else {
 			List<MUIElement> children = stack.getChildren();
-			size = children.size();
+			int size = children.size();
 			int index = children.indexOf(part) + (count % size);
-			MUIElement npart = (index < 0) ? children.get(size + index) : (index < size) ? children.get(index) : children.get(index - size);
-			reactivate((MPart)npart);
+			part = (MPart)((index < 0) ? children.get(size + index) : (index < size) ? children.get(index) : children.get(index - size));
 		}
+		reactivate(part);
 		return null;
 	}
 

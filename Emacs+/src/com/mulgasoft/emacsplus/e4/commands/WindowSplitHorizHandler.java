@@ -9,8 +9,6 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.BELOW;
-
 import org.eclipse.e4.core.contexts.IEclipseContext;
 
 /**
@@ -26,7 +24,7 @@ public class WindowSplitHorizHandler extends E4WindowHandler<WindowSplitCmd> {
 	
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, BELOW);
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, WindowSplitCmd.getDirection(true));
 		super.addToContext(ctx);
 	}
 	

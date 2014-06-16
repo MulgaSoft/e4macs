@@ -31,7 +31,10 @@ public class AppendNextKillHandler extends EmacsPlusNoEditHandler {
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
 		KillRing.getInstance().setForceAppend(true);
-		EmacsPlusUtils.showMessage(editor, APPEND_KILL, false);
+		// don't override M-x info if called from M-x
+		if (event.getTrigger() != null) {
+			EmacsPlusUtils.showMessage(editor, APPEND_KILL, false);
+		}
 		return NO_OFFSET;
 	}
 	

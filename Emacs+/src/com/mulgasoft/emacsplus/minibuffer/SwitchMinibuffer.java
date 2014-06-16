@@ -9,8 +9,10 @@
  */
 package com.mulgasoft.emacsplus.minibuffer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -32,16 +34,17 @@ import com.mulgasoft.emacsplus.execute.BufferDialog;
  */
 public class SwitchMinibuffer extends CompletionMinibuffer {
 
-	private IEditorReference[] sortedRefs;
-
+	private TreeMap<String, BufRef> bufferMap = null;
 	private IEditorReference defaultFile = null;
 	private String defaultFilePrefix = null;
-	private TreeMap<String,IEditorReference> bufferList = null;
-	private Map<String,IEditorReference> collisions = new HashMap <String,IEditorReference>();
 	private IWorkbenchPage page = null;
 
 	private String prefix = null;
 
+	private TreeMap<String, BufRef> getBufferMap() {
+		return bufferMap;
+	}
+	
 	/**
 	 * @param executable
 	 */
@@ -56,15 +59,10 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 	protected boolean initializeBuffer(ITextEditor editor, IWorkbenchPage page) {
 		this.page = page;
 		EmacsPlusUtils.clearMessage(editor);
-		IEditorReference[] refs = this.getSortedRefs();
-		if (refs != null && refs.length > 0) {
-			if (refs.length < 2) {
-				defaultFile = refs[0];
-			} else {
-				defaultFile = refs[refs.length - 2];
-			}
-			defaultFilePrefix = prePre + defaultFile.getName() + prePost;
-		}
+		List<BufRef> refs = setupRefs();
+		defaultFile = refs.get(0).getRef();
+		defaultFilePrefix = prePre + defaultFile.getName() + prePost;
+		setHistoryRing(refs);
 		return true;
 	}
 
@@ -103,14 +101,14 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		IEditorReference result = null;
 		if (bufferName != null && bufferName.length() > 0) {
 			// get the editor reference by name
-			result = getBufferList().get(bufferName);
+			result = getBufferMap().get(bufferName).getRef();
 			if (result == null) {
 				try {
 					// Attempt auto-completion if name fetch failed
-					SortedMap<String, IEditorReference> viewTree = getBuffers(bufferName,false, false);
+					SortedMap<String, BufRef> viewTree = getBuffers(bufferName,false, false);
 					if (viewTree.size() == 1) {
 						bufferName = viewTree.firstKey();
-						result = viewTree.get(bufferName);
+						result = viewTree.get(bufferName).getRef();
 					}
 				} catch (Exception e) {
 					// Could be a java.util.regex.PatternSyntaxException on weird input
@@ -152,58 +150,44 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 	}
 	
 	/**
-	 * @return the sortedRefs
+	 * Convert the platforms array of editor references in activation order into
+	 * structures used by the history and completion mechanisms
+	 * 
+	 * @return the List of converted references
 	 */
-	protected IEditorReference[] getSortedRefs() {
-		
-		if (sortedRefs == null) {
-			sortedRefs = EmacsPlusUtils.getSortedEditors(page);
+	private List<BufRef> setupRefs() {
+		List<BufRef> buffers = new ArrayList<BufRef>();
+		if (bufferMap == null) {
+			IEditorReference[] tmp = EmacsPlusUtils.getSortedEditors(page); 
 			this.page = null;
-			if (sortedRefs == null || sortedRefs.length == 0) {
+			if (tmp == null || tmp.length <= 1) {
 				leave(true);
-			}
-		}
-		return sortedRefs;
-	}
-
-	/**
-	 * On first call, convert the editor list to an ordered tree
-	 * Exclude the current buffer from the list
-	 *  
-	 * @return the bufferList
-	 */
-	protected TreeMap<String, IEditorReference> getBufferList() {
-		if (bufferList == null) {
-			bufferList = new TreeMap<String,IEditorReference>();
-			IEditorReference[] refs = getSortedRefs();
-			if (refs != null && refs.length > 1) {
-				for (int i= refs.length - 2; i >= 0; i--) {
-					bufferList.put(checkName(refs[i]), refs[i]);
+			} else {
+				bufferMap = new TreeMap<String,BufRef>();
+				Set<BufRef> checkSet = new HashSet<BufRef>();
+				BufRef collider = null;				
+				for (int i=1; i< tmp.length; i++) {
+					BufRef rr = new BufRef(tmp[i].getName().trim(), tmp[i]);
+					if ((collider = bufferMap.get(rr.getName())) != null) {
+						checkSet.add(collider);
+						rr.setName(fixName(rr.getName(),rr.getRef()));
+					}
+					bufferMap.put(rr.getName(), rr);
+					buffers.add(rr);
+				}
+				// fix up the colliders
+				Iterator<BufRef> it = checkSet.iterator();
+				while (it.hasNext()) {
+					BufRef rr = it.next();
+					bufferMap.remove(rr.getName());
+					rr.setName(fixName(rr.getName(),rr.getRef()));
+					bufferMap.put(rr.getName(), rr);
 				}
 			}
-			if (!collisions.isEmpty()) {
-				for (String key : collisions.keySet()) {
-					IEditorReference collision = collisions.get(key);			
-					bufferList.remove(key);
-					bufferList.put(fixName(key,collision),collision);
-				}
-				collisions.clear();
-			}
 		}
-		return bufferList;
+		return buffers;
 	}
 
-	private String checkName(IEditorReference ref){
-		String result = ref.getName().trim();
-		// avoid collisions
-		IEditorReference collision; 
-		if ((collision = bufferList.get(result)) != null) {
-			collisions.put(result, collision);
-			result = fixName(result,ref);
-		}
-		return result;
-	}
-	
 	/**
 	 * When there are multiple buffers with the same name, disambiguate 
 	 * by adding the title tool tip to the string we're going to use
@@ -265,11 +249,11 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 	 * @param subString
 	 * @return a SortedMap of buffers that match
 	 */
-	private SortedMap<String,IEditorReference> getBuffers(String subString, boolean insensitive, boolean regex) {
-		SortedMap<String,IEditorReference> result = null;
+	private SortedMap<String,BufRef> getBuffers(String subString, boolean insensitive, boolean regex) {
+		SortedMap<String,BufRef> result = null;
 		if (subString != null && subString.length() > 0) {
-			result = new TreeMap<String,IEditorReference>();
-			Set<String> keySet = getBufferList().keySet();
+			result = new TreeMap<String, BufRef>();
+			Set<String> keySet = getBufferMap().keySet();
 			String searchStr = (regex ? subString : toRegex(subString));
 			boolean isRegex = (regex || isRegex(searchStr,subString));
 			if (insensitive || isRegex) {
@@ -278,7 +262,7 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 					// we have to build the map up one by one on regex search
 					for (String key : keySet) {
 						if (pat.matcher(key).matches()) {
-							IEditorReference c = getBufferList().get(key);
+							BufRef c = getBufferMap().get(key);
 							result.put(key, c);
 						}
 					}
@@ -297,7 +281,7 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 				return getBuffers(subString, true, regex);
 			}
 		} else {
-			result = getBufferList();
+			result = getBufferMap();
 		}
 		return result;
 	}
@@ -310,8 +294,8 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 	 * @param keySet
 	 * @return subsection of map, each of whose entries start with subString
 	 */
-	private SortedMap<String, IEditorReference> getSubBuffers(String subString, Set<String> keySet) {
-		SortedMap<String, IEditorReference> result = null;
+	private SortedMap<String, BufRef> getSubBuffers(String subString, Set<String> keySet) {
+		SortedMap<String, BufRef> result = null;
 		String fromKey = null;
 		String toKey = null;
 		for (String key : keySet) {
@@ -327,21 +311,12 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		// too bad we can't use 1.6
 		if (fromKey != null) {
 			if (toKey == null) {
-				result = getBufferList().tailMap(fromKey);
+				result = getBufferMap().tailMap(fromKey);
 			} else {
-				result = getBufferList().subMap(fromKey, toKey);
+				result = getBufferMap().subMap(fromKey, toKey);
 			}
 		}
 		return result;
-	}
-	
-	protected void leave(boolean closeDialog) {
-		try {
-			super.leave(closeDialog);
-		} finally {
-			this.bufferList = null;
-			this.defaultFile = null;
-		}
 	}
 
 	/**
@@ -354,19 +329,45 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		leave(true);
 	}
 
-	/**** Local RingBuffer: use lazy initialization holder class idiom ****/
-
-	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#getHistoryRing()
-	 */
-	@Override
-	@SuppressWarnings("unchecked")	
-	protected RingBuffer<String> getHistoryRing() {
-		return SwitchRing.ring;
+	private class BufRef {
+		private IEditorReference ref;
+		private String name;
+		BufRef(String name, IEditorReference ref) {
+			this.name = name;
+			this.ref = ref;
+		}
+		void setName(String name) {
+			this.name = name;
+		}
+		String getName() {
+			return name;
+		}
+		IEditorReference getRef() {
+			return ref;
+		}
+		public String toString() {
+			return getName();
+		}
 	}
 	
-	private static class SwitchRing {
-		static final RingBuffer<String> ring = new RingBuffer<String>();		
-	}
+	/**** Local RingBuffer ****/
 
+	/**
+	 * Initialize with the current buffer set
+	 * 
+	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#getHistoryRing()
+	 */
+	private RingBuffer<BufRef> ring = null;
+	
+	private void setHistoryRing(List<BufRef> refs) {
+		ring = new RingBuffer<BufRef>(refs);
+		ring.setInfiniteLoop(false);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")	
+	protected RingBuffer<BufRef> getHistoryRing() {
+		return ring;
+	}
+	
 }

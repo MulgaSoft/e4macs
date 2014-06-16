@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2014 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -44,6 +44,7 @@ public enum PrefVars {
 	ENABLE_UNDER_SEXP(P_UNDER_SEXP,Ptype.BOOLEAN,false),
 	KILL_WHOLE_LINE(Ptype.BOOLEAN, false),
 	RING_BELL_FUNCTION(Ptype.BOOLEAN, false),
+	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
 //	SEARCH_EXIT_OPTION(Ptype.STRING, SEOptions.class, SEOptions.t.toString());
 	;
 	

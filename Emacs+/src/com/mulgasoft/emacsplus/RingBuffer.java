@@ -10,6 +10,7 @@
 package com.mulgasoft.emacsplus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ring Buffer implementation
@@ -35,6 +36,11 @@ public class RingBuffer<T> {
 	// mark last command as yank
 	private boolean yanked = false;
 
+	private boolean infiniteLoop = true;
+	public void setInfiniteLoop(boolean infinite) {
+		this.infiniteLoop = infinite;
+	}
+	
 	// flag last manual rotation - clear as soon as a yank or yank-pop is executed
 	boolean rotated = false;
 	
@@ -49,13 +55,29 @@ public class RingBuffer<T> {
 		ringBuffer = initArray(size);
 	}
 	
-	private ArrayList<IRingBufferElement<T>> initArray(int size){
+	public RingBuffer(List<T> elements) {
+		this.size = elements.size();
+		ringBuffer = initArray(size, elements);
+	}
+	
+	private ArrayList<IRingBufferElement<T>> initArray(int size, List<T> elements) {
 		ArrayList<IRingBufferElement<T>> a = new ArrayList<IRingBufferElement<T>>(size);
+		IRingBufferElement<T> ele = null;
+		int tsize = (elements != null ? elements.size() : 0);
 		// this initializes the internal ArrayList size properly
 		for (int i=0; i < size; i++) {
-			a.add(null);
+			if (tsize > 0 && i < tsize) {
+				ele = this.getNewElement();
+				ele.set(elements.get(i));
+			}
+			a.add(ele);
 		}
+		maxPos = (tsize > 0 ? tsize - 1 : 0); 
 		return a;
+	}
+	
+	private ArrayList<IRingBufferElement<T>> initArray(int size){
+		return initArray(size, null);
 	}
 	
 	protected static int getDefaultSize() {
@@ -348,9 +370,15 @@ public class RingBuffer<T> {
 			rotated = true;
 		}
 		if (yankpos > maxPos){
-			yankpos = 0;
+			yankpos = infiniteLoop ? 0 : maxPos;
+			if (!infiniteLoop) {
+				Beeper.beep();
+			}
 		} else if (yankpos < 0){
-			yankpos = maxPos;
+			yankpos = infiniteLoop ? maxPos : 0;
+			if (!infiniteLoop) {
+				Beeper.beep();
+			}
 		}
 		return getElement(yankpos);
 	}

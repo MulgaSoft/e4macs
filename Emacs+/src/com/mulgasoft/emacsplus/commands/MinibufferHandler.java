@@ -42,7 +42,7 @@ public abstract class MinibufferHandler extends EmacsPlusCmdHandler {
 	 * @return NO_OFFSET
 	 * @throws BadLocationException
 	 */
-	protected int bufferTransform(final WithMinibuffer mini, final ITextEditor editor, final ExecutionEvent event) throws BadLocationException {
+	public static int bufferTransform(final WithMinibuffer mini, final ITextEditor editor, final ExecutionEvent event) throws BadLocationException {
 		
 		mini.setCommandId(MarkUtils.getCurrentCommand());	// remember the command that invoked us
 		mini.beginSession(editor, PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),event);
@@ -66,7 +66,7 @@ public abstract class MinibufferHandler extends EmacsPlusCmdHandler {
 	 * @param event
 	 * @return NO_OFFSET
 	 */
-	protected int miniTransform(final WithMinibuffer mini, final ITextEditor editor, final ExecutionEvent event) {
+	public static int miniTransform(final WithMinibuffer mini, final ITextEditor editor, final ExecutionEvent event) {
 		EmacsPlusUtils.asyncUiRun(new Runnable() {
 			public void run() {
 				mini.setCommandId(MarkUtils.getCurrentCommand());	// remember the command that invoked us

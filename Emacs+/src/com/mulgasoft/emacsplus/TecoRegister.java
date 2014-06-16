@@ -26,7 +26,6 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
@@ -581,40 +580,29 @@ public class TecoRegister {
 			}
 		}
 		
-		//@Override
+		/* (non-Javadoc)
+		 * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
+		 */
 		public void partClosed(IWorkbenchPartReference partRef) {
 			
 			if (partRef instanceof IEditorReference) {
 				IEditorPart epart = ((IEditorReference) partRef).getEditor(false);
 				ITextEditor editor = (location != null ? location.getEditor() : null);
-				if (editor != null) {
-					boolean matchPart = (epart == editor);
-					if (!matchPart && epart instanceof MultiPageEditorPart) {
-						IEditorInput input = ((IEditorPart) editor).getEditorInput();
-						IEditorPart[] parts = ((MultiPageEditorPart) epart).findEditors(input);
-						for (int i = 0; i < parts.length; i++) {
-							if (parts[i] == editor) {
-								matchPart = true;
-								break;
-							}
+				if (editor == EmacsPlusUtils.getTextEditor(epart, false)) {
+					RegisterLocation loc = location;
+					// we're out of here
+					removeListener(this);
+					IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+					// remove position category, if still present
+					if (document.containsPositionCategory(MarkRing.MARK_CATEGORY)) {
+						try {
+							document.removePositionUpdater(MarkRing.updater);
+							document.removePositionCategory(MarkRing.MARK_CATEGORY);
+						} catch (BadPositionCategoryException e) {
 						}
 					}
-					if (matchPart) {
-						RegisterLocation loc = location;
-						// we're out of here
-						removeListener(this);
-						IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-						// remove position category, if still present
-						if (document.containsPositionCategory(MarkRing.MARK_CATEGORY)) {
-							try {
-								document.removePositionUpdater(MarkRing.updater);
-								document.removePositionCategory(MarkRing.MARK_CATEGORY);
-							} catch (BadPositionCategoryException e) {
-							}
-						}
-						// convert to path
-						loc.setPath(convertToPath(editor));
-					}
+					// convert to path
+					loc.setPath(convertToPath(editor));
 				}
 			}
 		}

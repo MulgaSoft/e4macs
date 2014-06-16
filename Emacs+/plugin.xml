@@ -1227,6 +1227,30 @@
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
 	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowswitchother.command.description"
+		id="com.mulgasoft.emacsplus.switchOtherWindow"
+		name="%windowswitchother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowshowother.command.description"
+		id="com.mulgasoft.emacsplus.showOtherWindow"
+		name="%windowshowother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
 
   </extension>
   
@@ -1259,6 +1283,12 @@
 	<handler
 		class="com.mulgasoft.emacsplus.e4.commands.WindowEnlargeHandler"
 		commandId="com.mulgasoft.emacsplus.enlargeWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.SwitchToBufferOtherHandler"
+		commandId="com.mulgasoft.emacsplus.switchOtherWindow"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.ShowBufferOtherHandler"
+		commandId="com.mulgasoft.emacsplus.showOtherWindow"/>
   </extension>
   
   <extension
@@ -1269,12 +1299,12 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 1"/>
 	<key
-		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"
+		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 2"/>
 	<key
-		commandId="com.mulgasoft.emacsplus.splitVerticalWindow"
+		commandId="com.mulgasoft.emacsplus.splitHorizontalWindow"
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 3"/>
@@ -1305,6 +1335,19 @@
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X }"/>
+		
+<!-- contextId="org.eclipse.ui.textEditorScope" -->
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.switchOtherWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 4 B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.showOtherWindow"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 4 CTRL+O"/>
   </extension>
 
  <!-- *************** Other Window Operations *************** -->
