@@ -389,15 +389,16 @@ public abstract class CompletionMinibuffer extends ExecutingMinibuffer implement
 			case 'r':
 				backwardSearch();
 				break;
-			case 'g':
-				if (isSearching) {
-					resetSearch();
-					break;
-				} 
 			case 'k':
 				// revert to initial state
 				resetSearch();
 				break;
+			case 'g':
+				if (isSearching) {
+					resetSearch();
+					break;
+				}
+				// otherwise, ^g interrupts
 			default:
 				leave();
 				result = true;

@@ -220,6 +220,9 @@ Split window behavior - Adapt the Emacs notion of window splitting to the Eclips
     * Deactivate Window (Ctrl-X 0):  Remove (duplicate) editor from the display. 
           o If the editor is the only one in its stack, the stack is deleted as well.
           o If the editor is the last instance, then it is not removed - the previous editor is activated
+    * Enlarge Window (Ctrl+X }): Make selected window larger
+	* Shrink Window (Ctrl+X {): Make selected window smaller
+	* Balance Windows (Ctrl+X +): Make windows same height or width in selected frame
     * Scroll Other Window (Ctrl-Alt-V or Alt-PageDown):  Scroll the other window one block of lines
     * Scroll Other Window Down (Alt-PageUp):  Scroll the other window down one block of lines
     * Begin Other Window (Alt-Home):  Go to the beginning of the buffer in the other window
@@ -240,7 +243,9 @@ Window navigation -
         o Search For Buffer (Ctrl-S, Ctrl-R): When in Switch To Buffer, entering Ctrl-S or Ctrl-R will enter i-search mode.  Characters entered will be searched for within the buffer list and the first (or last) match is displayed in the prompt area.  A subsequent Ctrl-S or Ctrl-R will display the next (or previous) match in the list.  <CR> will switch to the buffer currently displayed in the prompt area and exit Switch To Buffer.  Select Ctrl-G to exit i-search mode.    
     * Other Window (Ctrl-X O): Navigate to the previous editor window
           o Prefer a previous editor stack window if present
-    * Backwards Other Window (Ctrl-U Ctrl-X O): Navigate to the oldest previous editor window
+    
+    * Switch To Buffer Other Window (Ctrl-X 4 B): Select the buffer shown in the minibuffer in another window
+    * Display Buffer Other Window (Ctrl-X 4 Ctrl-O): Display the buffer shown in the minibuffer in another window without selecting it        
 
 
 Narrow Region - 
