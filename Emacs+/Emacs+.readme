@@ -167,7 +167,7 @@ Balance Expression Behavior (S-expressions) - These commands deal with balanced 
           o with a negative argument, the command moves backward and up one or more levels    
 
 
-Tags search behavior (without tags) - Adapt the Emacs notion of tags-search to Eclipse.  Search for the minibuffer string in the Project, current Working Set, or Workspace.  The minibuffer string is pre-populated with the current selection, or next word (if on the same line) and can be edited by the user.  Add a convenience binding (Alt-,) as an analog to tags-loop-continue.
+Tags-like search behavior - Adapt the Emacs notion of tags-search to Eclipse.  Search for the minibuffer string in the Project, current Working Set, or Workspace.  The minibuffer string is pre-populated with the current selection, or next word (if on the same line) and can be edited by the user.  Add a convenience binding (Alt-,) as an analog to tags-loop-continue.
           o On tags-search (and find-tag if the optional features are loaded - see below) before the command is executed the current location is stored in a ring buffer.  Use pop-tag-mark to return this location. 
           
     * Search in Project (Alt-S): Search for text in the Project
@@ -241,8 +241,10 @@ Window navigation -
             - Accepts wild cards (? and *) as well as simple regex strings
             - A history ring buffer
         o Search For Buffer (Ctrl-S, Ctrl-R): When in Switch To Buffer, entering Ctrl-S or Ctrl-R will enter i-search mode.  Characters entered will be searched for within the buffer list and the first (or last) match is displayed in the prompt area.  A subsequent Ctrl-S or Ctrl-R will display the next (or previous) match in the list.  <CR> will switch to the buffer currently displayed in the prompt area and exit Switch To Buffer.  Select Ctrl-G to exit i-search mode.    
-    * Other Window (Ctrl-X O): Navigate to the previous editor window
-          o Prefer a previous editor stack window if present
+
+	* Other Window (Ctrl-X O): Select another editor window in cyclic order
+          o Cycle through the active window in each stack if windows have been split
+          o Else, cycle through windows by their order in the current stack
     
     * Switch To Buffer Other Window (Ctrl-X 4 B): Select the buffer shown in the minibuffer in another window
     * Display Buffer Other Window (Ctrl-X 4 Ctrl-O): Display the buffer shown in the minibuffer in another window without selecting it        
@@ -321,6 +323,9 @@ Line and character commands
     * Recenter Top Bottom (Ctrl-L): Enhance Eclipse recenter to move current line to window center, top, and bottom, successively.
           o With no prefix argument, the first call redraws the frame and centers point vertically within the window.  Successive calls scroll the window, placing point on the top, bottom, and middle consecutively.  The cycling order is middle -> top -> bottom.
           o If called with Ctrl-U, move current line to window-line universal argument.
+    * Reposition Window (Ctrl-Alt-L): Make the current definition visible (if possible depending on the editor type)
+          o If called with Ctrl-U, move point to the beginning of the definition
+          o Known to work with the Java editor. Other languages TBD.
           
     * Count Lines Buffer (Ctrl-X L): Print number of lines in current buffer, and how many are before or after point
     * Count Lines Region (Alt-=): Print number of lines and characters in the region
@@ -400,12 +405,10 @@ Optional bindings:
     * Backward Balanced Expression (Alt-LEFT)
           o Rebind override - Backward History (Ctrl-X-LEFT)
 
-    * down-list (Ctrl-Alt-DOWN)
-    * backward-up-list (Ctrl-Alt-UP)
+    * Down List (Ctrl-Alt-DOWN)
+    * Backward Up List (Ctrl-Alt-UP)
 
-    * Next editor (Ctrl-Alt-L)
     * Next view (Ctrl-Alt-SHIFT-L)
-        o The combination of these two commands allow navigation through all visible tabs
 
     * Open line (Ctrl-O): Insert newline and leave cursor before it
           o Rebind override -  Show Outline: (Ctrl-]).

@@ -375,6 +375,17 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"		
 		sequence="COMMAND+^"/>
+	<key
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="Ctrl+M3+L"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.repositionWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="Ctrl+COMMAND+L"/>
 		
 	<key
 		contextId="org.eclipse.ui.textEditorScope"

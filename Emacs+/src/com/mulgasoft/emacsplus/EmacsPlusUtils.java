@@ -13,7 +13,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -33,7 +32,6 @@ import org.eclipse.core.commands.Parameterization;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.CommandException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.bindings.Binding;
 import org.eclipse.jface.bindings.BindingManager;
@@ -87,6 +85,8 @@ public class EmacsPlusUtils {
 	
 	// The assumption is that the position categories will be part of this document category
 	private static final String DOC_CAT = "__content_types_category";   									  //$NON-NLS-1$
+	// In Java at least, these point to foldable regions in the doc (as well as, oddly enough, spelling errors [& others?])
+	public static final String DOC_FNS = "__dflt_position_category";   									  //$NON-NLS-1$
 	// java specific comment
 	//	public static String JAVA_DOC = org.eclipse.jdt.ui.text.IJavaPartitions.JAVA_DOC;
 	// use javadoc string directly to avoid having a dependency of jdt.ui
@@ -160,11 +160,6 @@ public class EmacsPlusUtils {
 		return "cocoa".equals (SWT.getPlatform ());	//$NON-NLS-1$
 	}
 
-	private static boolean checkE4() {
-		// More hackery - determine if we're 4.x or 3.x - is there a better way?
-		return Platform.getBundle("org.eclipse.e4.ui.workbench") != null;	//$NON-NLS-1$ 
-	}
-	
 	public static void setOptionIMEPreferenece(boolean optionIMEPreferenece) {
 		disableOptionIMEPreferenece = optionIMEPreferenece;
 	}
@@ -174,11 +169,16 @@ public class EmacsPlusUtils {
 	}
 
 	public static String getTypeCategory(IDocument doc){
+		return getTypeCategory(doc, DOC_CAT);
+	}
+	
+	public static String getTypeCategory(IDocument doc, String cat){
 		String result = null;
 		String[] cats = doc.getPositionCategories();
-		for (int i = 0; i < cats.length; i++) {
-			if (cats[i].contains(DOC_CAT)) {
-				result = cats[i];
+		for (String icat : cats) {
+			if (icat.contains(cat)) {
+				result = icat;
+				break;
 			}
 		}
 		return result;

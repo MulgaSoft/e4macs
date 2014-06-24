@@ -21,7 +21,7 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 
 /**
  * Other-Window: Rotate forward (or backward if uArg < 0) through the selected element of each frame (PartStack)
- * If only one frame, rotate through the editors it contains
+ * If only one frame, rotate through the editors it contains by stack order
  * 
  * @author mfeber - Initial API and implementation
  */
