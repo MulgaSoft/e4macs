@@ -85,8 +85,8 @@ public class EmacsPlusUtils {
 	
 	// The assumption is that the position categories will be part of this document category
 	private static final String DOC_CAT = "__content_types_category";   									  //$NON-NLS-1$
-	// In Java at least, these point to foldable regions in the doc (as well as, oddly enough, spelling errors [& others?])
-	public static final String DOC_FNS = "__dflt_position_category";   									  //$NON-NLS-1$
+	// In Java at least, these point to collapsible regions in the doc as well as other things 
+	public static final String DOC_FNS = "__dflt_position_category";   									      //$NON-NLS-1$
 	// java specific comment
 	//	public static String JAVA_DOC = org.eclipse.jdt.ui.text.IJavaPartitions.JAVA_DOC;
 	// use javadoc string directly to avoid having a dependency of jdt.ui
