@@ -511,6 +511,19 @@
 	  </commandParameter>
     </command>
 
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%reposition.command.description"
+		id="com.mulgasoft.emacsplus.repositionWindow"
+		name="%reposition.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+    </command>
+    
  	<!-- Emacs+ version that respects narrowed regions -->   
  	<command
 		categoryId="org.eclipse.ui.category.textEditor"
@@ -556,6 +569,9 @@
 		class="com.mulgasoft.emacsplus.commands.RecenterHandler"
 		commandId="com.mulgasoft.emacsplus.recenterTopBottom"/> 
 	<handler
+		class="com.mulgasoft.emacsplus.commands.RepositionHandler"
+		commandId="com.mulgasoft.emacsplus.repositionWindow"/> 
+	<handler
 		class="com.mulgasoft.emacsplus.commands.DeleteWhitespaceHandler"
 		commandId="com.mulgasoft.emacsplus.deleteTrailingWhitespace"/> 
   </extension>
@@ -587,6 +603,11 @@
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="Ctrl+L"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.repositionWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Ctrl+M3+L"/>
   </extension>
 
  <!-- ********************  Comment  ********************* -->        
@@ -1165,12 +1186,26 @@
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%splithorizontal.command.description" 
 		id="com.mulgasoft.emacsplus.splitHorizontalWindow"
-		name="%splithorizontal.command.name" />
+		name="%splithorizontal.command.name"> 
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%splitvertical.command.description" 
 		id="com.mulgasoft.emacsplus.splitVerticalWindow"
-		name="%splitvertical.command.name" />
+		name="%splitvertical.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%joinwindow.command.description" 

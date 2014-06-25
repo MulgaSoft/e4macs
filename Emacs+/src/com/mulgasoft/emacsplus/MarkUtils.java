@@ -721,6 +721,10 @@ public class MarkUtils {
 		}
 	}
 
+	public static int model2WidgetOffset(ITextEditor editor, int pos) {
+		return MarkUtils.model2WidgetOffset(findSourceViewer(editor), pos);
+	}
+
 	// Totally Evil
 	// The protected method & private field that gives us the editor viewer for registration purposes
 	private static String RE_METHOD_ID = "getSourceViewer"; //$NON-NLS-1$ 

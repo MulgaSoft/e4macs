@@ -103,6 +103,7 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 			MPart miniPart = (MPart) ((IEditorPart) minibufferResult).getSite().getService(MPart.class);
 			if (getOrderedStacks(apart).size() == 1) {
 				// case 1: 1 frame, split with miniPart
+				// convenience hack: change direction on uArg
 				splitIt(miniPart, getDirection((isUniversalPresent()) ? !DISPLAY_HORIZONTAL : DISPLAY_HORIZONTAL));
 			} else {
 				// case 2: multiple frames, move to adjacent frame

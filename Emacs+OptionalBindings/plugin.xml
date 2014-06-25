@@ -31,11 +31,13 @@
 		contextId="org.eclipse.ui.textEditorScope" 
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		sequence="CTRL+O"/>
+	<!-- Removed in favor of actual emacs cmd: reposition window
 	<key
 		commandId="org.eclipse.ui.window.nextEditor" 
 		contextId="org.eclipse.ui.contexts.window" 
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		sequence="CTRL+M3+L"/>
+		-->
 	<key
 		commandId="org.eclipse.ui.edit.undo" 
 		contextId="org.eclipse.ui.contexts.window" 

@@ -7,6 +7,7 @@
 
 <!-- ****************** Rebranded keybindings  ****************** -->
   <extension point="org.eclipse.ui.bindings">    
+  <!-- Removed in favor of actual emacs cmd: reposition window
 	<key
 		contextId="org.eclipse.ui.contexts.window" 
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
@@ -18,7 +19,7 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration" 
 		platform="cocoa"
 		sequence="CTRL+COMMAND+L"/>
-		
+	-->	
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
