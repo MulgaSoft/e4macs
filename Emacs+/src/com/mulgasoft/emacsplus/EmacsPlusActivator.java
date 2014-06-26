@@ -95,8 +95,6 @@ public class EmacsPlusActivator extends AbstractUIPlugin {
 		// must be run in a UI thread
 		EmacsPlusUtils.asyncUiRun(new Runnable() {
 			public void run() {
-				@SuppressWarnings("unused")
-				boolean initKeys = DynamicInitializer.AddBindingsOnce.bind;
 				KbdMacroSupport.getInstance().autoLoadMacros();
 			}
 		});
