@@ -52,13 +52,17 @@ public class DynamicInitializer {
 	}
 	
 
+	public static void initialize() {
+		@SuppressWarnings("unused") // this ensures bindings are added only once
+		boolean initKeys = DynamicInitializer.AddBindingsOnce.bind;		
+	}
+	
 	/**
-	 * Add the bindings to the Emacs+ scheme
+	 * For each, if the command exists in the current system, add the new binding to the Emacs+ scheme
 	 *
 	 * @param editor
 	 * @param bindingResult
 	 */
-	//	public static void addBindings(ITextEditor editor, Set<MinderBinder> bindings) {
 	private static void addBindings(Set<MinderBinder> bindings) {
 
 		IBindingService service = ((IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class));
@@ -170,12 +174,12 @@ public class DynamicInitializer {
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.text.c.toggle.comment",CEDITOR,"ESC ;")); 												 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.open.quick.type.hierarchy",CEDITOR,"CTRL+["));											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.opendecl",CEDITOR,"ESC .",MarkUtils.getTagListener()));   								 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.cdt.ui.edit.opendecl",CEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener()));   								 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("org.eclipse.cdt.ui.edit.opendecl",CEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener()));   					 //$NON-NLS-1$ //$NON-NLS-2$
 
 		// ruby bindings (aptana)
 		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.toggle.comment",RBYEDITOR,"ESC ;")); 										 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"ESC .",MarkUtils.getTagListener())); 				 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener())); 				 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener())); 	 //$NON-NLS-1$ //$NON-NLS-2$
 		
 	}};
 

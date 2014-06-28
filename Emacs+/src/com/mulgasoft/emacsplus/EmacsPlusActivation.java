@@ -21,6 +21,9 @@ import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.bindings.Binding;
+import org.eclipse.jface.bindings.BindingManagerEvent;
+import org.eclipse.jface.bindings.IBindingManagerListener;
+import org.eclipse.jface.bindings.Scheme;
 import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -45,6 +48,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.internal.keys.BindingService;
+import org.eclipse.ui.keys.IBindingService;
 import org.eclipse.ui.part.MultiEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -123,10 +127,49 @@ public enum EmacsPlusActivation implements IPartListener2 {
 			// detect when the workbench is (re)activated, or a new window is opened
 			bench.addWindowListener(KillRingListeners.getActivationListener());
 			bench.addWindowListener(getWindowActivationListener());
+			activateKeySchemeListener();			
 			activatePage(window,true);
 		}
 	}
 
+	/**
+	 * Potentially delay adding the dynamic bindings as even though they are in the emacs+ scheme, prefix keys can
+	 * still wind up blocking any other usage in the default binding due to yet another eclipse keybinding issue.
+	 */
+	private void activateKeySchemeListener() {
+		IBindingService bindingSvc = ((IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class));		
+		// if emacs+ scheme is already enabled, add the dynamic bindings
+		activateDynamics(bindingSvc.getActiveScheme().getId());
+		bindingSvc.addBindingManagerListener(new IBindingManagerListener() {
+
+			public void bindingManagerChanged(BindingManagerEvent event) {
+				if (event.isActiveSchemeChanged()) {
+					Scheme schemeIn = event.getManager().getActiveScheme();
+					// Scheme schemeOut = event.getScheme();
+					// when changing schemes, this is called twice - 
+					// - once with the schemeIn=null & schemeOut=exiting scheme
+					// - second with the schemeIn=new Scheme & schemeOut=null
+					// but the dynamics will only be activated once either on eclipse start (above) or here on change to...
+					if (schemeIn != null) {
+						activateDynamics(schemeIn.getId());
+					}
+				}
+			}
+		});
+	}
+	
+	private void activateDynamics(final String id) {
+		if (EmacsPlusUtils.EMP_SCHEMEID.equals(id)) {
+			// Run in next ui thread to ensure that the keybinding is completely set up and the dynamic bindings
+			// are added to the emacs+ scheme
+			EmacsPlusUtils.asyncUiRun(new Runnable() {
+				public void run() {
+					DynamicInitializer.initialize();
+				}
+			});
+		}
+	}
+		
 	/**
 	 * @param window
  	 * @param onPlugActivation true on plugin activation

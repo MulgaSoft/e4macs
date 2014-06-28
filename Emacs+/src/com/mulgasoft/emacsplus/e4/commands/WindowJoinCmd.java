@@ -168,7 +168,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 		if (pstack.getParent().getContainerData() == null) {
 			int s1 = getIntData(pstack);;
 			if (dropStack.getParent().getContainerData() == null) {
-				// stacks are vertically size by side, add their sizes together 
+				// stacks are vertically side by side, add their sizes together 
 				dropStack.setContainerData(String.valueOf(s1 + getIntData(dropStack)));
 			} else {
 				// source is vertical & dest is in a horizontal containing PartSash

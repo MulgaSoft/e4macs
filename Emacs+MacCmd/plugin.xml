@@ -880,5 +880,73 @@
 		platform="cocoa"		
 		sequence="COMMAND+D"/>
 		
-  </extension>
+	<!-- other window commands -->
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="CTRL+M3+V"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="CTRL+COMMAND+V"/>
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="M3+PAGE_DOWN"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+PAGE_DOWN"/>
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="M3+PAGE_UP"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.scrollOtherDown"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+PAGE_UP"/>
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="M3+HOME"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.beginOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+HOME"/>
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="M3+END"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.endOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+END"/>
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="M3+INSERT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.recenterOther"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+INSERT"/>
+  </extension>		
+  
 </plugin>

@@ -3,16 +3,16 @@
    <description url="http://www.mulgasoft.com/emacsplus/e4/update-site">
       Emacs+ update site
    </description>
-   <feature url="features/com.mulgasoft.emacsplus.feature_4.0.3.jar" id="com.mulgasoft.emacsplus.feature" version="4.0.3">
-      <category name="Emacs+"/>
-   </feature>
-   <feature url="features/com.mulgasoft.emacsplus.maccmd.feature_4.0.3.jar" id="com.mulgasoft.emacsplus.maccmd.feature" version="4.0.3" os="macosx">
-      <category name="Emacs+"/>
-   </feature>
    <feature url="features/com.mulgasoft.emacsplus.maccmd.optional.features_4.0.3.jar" id="com.mulgasoft.emacsplus.maccmd.optional.features" version="4.0.3" os="macosx">
       <category name="Emacs+"/>
    </feature>
    <feature url="features/com.mulgasoft.emacsplus.optional.features_4.0.3.jar" id="com.mulgasoft.emacsplus.optional.features" version="4.0.3">
+      <category name="Emacs+"/>
+   </feature>
+   <feature url="features/com.mulgasoft.emacsplus.feature_4.0.4.jar" id="com.mulgasoft.emacsplus.feature" version="4.0.4">
+      <category name="Emacs+"/>
+   </feature>
+   <feature url="features/com.mulgasoft.emacsplus.maccmd.feature_4.0.4.jar" id="com.mulgasoft.emacsplus.maccmd.feature" version="4.0.4" os="macosx">
       <category name="Emacs+"/>
    </feature>
    <category-def name="Emacs+" label="Emacs+">
