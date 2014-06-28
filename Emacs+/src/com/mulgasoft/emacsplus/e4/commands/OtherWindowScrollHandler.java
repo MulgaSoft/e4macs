@@ -13,7 +13,6 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 
-// TODO Convert to gnu-std behavior
 /**
  * Implement: scroll-other-window
  * 
@@ -29,7 +28,8 @@ public class OtherWindowScrollHandler extends E4WindowHandler<OtherWindowCmd> {
 
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, IEmacsPlusCommandDefinitionIds.FORWARD_BLOCK);
 		super.addToContext(ctx);
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, (getUniversalCount() < 0) ? IEmacsPlusCommandDefinitionIds.SCROLL_DOWN :
+			IEmacsPlusCommandDefinitionIds.SCROLL_UP);
 	}
 }

@@ -223,8 +223,8 @@ Split window behavior - Adapt the Emacs notion of window splitting to the Eclips
     * Enlarge Window (Ctrl+X }): Make selected window larger
 	* Shrink Window (Ctrl+X {): Make selected window smaller
 	* Balance Windows (Ctrl+X +): Make windows same height or width in selected frame
-    * Scroll Other Window (Ctrl-Alt-V or Alt-PageDown):  Scroll the other window one block of lines
-    * Scroll Other Window Down (Alt-PageUp):  Scroll the other window down one block of lines
+    * Scroll Other Window (Ctrl-Alt-V or Alt-PageDown):  Scroll the other window near full screen
+    * Scroll Other Window Down (Alt-PageUp):  Scroll the other window down near full screen
     * Begin Other Window (Alt-Home):  Go to the beginning of the buffer in the other window
     * End Other Window (Alt-End):  Go to the end of the buffer in the other window
     * Recenter Other Window (Alt-Insert):  Center point in the other window
