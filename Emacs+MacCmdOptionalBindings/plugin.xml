@@ -5,6 +5,26 @@
 		name="Emacs+ Mac Command Optional Bindings" version="0.0.0" 
 		provider-name="MulgaSoft" -->
 
+  <!-- **************** unbindings **************** -->
+  
+  <!-- unbind Eclipse's bogus binding for comment -->
+    <extension
+         point="org.eclipse.ui.bindings">
+
+    <key
+      contextId="org.eclipse.jdt.ui.javaEditorScope"
+      schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
+	  platform="cocoa"
+      sequence="COMMAND+/"/>
+   <key
+      contextId="org.eclipse.jdt.ui.propertiesEditorScope"
+      schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
+ 	  platform="cocoa"
+      sequence="COMMAND+/"/>
+
+	</extension>
+	
+
 <!-- ****************** Rebranded keybindings  ****************** -->
   <extension point="org.eclipse.ui.bindings">    
   <!-- Removed in favor of actual emacs cmd: reposition window

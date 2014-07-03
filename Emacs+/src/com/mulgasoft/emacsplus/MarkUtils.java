@@ -87,8 +87,8 @@ public class MarkUtils {
 			
 			put(IEmacsPlusCommandDefinitionIds.NEXT_LINE, IEmacsPlusCommandDefinitionIds.PREVIOUS_LINE);
 			put(IEmacsPlusCommandDefinitionIds.PREVIOUS_LINE, IEmacsPlusCommandDefinitionIds.NEXT_LINE);
-			put(IEmacsPlusCommandDefinitionIds.BEGIN_LINE, IEmacsPlusCommandDefinitionIds.END_LINE);
-			put(IEmacsPlusCommandDefinitionIds.END_LINE, IEmacsPlusCommandDefinitionIds.BEGIN_LINE);
+			put(IEmacsPlusCommandDefinitionIds.BEGIN_LINE, IEmacsPlusCommandDefinitionIds.BEGIN_LINE);
+			put(IEmacsPlusCommandDefinitionIds.END_LINE, IEmacsPlusCommandDefinitionIds.END_LINE);
 			
 			put(IEmacsPlusCommandDefinitionIds.SCROLL_UP, IEmacsPlusCommandDefinitionIds.SCROLL_DOWN);
 			put(IEmacsPlusCommandDefinitionIds.SCROLL_DOWN, IEmacsPlusCommandDefinitionIds.SCROLL_UP);

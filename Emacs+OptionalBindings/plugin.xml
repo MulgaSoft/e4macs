@@ -21,6 +21,17 @@
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" 
 		sequence="Ctrl+W"/>                
+		
+	<!-- unbind Eclipse's bogus binding for comment -->
+    <key
+      contextId="org.eclipse.jdt.ui.javaEditorScope"
+      schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
+      sequence="M3+/"/>
+    <key
+      contextId="org.eclipse.jdt.ui.propertiesEditorScope"
+      schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
+      sequence="M3+/"/>
+
   </extension>		
   
 <!-- ****************** Rebranded keybindings  ****************** -->

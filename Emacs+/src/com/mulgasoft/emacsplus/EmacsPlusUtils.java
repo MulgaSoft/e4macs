@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -384,7 +385,7 @@ public class EmacsPlusUtils {
 	 * @throws NotHandledException
 	 * @throws CommandException 
 	 */
-	public static Object executeCommand(String commandId,Event event)
+	public static Object executeCommand(String commandId, Event event)
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {
 		return executeCommand(commandId,event,(IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class));
 	}
@@ -401,12 +402,12 @@ public class EmacsPlusUtils {
 	 * @throws NotHandledException
 	 * @throws CommandException 
 	 */
-	public static Object executeCommand(String commandId,Event event, IWorkbenchPart editor)
+	public static Object executeCommand(String commandId, Event event, IWorkbenchPart editor)
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {
 		return executeCommand(commandId,event,(IHandlerService) editor.getSite().getService(IHandlerService.class));
 	}
 	
-	private static Object executeCommand(String commandId,Event event,IHandlerService service)
+	private static Object executeCommand(String commandId, Event event, IHandlerService service)
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {
 		Object result = null;
 		if (service != null) {
@@ -436,10 +437,18 @@ public class EmacsPlusUtils {
 	 */
 	public static Object executeCommand(String commandId, Map<String,?> parameters, Event event)
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {
-		return executeCommand(commandId,parameters,event,
+		return executeCommand(commandId, parameters, event,
 				(ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class),
 				(IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class));
 	}
+	
+	public static Object executeCommand(String commandId, Integer count, Event event, IWorkbenchPart editor) 
+	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {	
+			Map<String, Integer> parameters = new HashMap<String, Integer>();
+			parameters.put(EmacsPlusUtils.UNIVERSAL_ARG, count);
+		return (editor == null) ? executeCommand(commandId, parameters, event) : executeCommand(commandId, parameters, event, editor);
+	}
+	
 	/**
 	 * Invoke the specified parameterized command using the handler service from the editor site
 	 * 

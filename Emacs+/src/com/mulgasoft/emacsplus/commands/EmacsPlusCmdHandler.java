@@ -48,7 +48,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorExtension;
 import org.eclipse.ui.texteditor.ITextEditorExtension2;
 
+import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
+import com.mulgasoft.emacsplus.IBeepListener;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.MarkUtils;
 
@@ -392,6 +394,13 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		return result;
 	}
 
+	private class BInterrupt implements IBeepListener {
+		public boolean interrupted = false;
+		public void beepInterrupt() {
+			interrupted = true;
+		}
+	};
+	
 	/**
 	 * Call the transform method universal-argument times if it is a looping command, else once.
 	 * Wraps it up with an undoer and suppresses redraw as appropriate
@@ -413,10 +422,13 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			// enable commands that support ^U 0 via count
 			ucount = 1;
 		}
+		BInterrupt interrupt = null;
 		// Now transform the selection
 		try {
 			armResult();
 			if (undoProtect) {
+				interrupt = new BInterrupt();
+				Beeper.addBeepListener(interrupt);
 				rt = (IRewriteTarget) editor.getAdapter(IRewriteTarget.class);
 				if (rt != null) {
 					rt.beginCompoundChange();
@@ -447,12 +459,16 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 						break;
 					}
 				}
+				if (undoProtect && interrupt.interrupted) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			// allow generic break out of count iteration
 			newOffset = NO_OFFSET;
 		} finally {
 			if (undoProtect) {
+				Beeper.removeBeepListener(interrupt);
 				setRedraw(widget, true);
 				if (rt != null) {
 					rt.endCompoundChange();
@@ -1177,14 +1193,10 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		String did = null;
 		// pass universal arg if non-default and cmd accepts it
 		if (cmd.getParameter(UNIVERSAL) != null) {
-			Map<String, String> args = new HashMap<String, String>();
-			args.put(UNIVERSAL, Integer.toString(count));
-			executeCommand(id, args, event, editor);
+			EmacsPlusUtils.executeCommand(id, count, event, editor);
 		} else if ((did = getInternalCmd(id)) != null) {
 			// Emacs+ internal commands should support +- universal-argument
-			Map<String, String> args = new HashMap<String, String>();
-			args.put(UNIVERSAL, Integer.toString(count));
-			executeCommand(did, args, event, editor);
+			EmacsPlusUtils.executeCommand(did, count, event, editor);
 		} else if (count != 1 && (isUniversalCmd(id) || (alwaysUniversal && !id.startsWith(EmacsPlusUtils.MULGASOFT)))) {
 			// only non-Emacs+ commands should be invoked here
 			executeWithDispatch(editor, getUniversalCmd(id), count);

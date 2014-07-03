@@ -19,6 +19,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor;
 
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
+import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 
 /**
  * Dispatch a command against the adjacent frame's window 
@@ -29,7 +30,7 @@ import com.mulgasoft.emacsplus.EmacsPlusUtils;
 public class OtherWindowCmd extends E4WindowCmd {
 	
 		@Execute
-		protected void doOtherWindow(@Active MPart apart, @Named(E4CmdHandler.CMD_CTX_KEY)String cmd) {
+		protected void doOtherWindow(@Active MPart apart, @Named(E4CmdHandler.CMD_CTX_KEY)String cmd, @Active EmacsPlusCmdHandler handler) {
 			MElementContainer<MUIElement> otherStack = getAdjacentElement(getParentStack(apart).getStack(), true);
 			MPart other = (MPart)otherStack.getSelectedElement();
 			// TODO An egregious hack that may break at any time
@@ -38,7 +39,11 @@ public class OtherWindowCmd extends E4WindowCmd {
 				IEditorPart editor = ((CompatibilityEditor) other.getObject()).getEditor();
 				try {
 					reactivate(other);
-					EmacsPlusUtils.executeCommand(cmd, null, editor);
+					if (handler.isUniversalPresent()) {
+						EmacsPlusUtils.executeCommand(cmd, handler.getUniversalCount(), null, editor);
+					} else {
+						EmacsPlusUtils.executeCommand(cmd, null, editor);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

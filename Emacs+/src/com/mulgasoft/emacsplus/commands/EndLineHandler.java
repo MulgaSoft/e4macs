@@ -15,6 +15,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 
 /**
@@ -28,8 +29,21 @@ public class EndLineHandler extends EmacsMovementHandler {
 	@Override
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
+		int count = getUniversalCount();
+		if (Math.abs(count) > 1) {
+			try {
+				EmacsPlusUtils.executeCommand(IEmacsPlusCommandDefinitionIds.NEXT_LINE, (count < 0 ? count + 1 : count -1), null, editor);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		moveWithMark(editor, currentSelection, IEmacsPlusCommandDefinitionIds.LINE_END, IEmacsPlusCommandDefinitionIds.SELECT_LINE_END);
 		return NO_OFFSET;
 	}
 
+	@Override
+	protected boolean isLooping() {
+		return false;
+	}
+	
 }

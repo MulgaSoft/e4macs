@@ -701,9 +701,40 @@
 		contextId="org.eclipse.jdt.ui.javaEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="M3+N"/>
+		
+	<key
+		commandId="com.mulgasoft.emacsplus.appendcomment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+;"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.preappendcomment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC P"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.preappendcomment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+P"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.postappendcomment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC N"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.postappendcomment"
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+N"/>
 	<!-- disable on Mac OS X as it conflicts with <Option>+n non-spacing-mark ñ -->	
 	<key
 		contextId="org.eclipse.jdt.ui.javaEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="M3+N"/>
+	<key
+		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="M3+N"/>
@@ -1210,12 +1241,26 @@
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%joinwindow.command.description" 
 		id="com.mulgasoft.emacsplus.joinWindow"
-		name="%joinwindow.command.name" />
+		name="%joinwindow.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%deletewindow.command.description" 
 		id="com.mulgasoft.emacsplus.deleteWindow"
-		name="%deletewindow.command.name" />            
+		name="%deletewindow.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>            
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%closeother.command.description"
@@ -1964,13 +2009,27 @@
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%beginline.command.description"
 		id="com.mulgasoft.emacsplus.beginLine"
-		name="%beginline.command.name"/>
+		name="%beginline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>                
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%endline.command.description"
 		id="com.mulgasoft.emacsplus.endLine"
-		name="%endline.command.name"/>
-                
+		name="%endline.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>                
+	
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%scrollup.command.description"
