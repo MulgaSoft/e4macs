@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.0.4"
+      version="4.0.5"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,6 +11,10 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
+4.0.5:
+- Enhance semantics of begin/end-line
+- Remove Eclipse&apos;s emacs scheme bogus binding of M-/
+- Fix next/previous comment bindings
 4.0.4:
 - Improve Scroll Other Window
 - Add Mac Cmd bindings for Other Window commands

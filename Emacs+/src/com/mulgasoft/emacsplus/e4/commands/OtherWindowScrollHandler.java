@@ -28,8 +28,7 @@ public class OtherWindowScrollHandler extends E4WindowHandler<OtherWindowCmd> {
 
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, IEmacsPlusCommandDefinitionIds.SCROLL_UP);
 		super.addToContext(ctx);
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, (getUniversalCount() < 0) ? IEmacsPlusCommandDefinitionIds.SCROLL_DOWN :
-			IEmacsPlusCommandDefinitionIds.SCROLL_UP);
 	}
 }

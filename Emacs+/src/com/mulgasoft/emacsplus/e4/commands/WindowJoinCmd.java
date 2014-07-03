@@ -28,6 +28,7 @@ import org.eclipse.ui.IEditorPart;
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
+import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 
 /**
  * Join frames together based on the context argument
@@ -43,7 +44,8 @@ public class WindowJoinCmd extends E4WindowCmd {
 	}
 	
 	@Execute
-	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)Join jtype) {
+	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)Join jtype,
+			@Active EmacsPlusCmdHandler handler) {
 
 		preJoin(editor);
 		switch (jtype) {
@@ -53,6 +55,11 @@ public class WindowJoinCmd extends E4WindowCmd {
 		case ALL:
 			joinAll(apart);
 			break;
+		}
+		if (handler.isUniversalPresent()) {
+			// convenience hack
+			// change setting without changing preference store
+			setSplitSelf(!isSplitSelf());
 		}
 		reactivate(apart);
 		forceFocus();
