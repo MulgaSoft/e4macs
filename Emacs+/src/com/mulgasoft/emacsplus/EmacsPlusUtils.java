@@ -65,6 +65,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
 import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
+import org.eclipse.jface.util.Util;
 
 // Getting an arbitrary widget:
 //	Control focus= page.getWorkbenchWindow().getShell().getDisplay().getFocusControl();
@@ -131,7 +132,7 @@ public class EmacsPlusUtils {
 	private static final String BM_MEMBER_ID = "bindingManager";											  //$NON-NLS-1$
 
 	private static final class MacCheck {  
-		static final boolean isMac = checkMac(); 
+		static final boolean isMac = Util.isMac(); 
 	}
 
 	// control whether to disable pre-edit of Non_Spacing_Marks: i.e. characters intended to be 
@@ -152,14 +153,9 @@ public class EmacsPlusUtils {
 		return EmacsPlusActivator.getDefault().getPreferenceStore();
 	}
 	
-	// this isn't added to jface.util.Util until Galileo
 	public static boolean isMac() {
 		return MacCheck.isMac;
 	}	
-	private static boolean checkMac() {
-		// Hackery to determine if we're macish - is there a better way?
-		return "cocoa".equals (SWT.getPlatform ());	//$NON-NLS-1$
-	}
 
 	public static void setOptionIMEPreferenece(boolean optionIMEPreferenece) {
 		disableOptionIMEPreferenece = optionIMEPreferenece;
