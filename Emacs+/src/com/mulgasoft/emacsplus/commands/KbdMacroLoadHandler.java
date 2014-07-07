@@ -277,11 +277,13 @@ public class KbdMacroLoadHandler extends KbdMacroFileHandler {
 	 */
 	private void checkConflicts(BindingService service, KeySequence sequence, Binding binding) {
 		Collection<Binding> conflicts = getTotalBindings().get(sequence);
-		for (Binding conflict : conflicts) {
-			if (conflict != binding
-					&& binding.getContextId().equals(conflict.getContextId())
-					&& binding.getSchemeId().equals(conflict.getSchemeId())) {
-				service.removeBinding(conflict);
+		if (conflicts != null) {
+			for (Binding conflict : conflicts) {
+				if (conflict != binding
+						&& binding.getContextId().equals(conflict.getContextId())
+						&& binding.getSchemeId().equals(conflict.getSchemeId())) {
+					service.removeBinding(conflict);
+				}
 			}
 		}
 	}

@@ -40,10 +40,13 @@ public class DynamicInitializer {
 	}
 
 	private static boolean addOnce() {
-		// kludge this until I find a better way to determine if the optional or other plugins are loaded
 		List<String>emacsIds = EmacsPlusActivator.getDefault().getLoadedList();
-		if (EmacsPlusUtils.isMac() && emacsIds.contains(EmacsPlusUtils.EMP_MACCMD_OPT_STR) ) {
-			addBindings(cmdBindings);
+		if (EmacsPlusUtils.isMac()) {
+			addBindings(macBindings);
+			// kludge this until I find a better way to determine if the optional or other plugins are loaded
+			if  (emacsIds.contains(EmacsPlusUtils.EMP_MACCMD_OPT_STR) ) {
+				addBindings(cmdBindings);
+			}
 		} else if (emacsIds.contains(EmacsPlusUtils.EMP_OPT_STR) ) {
 			addBindings(altBindings);
 		}
@@ -137,6 +140,7 @@ public class DynamicInitializer {
 
 	}
 
+	private static final String WINDOW = "org.eclipse.ui.contexts.window";					  //$NON-NLS-1$
 	private static final String JEDITOR = "org.eclipse.jdt.ui.javaEditorScope"; 			  //$NON-NLS-1$
 	private static final String JSEDITOR = "org.eclipse.wst.jsdt.ui.javaEditorScope";   	  //$NON-NLS-1$
 	private static final String JSVEDITOR = "org.eclipse.wst.jsdt.ui.javascriptViewScope";    //$NON-NLS-1$
@@ -212,6 +216,13 @@ public class DynamicInitializer {
 		
 	}};
 
+	@SuppressWarnings("serial")
+	private static final Set<MinderBinder> macBindings = new HashSet<MinderBinder>() {{
+		// NB: adding this to a plugin.xml doesn't work, so add it here
+		// TODO does a similar command exist on other platforms?
+		add(new MinderBinder("org.eclipse.ui.cocoa.fullscreenWindow",WINDOW,"CTRL+X CTRL+M")); //$NON-NLS-1$ //$NON-NLS-2$
+	}};
+	
 	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> cmdBindings = new HashSet<MinderBinder>() {{
 
