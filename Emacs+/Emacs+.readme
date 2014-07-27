@@ -251,10 +251,10 @@ Window navigation -
 
 Frame commands - 
 
-    * Make Frame (Ctrl-X 5 2): Split the editor stack horizontally and put the current editor below the others
+    * Make Frame (Ctrl-X 5 2): Make a new frame using the current buffer
           o When the split editor preference is checked (default), the current editor is split and moved to a new frame
-          o The preferences Initial/Default split frame rectangles when not 0,0,0,0 specify where to place the first and subsequent frames
-          [NB: Eclipse always forces detached frames to be in front of the workbench window when overlapped]
+          o The preferences Initial/Default split frame rectangles when not 0,0,0,0 specify where to place the first/subsequent frames
+            [NB: Eclipse always forces detached frames to be in front of the workbench window when overlapped]
     * Join Frame (Ctrl+X 5 0): Join current frame to the main frame
 	* Join Other Frames (Ctrl+X 5 1): Join all frames to the main frame
 	* Other Frame (Ctrl+X 5 O): Activate the next editor frame
