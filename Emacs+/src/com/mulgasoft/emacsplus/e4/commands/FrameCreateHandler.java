@@ -8,20 +8,23 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import javax.inject.Inject;
-
-import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 
 /**
- * Common base class for E4 commands
+ * E4 Dispatch method for make-frame
  * 
  * @author mfeber - Initial API and implementation
  */
-public abstract class E4Cmd {
+public class FrameCreateHandler extends E4WindowHandler<FrameCreateCmd> {
+
+	public FrameCreateHandler() {
+		super(FrameCreateCmd.class);
+	}
 	
-	@Inject protected MApplication application;
-	@Inject protected EPartService partService;
-	@Inject protected EModelService modelService;
+	@Override
+	protected void addToContext(IEclipseContext ctx) {
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, WindowSplitCmd.getDirection(true));
+		super.addToContext(ctx);
+	}
+
 }

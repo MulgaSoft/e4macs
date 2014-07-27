@@ -46,7 +46,6 @@ public class WindowJoinCmd extends E4WindowCmd {
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)Join jtype,
 			@Active EmacsPlusCmdHandler handler) {
-
 		preJoin(editor);
 		switch (jtype) {
 		case ONE:
@@ -70,7 +69,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * Use a generic command to remove duplicates
 	 * @param editor
 	 */
-	private void preJoin(IEditorPart editor) {
+	protected void preJoin(IEditorPart editor) {
 		if (isSplitSelf()) {
 			try {
 				EmacsPlusUtils.executeCommand(IEmacsPlusCommandDefinitionIds.CLOSE_OTHER_INSTANCES, null, editor);
@@ -82,14 +81,12 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * Merge the stack containing the selected part into its neighbor
 	 * 
 	 * @param apart
-	 * @param editor
 	 */
-	private void joinOne(MPart apart) {
+	void joinOne(MPart apart) {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> pstack = ps.getStack();
 		MPart part = ps.getPart();		
-		
-		if (pstack == null || join2Stacks(pstack, getAdjacentElement(pstack, true), part) == null) {
+		if (pstack == null || join2Stacks(pstack, getAdjacentElement(pstack, part, true), part) == null) {
 			// Invalid state 
 			Beeper.beep();
 		}
@@ -100,7 +97,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * 
 	 * @param apart - the selected MPart
 	 */
-	private void joinAll(MPart apart) {
+	void joinAll(MPart apart) {
 		List<MElementContainer<MUIElement>> stacks = getOrderedStacks(apart);
 		if (stacks.size() > 1) {
 
@@ -135,7 +132,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * @param apart - the initiating part
 	 * @return the enhanced dropStack
 	 */
-	private MElementContainer<MUIElement> join2Stacks(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack, MPart apart) {
+	protected MElementContainer<MUIElement> join2Stacks(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack, MPart apart) {
 		if (dropStack != null && ((MPartSashContainerElement)dropStack) instanceof MPartStack) {
 			List<MUIElement> eles = pstack.getChildren();
 			boolean hasPart = apart != null;
@@ -171,7 +168,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * @param pstack - source stack
 	 * @param dropStack - destination stack
 	 */
-	private void checkSizeData(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack) {
+	protected void checkSizeData(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack) {
 		if (pstack.getParent().getContainerData() == null) {
 			int s1 = getIntData(pstack);;
 			if (dropStack.getParent().getContainerData() == null) {
@@ -193,7 +190,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * @param editor
 	 * @param apart
 	 */
-	private void forceFocus() {
+	protected void forceFocus() {
 		if (isMac()) 
 			shell.forceFocus();
 	}

@@ -13,19 +13,19 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 
 /**
- * Prompt for a buffer and display it in another frame. If:
- *  - only one stack, then split and display new buffer
- *  - multiple stacks, move buffer to adjacent stack if not in destination stack,
- *  - else simply expose in destination stack
+ * E4 Dispatch method for display-buffer-other-frame
  *  
- *  When splitting, split horizontally unless called with ^U
+ * Prompt for a buffer and display it in another frame. If:
+ *  - only one frame, then split and display new frame
+ *  - multiple frames, move buffer to adjacent frame if not in destination frame,
+ *  - else simply expose in destination frame
  *  
  * @author mfeber - Initial API and implementation
  */
-public class ShowBufferOtherHandler extends SwitchToBufferOtherHandler {
+public class ShowBufferFrameHandler extends SwitchToBufferFrameHandler {
 
-	private static final String PREFIX = EmacsPlusActivator.getResourceString("Display_Other_Buffer"); //$NON-NLS-1$ 
-
+	private static final String PREFIX = EmacsPlusActivator.getResourceString("Display_Other_Frame"); //$NON-NLS-1$ 
+	
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
 		super.addToContext(ctx);

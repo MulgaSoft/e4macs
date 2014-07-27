@@ -13,6 +13,8 @@ import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_GNU_SEXP;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_REPLACED_TOKILL;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_SPLIT_SELF;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_INIT;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_DEF;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_UNDER_SEXP;
 
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_WORD;
@@ -26,6 +28,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
+import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * Define selected internal/preference variables in an enum
@@ -46,6 +49,8 @@ public enum PrefVars {
 	RING_BELL_FUNCTION(Ptype.BOOLEAN, false),
 	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
 //	SEARCH_EXIT_OPTION(Ptype.STRING, SEOptions.class, SEOptions.t.toString());
+	FRAME_INIT(P_FRAME_INIT, Ptype.RECT, PRect.DEFAULT),
+	FRAME_DEF(P_FRAME_DEF, Ptype.RECT, PRect.DEFAULT),
 	;
 	
 	private final static String DOC = "_DOC";  //$NON-NLS-1$
@@ -143,6 +148,13 @@ public enum PrefVars {
 					Beeper.beep();
 				}
 				break;
+			case RECT: 
+				if (val instanceof String && PRect.parseRect((String)val) != null) {
+					store.setValue(getPref(), (String) val);
+				} else {
+					Beeper.beep();
+				}
+				break;
 			case STRING:
 				if (val instanceof String) {
 					store.setValue(getPref(), (String) val);
@@ -167,6 +179,7 @@ public enum PrefVars {
 			case BOOLEAN:
 				result = store.getBoolean(getPref());
 				break;
+			case RECT:
 			case STRING:
 				result = store.getString(getPref());
 				break;
@@ -180,7 +193,7 @@ public enum PrefVars {
 	}
 
 	public enum Ptype {
-		BOOLEAN, INTEGER, STRING;
+		BOOLEAN, INTEGER, RECT, STRING;
 	}
 	
 	public enum SEOptions {
@@ -199,6 +212,38 @@ public enum PrefVars {
 			}
 		}
 		return result;
+	}
+	
+	public static class PRect  {
+
+		private final static String DEFAULT = "0,0,0,0";	//$NON-NLS-1$
+		private static int MIN_RECT_SIZE = 100;
+
+		public static Rectangle parseRect(String rect) {
+			Rectangle r = null;
+			try {
+				String tokens[] = rect.split(",");			//$NON-NLS-1$
+				if (tokens.length == 4) {
+					int ints[] = new int[4];
+					for (int i = 0; i < 4; i++) {
+						int x = Integer.parseInt(tokens[i]);
+						if (x >= 0) {
+							if (i > 1 && x != 0 && x < MIN_RECT_SIZE) {
+								return r;
+							}
+							ints[i]	= x;					
+						} else {
+							return r;
+						}
+					}
+					r = new Rectangle(ints[0],ints[1],ints[2],ints[3]);
+				}
+			} catch (Exception e) {
+				// bad entry
+			}
+			return r;
+		}
+
 	}
 
 }

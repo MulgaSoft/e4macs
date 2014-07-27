@@ -1331,6 +1331,78 @@
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
 	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%createframe.command.description" 
+		id="com.mulgasoft.emacsplus.createFrame"
+		name="%createframe.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%frameswitchother.command.description"
+		id="com.mulgasoft.emacsplus.switchOtherFrame"
+		name="%frameswitchother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%frameshowother.command.description"
+		id="com.mulgasoft.emacsplus.showOtherFrame"
+		name="%frameshowother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%joinframe.command.description" 
+		id="com.mulgasoft.emacsplus.joinFrame"
+		name="%joinframe.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%joinframes.command.description" 
+		id="com.mulgasoft.emacsplus.joinFrames"
+		name="%joinframes.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%otherframe.command.description" 
+		id="com.mulgasoft.emacsplus.otherFrame"
+		name="%otherframe.command.name" >
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
 
   </extension>
   
@@ -1369,6 +1441,26 @@
 	<handler
 		class="com.mulgasoft.emacsplus.e4.commands.ShowBufferOtherHandler"
 		commandId="com.mulgasoft.emacsplus.showOtherWindow"/>
+		
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.FrameCreateHandler"
+		commandId="com.mulgasoft.emacsplus.createFrame"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.FrameOtherHandler"
+		commandId="com.mulgasoft.emacsplus.otherFrame"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.FramesJoinHandler"
+		commandId="com.mulgasoft.emacsplus.joinFrames"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.FrameJoinHandler"
+		commandId="com.mulgasoft.emacsplus.joinFrame"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.SwitchToBufferFrameHandler"
+		commandId="com.mulgasoft.emacsplus.switchOtherFrame"/>
+	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.ShowBufferFrameHandler"
+		commandId="com.mulgasoft.emacsplus.showOtherFrame"/>
+		
   </extension>
   
   <extension
@@ -1428,6 +1520,39 @@
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 4 CTRL+O"/>
+		
+	<!-- Frame Commands -->
+	<key
+		commandId="com.mulgasoft.emacsplus.createFrame"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 2"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.otherFrame"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 O"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.joinFrame"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 0"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.joinFrames"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 1"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.switchOtherFrame"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.showOtherFrame"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 5 CTRL+O"/>
+		
   </extension>
 
  <!-- *************** Other Window Operations *************** -->

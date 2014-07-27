@@ -42,7 +42,7 @@ public class WindowShrinkCmd extends E4WindowCmd {
 	public Object execute(@Active MPart apart,  @Named(E4CmdHandler.CMD_CTX_KEY)Col stype, @Active EmacsPlusCmdHandler handler) {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> stack = ps.getStack();
-		MElementContainer<MUIElement> next = getAdjacentElement(stack, false);
+		MElementContainer<MUIElement> next = getAdjacentElement(stack, ps.getPart(), false);
 		
 		int count = handler.getUniversalCount();
 		if (next != null) {

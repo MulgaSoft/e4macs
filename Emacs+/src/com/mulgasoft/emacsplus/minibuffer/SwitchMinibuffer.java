@@ -40,7 +40,8 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 	private IWorkbenchPage page = null;
 
 	private String prefix = null;
-
+	private boolean withSelf = false;
+	
 	private TreeMap<String, BufRef> getBufferMap() {
 		return bufferMap;
 	}
@@ -52,6 +53,11 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		super(executable);
 	}
 
+	public SwitchMinibuffer(IMinibufferExecutable executable, boolean withSelf) {
+		this(executable);
+		this.withSelf = withSelf; 
+	}
+	
 	/**
 	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#initializeBuffer(org.eclipse.ui.texteditor.ITextEditor, org.eclipse.ui.IWorkbenchPage)
 	 */
@@ -101,7 +107,8 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		IEditorReference result = null;
 		if (bufferName != null && bufferName.length() > 0) {
 			// get the editor reference by name
-			result = getBufferMap().get(bufferName).getRef();
+			BufRef buf = getBufferMap().get(bufferName);			
+			result = buf != null ? buf.getRef() : null;
 			if (result == null) {
 				try {
 					// Attempt auto-completion if name fetch failed
@@ -166,7 +173,7 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 				bufferMap = new TreeMap<String,BufRef>();
 				Set<BufRef> checkSet = new HashSet<BufRef>();
 				BufRef collider = null;				
-				for (int i=1; i< tmp.length; i++) {
+				for (int i=(withSelf ? 0 : 1); i< tmp.length; i++) {
 					BufRef rr = new BufRef(tmp[i].getName().trim(), tmp[i]);
 					if ((collider = bufferMap.get(rr.getName())) != null) {
 						checkSet.add(collider);
