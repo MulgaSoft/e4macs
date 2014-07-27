@@ -1393,9 +1393,9 @@
 	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
-		description="%otherframe.command.description" 
+		description="%frameother.command.description" 
 		id="com.mulgasoft.emacsplus.otherFrame"
-		name="%otherframe.command.name" >
+		name="%frameother.command.name" >
 	  <commandParameter
 		id="universalArg"
 		name="Arg"
