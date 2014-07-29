@@ -674,72 +674,6 @@
 		commandId="com.mulgasoft.emacsplus.backwardBlockOfLines"/>
   </extension>
         
-  <extension
-  		point="org.eclipse.ui.bindings">
-	<key
-		commandId="com.mulgasoft.emacsplus.appendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="CTRL+;"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="ESC P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="M3+P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="ESC N"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="M3+N"/>
-		
-	<key
-		commandId="com.mulgasoft.emacsplus.appendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="CTRL+;"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="ESC P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="M3+P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="ESC N"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		sequence="M3+N"/>
-	<!-- disable on Mac OS X as it conflicts with <Option>+n non-spacing-mark ñ -->	
-	<key
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"
-		sequence="M3+N"/>
-	<key
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"
-		sequence="M3+N"/>
-  </extension>
-        
 <!-- *************** Paragraph Commands *************** -->
  <extension
          point="org.eclipse.ui.commands">
@@ -1333,9 +1267,9 @@
 	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
-		description="%createframe.command.description" 
+		description="%framecreate.command.description" 
 		id="com.mulgasoft.emacsplus.createFrame"
-		name="%createframe.command.name" >
+		name="%framecreate.command.name" >
 	  <commandParameter
 		id="universalArg"
 		name="Arg"
@@ -1369,9 +1303,9 @@
 	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
-		description="%joinframe.command.description" 
+		description="%framejoin.command.description" 
 		id="com.mulgasoft.emacsplus.joinFrame"
-		name="%joinframe.command.name" >
+		name="%framejoin.command.name" >
 	  <commandParameter
 		id="universalArg"
 		name="Arg"
@@ -1381,9 +1315,9 @@
 	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
-		description="%joinframes.command.description" 
+		description="%framesjoin.command.description" 
 		id="com.mulgasoft.emacsplus.joinFrames"
-		name="%joinframes.command.name" >
+		name="%framesjoin.command.name" >
 	  <commandParameter
 		id="universalArg"
 		name="Arg"
@@ -1391,6 +1325,7 @@
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
 	</command>
+	
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%frameother.command.description" 

@@ -9,18 +9,22 @@
 package com.mulgasoft.emacsplus.e4.commands;
 
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_INIT;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_DEF;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_INIT;
+
+import java.util.List;
 
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 
+import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.PRect;
+import com.mulgasoft.emacsplus.preferences.PrefVars.PRect;
 
 /**
  * make-frame: Make a new frame using the current buffer
@@ -66,11 +70,15 @@ public class FrameCreateCmd extends WindowSplitCmd {
 		}
 	}
 	
+	// on splitSelf, we want to activate the new part
+	private MPart splitPart;
+ 
 	/** (non-Javadoc)
 	 * @see com.mulgasoft.emacsplus.e4.commands.WindowSplitCmd#splitIt(org.eclipse.e4.ui.model.application.ui.basic.MPart, int)
 	 */
 	@Override
 	protected void splitIt(MPart apart, int location) {
+		splitPart = apart;
 		Control widget = (Control) apart.getParent().getWidget();
 		Rectangle rect = widget.getBounds();
 		rect.x = 0;
@@ -79,15 +87,19 @@ public class FrameCreateCmd extends WindowSplitCmd {
 		// Try to take the window's trim into account
 		rect.width += WADJ;
 		rect.height += HADJ;
-		MPart splitPart = apart;
+		List<MTrimmedWindow> frames = getDetachedFrames();
 		if (isSplitSelf()) {
 			// the new editor command creates and activates the copy in the main area
 			MUIElement sel = getSelected(getEditArea(application.getChildren().get(0)));		
 			if (sel instanceof MPart) {
 				splitPart = (MPart)sel;
 			}
+		} else if (frames.isEmpty() && getParentStack(apart).getStack().getChildren().size() <= 1) {
+			// don't detach when only one editor open anywhere 
+			Beeper.beep();
+			return;
 		}
-		if (getDetachedFrames().isEmpty() && !EMPTY_RECT.equals(initialFrameRect)) {
+		if (frames.isEmpty() && !EMPTY_RECT.equals(initialFrameRect)) {
 			// use initial
 			fillRect(initialFrameRect, rect);
 		} else if (!EMPTY_RECT.equals(defaultFrameRect)) {
@@ -98,6 +110,11 @@ public class FrameCreateCmd extends WindowSplitCmd {
 		MPart newpart = getParentStack(splitPart).getPart();		
 		// Let the model service take care of the rest
 		modelService.detach(newpart, rect.x, rect.y, rect.width, rect.height);
+	}
+
+	@Override
+	protected void reactivate(MPart apart) {
+		super.reactivate(splitPart);
 	}
 
 }

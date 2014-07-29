@@ -356,43 +356,6 @@
 		platform="cocoa"		
 		sequence="COMMAND+M"/>
 		
-	<!-- Comment Handling -->
-	
-	<key
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="M3+P"/>
-	<key
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="M3+P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="COMMAND+P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.preappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="COMMAND+P"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.jdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="COMMAND+N"/>
-	<key
-		commandId="com.mulgasoft.emacsplus.postappendcomment"
-		contextId="org.eclipse.wst.jsdt.ui.javaEditorScope"
-		schemeId="com.mulgasoft.emacsplusConfiguration"
-		platform="cocoa"		
-		sequence="COMMAND+N"/>
-	
 	<!-- provide part maximization -->
 	<key
 		commandId="org.eclipse.ui.window.maximizePart"

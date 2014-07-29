@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.1.0"
+      version="4.1.1"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,6 +11,9 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
+4.1.1:
+- Use earlier API to support Frame commands in Kepler
+- Address issues with singleton editor and split self edge cases
 4.1.0:
 - Add Frame commands: C-X 5 0,1,2,B,O,C-O
 - Add preferences for initial and default frame positions

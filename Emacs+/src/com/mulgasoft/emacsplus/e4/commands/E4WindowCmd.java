@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.e4.ui.model.application.MApplicationElement;
 import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.advanced.MArea;
@@ -25,7 +24,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.e4.ui.workbench.Selector;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -278,13 +276,23 @@ public abstract class E4WindowCmd extends E4Cmd {
 	 */
 	protected MUIElement getEditArea(MWindow w) {
 		// Seems like we should be able to use modelService.find(ID_EDITOR_AREA, w), but that returns a useless PlaceHolder
-		final Selector match = new Selector() {
-			public boolean select(MApplicationElement element) {
-				return !modelService.findElements((MUIElement)element, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty();
+		// NB Selectors aren't supported until Luna
+		//		final Selector match = new Selector() {
+		//			public boolean select(MApplicationElement element) {
+		//				return !modelService.findElements((MUIElement)element, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty();
+		//			}
+		//		};
+		//		List<MArea> area = modelService.findElements(w, MArea.class, EModelService.IN_SHARED_AREA, match);
+		List<MArea> area = modelService.findElements(w, null, MArea.class, null, EModelService.IN_SHARED_AREA);
+		List<MArea> refined = new ArrayList<MArea>();
+		if (area != null) {
+			for (MArea m : area) {
+				if (!modelService.findElements(m, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty()) {
+					refined.add(m);
+				}
 			}
-		};
-		List<MArea> area = modelService.findElements(w, MArea.class, EModelService.IN_SHARED_AREA, match);
-		return area.isEmpty() ? null : area.get(0);
+		}
+		return refined.isEmpty() ? null : refined.get(0);
 	}
 
 	@SuppressWarnings("unchecked") // manually checked
@@ -305,15 +313,24 @@ public abstract class E4WindowCmd extends E4Cmd {
 	 */
 	List<MTrimmedWindow> getDetachedFrames() {
 		final MWindow topWindow = application.getChildren().get(0); 
-		final Selector match = new Selector() {
-			public boolean select(MApplicationElement element) {
-				boolean result = element != topWindow && ((MTrimmedWindow)element).isToBeRendered();
-				return result && !modelService.findElements((MUIElement)element, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty();
-			}
-		};
+		// NB Selectors aren't supported until Luna
+		//		final Selector match = new Selector() {
+		//			public boolean select(MApplicationElement element) {
+		//				boolean result = element != topWindow && ((MTrimmedWindow)element).isToBeRendered();
+		//				return result && !modelService.findElements((MUIElement)element, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty();
+		//			}
+		//		};
+		//		List<MTrimmedWindow> mts = modelService.findElements(topWindow, MTrimmedWindow.class, EModelService.IN_ANY_PERSPECTIVE, match); 
 		// get the all detached editor trimmed windows
 		// the implementation searches all detached windows in this case
-		return modelService.findElements(topWindow, MTrimmedWindow.class, EModelService.IN_ANY_PERSPECTIVE, match);
+		List<MTrimmedWindow> mts = modelService.findElements(topWindow, null, MTrimmedWindow.class, null, EModelService.IN_ANY_PERSPECTIVE); 
+		List<MTrimmedWindow> refined = new ArrayList<MTrimmedWindow>();
+		for (MTrimmedWindow mt : mts) {
+			if (mt != topWindow && mt.isToBeRendered() && !modelService.findElements(mt, null, MPart.class, EDITOR_TAG, EModelService.IN_ANY_PERSPECTIVE).isEmpty()) {
+				refined.add(mt);
+			}
+		}
+		return refined; 
 	}
 	
 }

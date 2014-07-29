@@ -55,6 +55,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 			joinAll(apart);
 			break;
 		}
+		postJoin(editor);
 		if (handler.isUniversalPresent()) {
 			// convenience hack
 			// change setting without changing preference store
@@ -70,13 +71,21 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * @param editor
 	 */
 	protected void preJoin(IEditorPart editor) {
+		closeOthers(editor);
+	}
+	
+	protected void postJoin(IEditorPart editor) {
+		// for sub-classes
+	}
+
+	void closeOthers(IEditorPart editor) {
 		if (isSplitSelf()) {
 			try {
 				EmacsPlusUtils.executeCommand(IEmacsPlusCommandDefinitionIds.CLOSE_OTHER_INSTANCES, null, editor);
 			} catch (Exception e) {} 
 		}
 	}
-
+	
 	/**
 	 * Merge the stack containing the selected part into its neighbor
 	 * 

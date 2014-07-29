@@ -16,6 +16,9 @@ import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.ui.IEditorPart;
+
+import com.mulgasoft.emacsplus.Beeper;
 
 /**
  * join-other-frames: Join all frames to the main frame
@@ -25,8 +28,11 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
  */
 public class FrameJoinCmd extends WindowJoinCmd {
 	
+	boolean joined = true;
+	
 	@Override
 	void joinAll(MPart apart) {
+		joined = true;
 		List<MTrimmedWindow> frames = getDetachedFrames();
 		MElementContainer<MUIElement> last = getTopElement((MElementContainer<MUIElement>) apart.getParent());
 		for (MTrimmedWindow mt : frames) {
@@ -36,7 +42,7 @@ public class FrameJoinCmd extends WindowJoinCmd {
 		}
 		// only join apart if its top element is a frame
 		if ((Object)last instanceof MTrimmedWindow) {
-			joinOne(apart);
+			super.joinOne(apart);
 		}
 	}
 	
@@ -44,7 +50,19 @@ public class FrameJoinCmd extends WindowJoinCmd {
 		// As long as it has any editor MParts, we can join it
 		List<MPart> parts = getParts(mt, EModelService.IN_ANY_PERSPECTIVE);
 		if (!parts.isEmpty()) {
-			joinOne(parts.get(0));
+			super.joinOne(parts.get(0));
+		}
+	}
+
+	
+	@Override
+	void joinOne(MPart apart) {
+		joined = true;
+		if ((Object)getTopElement(apart.getParent()) instanceof MTrimmedWindow) {
+			super.joinOne(apart);
+		} else {
+			joined = false;
+			Beeper.beep();
 		}
 	}
 
@@ -65,7 +83,7 @@ public class FrameJoinCmd extends WindowJoinCmd {
 		MElementContainer<MUIElement> result = null;
 		if (dragStack != null) {
 			MElementContainer<MUIElement> psash = dragStack.getParent();
-			MElementContainer<MUIElement> top = getTopElement(psash); 
+			MElementContainer<MUIElement> top = getTopElement(psash);
 			if ((Object)top instanceof MTrimmedWindow) {
 				// if we contain splits, remove them first
 				if (top != psash) {
@@ -83,6 +101,14 @@ public class FrameJoinCmd extends WindowJoinCmd {
 			}
 		}
 		return result;
+	}
+	
+	protected void preJoin(IEditorPart editor) {}
+	
+	protected void postJoin(IEditorPart editor) {
+		if (joined) {
+			closeOthers(editor);
+		}
 	}
 
 	protected void checkSizeData(MElementContainer<MUIElement> pstack, MElementContainer<MUIElement> dropStack) {

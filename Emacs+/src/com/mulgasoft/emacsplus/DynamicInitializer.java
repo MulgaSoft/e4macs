@@ -8,6 +8,7 @@
  */
 package com.mulgasoft.emacsplus;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.internal.keys.BindingService;
 import org.eclipse.ui.keys.IBindingService;
 
@@ -47,8 +49,11 @@ public class DynamicInitializer {
 			if  (emacsIds.contains(EmacsPlusUtils.EMP_MACCMD_OPT_STR) ) {
 				addBindings(cmdBindings);
 			}
-		} else if (emacsIds.contains(EmacsPlusUtils.EMP_OPT_STR) ) {
-			addBindings(altBindings);
+		} else { 
+			addBindings(nomacBindings);			
+			if (emacsIds.contains(EmacsPlusUtils.EMP_OPT_STR) ) {
+				addBindings(altBindings);
+			}
 		}
 		addBindings(restBindings);
 		return true;
@@ -71,11 +76,14 @@ public class DynamicInitializer {
 		IBindingService service = ((IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class));
 		if (service instanceof  BindingService) {
 			BindingService bindingSvc = (BindingService) service;
+			IContextService contextService = (IContextService) PlatformUI.getWorkbench().getService(IContextService.class);
+			@SuppressWarnings("unchecked") // eclipse never parameterized their api
+			Collection<String> contexts = contextService.getDefinedContextIds();
+			ICommandService ics = ((ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class));
 			for (MinderBinder mb : bindings) {
 				try {
-					ICommandService ics = ((ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class));
 					// check first, as getCommand will create it if it doesn't already exist
-					if (ics.getDefinedCommandIds().contains(mb.getCommandId())) {
+					if (contexts.contains(mb.getContextId()) && ics.getDefinedCommandIds().contains(mb.getCommandId())) {
 						Command cmd = ics.getCommand(mb.getCommandId());
 						if (mb.getEnhancer() != null) {
 							// enhance the pre-defined command with some Emacs+ behavior
@@ -85,7 +93,7 @@ public class DynamicInitializer {
 								mb.getSchemeId(), mb.getContextId(), null, null, null, Binding.SYSTEM);  // Binding.USER
 						// this call is scheduled for API promotion sometime (after Helios)
 						bindingSvc.addBinding(binding);
-					}
+					} 
 				} catch (ParseException e) {
 					e.printStackTrace();	// won't happen
 				} catch (Exception e) {
@@ -155,7 +163,11 @@ public class DynamicInitializer {
 		// java bindings
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.show.outline",JEDITOR,"CTRL+]"));   											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.hierarchy",JEDITOR,"CTRL+[")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",JEDITOR," ESC ;")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",JEDITOR,"ESC ;")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JEDITOR,"CTRL+;"));										 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"ESC P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener()));   	 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"ESC .",MarkUtils.getTagListener()));  					 //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -163,6 +175,10 @@ public class DynamicInitializer {
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.show.outline", JSEDITOR,"CTRL+]"));										 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy",JSEDITOR,"CTRL+["));   									 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment",JSEDITOR,"ESC ;"));										 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JSEDITOR,"CTRL+;")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"ESC P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"ESC .",MarkUtils.getTagListener()));   			 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener())); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -217,6 +233,13 @@ public class DynamicInitializer {
 	}};
 
 	@SuppressWarnings("serial")
+	private static final Set<MinderBinder> nomacBindings = new HashSet<MinderBinder>() {{
+		// don't add on Mac OS X as it conflicts with <Option>+n non-spacing-mark ñ
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"M3+N")); //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"M3+N")); //$NON-NLS-1$ //$NON-NLS-2$
+	}};
+	
+	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> macBindings = new HashSet<MinderBinder>() {{
 		// NB: adding this to a plugin.xml doesn't work, so add it here
 		// TODO does a similar command exist on other platforms?
@@ -230,10 +253,14 @@ public class DynamicInitializer {
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.select.enclosing",JEDITOR,"CTRL+COMMAND+U"));   								 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",JEDITOR,"COMMAND+;"));  										 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"COMMAND+.",MarkUtils.getTagListener()));  				 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"COMMAND+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"COMMAND+N")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// javascript bindings
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing",JSEDITOR,"CTRL+COMMAND+U")); 							 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment",JSEDITOR,"COMMAND+;"));									 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"COMMAND+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"COMMAND+N")); //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"COMMAND+.",MarkUtils.getTagListener()));   		 //$NON-NLS-1$ //$NON-NLS-2$
 
 		// pde bindings
