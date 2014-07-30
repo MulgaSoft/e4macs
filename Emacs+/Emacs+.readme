@@ -209,7 +209,7 @@ Space handling -
     * Delete Indentation (Alt-^): Join this line to previous and fix up whitespace at join
           o If called with Ctrl-U, then join to following line
 
-Split window behavior - Adapt the Emacs notion of window splitting to the Eclipse editor stack [Disabled since Juno due to internal Eclipse modifications]
+Split window behavior - Adapt the Emacs notion of window splitting to the Eclipse editor stack
 
     * Split Window Horizontally (Ctrl-X 2): Split the editor stack horizontally and put the current editor below the others
           o When the split editor preference is checked (default), the current editor is split and placed below itself
@@ -248,6 +248,18 @@ Window navigation -
     
     * Switch To Buffer Other Window (Ctrl-X 4 B): Select the buffer shown in the minibuffer in another window
     * Display Buffer Other Window (Ctrl-X 4 Ctrl-O): Display the buffer shown in the minibuffer in another window without selecting it        
+
+Frame commands - 
+
+    * Make Frame (Ctrl-X 5 2): Make a new frame using the current buffer
+          o When the split editor preference is checked (default), the current editor is split and moved to a new frame
+          o The preferences Initial/Default split frame rectangles when not 0,0,0,0 specify where to place the first/subsequent frames
+            [NB: Eclipse always forces detached frames to be in front of the workbench window when overlapped]
+    * Join Frame (Ctrl+X 5 0): Join current frame to the main frame
+	* Join Other Frames (Ctrl+X 5 1): Join all frames to the main frame
+	* Other Frame (Ctrl+X 5 O): Activate the next editor frame
+	* Switch to Buffer Other Frame (Ctrl+X 5 B): Select buffer in another frame
+	* Display Buffer Other Frame (Ctrl+X 5 Ctrl+O): Display Buffer in another Frame
 
 
 Narrow Region - 

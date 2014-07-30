@@ -10,6 +10,7 @@ package com.mulgasoft.emacsplus.preferences;
 
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -100,6 +101,19 @@ public abstract class EmacsPlusPreferenceBase extends FieldEditorPreferencePage	
 
 		protected void doStore() {
 		}
+	}
+	
+	class RectangleFieldEditor extends StringFieldEditor {
+
+		public RectangleFieldEditor(String name, String labelText, int width, int strategy, Composite parent) {
+			super(name, labelText, width, strategy, parent);
+		}
+
+		@Override
+		protected boolean doCheckState() {
+			return super.doCheckState() && PrefVars.PRect.parseRect(getStringValue()) != null;
+		}
+
 	}
 
 }

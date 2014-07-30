@@ -19,6 +19,7 @@ import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -162,8 +163,26 @@ public class EmacsPlusPreferencePage extends EmacsPlusPreferenceBase {
 				EmacsPlusActivator.getString("EmacsPlusPref_SplitSelf"),									   //$NON-NLS-1$
 				getFieldEditorParent()));
 		addSpace();
+		addField(new LabelFieldEditor(
+						EmacsPlusActivator.getString("EmacsPlusPref_InitialFrame"),							   //$NON-NLS-1$
+						getFieldEditorParent()));
+		addField(new RectangleFieldEditor(EmacsPlusPreferenceConstants.P_FRAME_INIT, 
+				EmacsPlusActivator.getString("EmacsPlusPref_FXY"),											   //$NON-NLS-1$
+				StringFieldEditor.UNLIMITED,
+				StringFieldEditor.VALIDATE_ON_KEY_STROKE,
+				getFieldEditorParent()));
+		addSpace();
+		addField(new LabelFieldEditor(
+						EmacsPlusActivator.getString("EmacsPlusPref_DefaultFrame"),								//$NON-NLS-1$
+						getFieldEditorParent()));
+		addField(new RectangleFieldEditor(EmacsPlusPreferenceConstants.P_FRAME_DEF, 
+				EmacsPlusActivator.getString("EmacsPlusPref_FXY"),												//$NON-NLS-1$
+				StringFieldEditor.UNLIMITED,
+				StringFieldEditor.VALIDATE_ON_KEY_STROKE,
+				getFieldEditorParent()));
+		addSpace();		
 		ife =new IntegerFieldEditor(EmacsPlusPreferenceConstants.P_BLOCK_MOVE_SIZE, 
-				EmacsPlusActivator.getString("EmacsPlusPref_BlockLines"), getFieldEditorParent());  		   //$NON-NLS-1$
+				EmacsPlusActivator.getString("EmacsPlusPref_BlockLines"), getFieldEditorParent());  		    //$NON-NLS-1$
 		ife.setValidRange(1, 100);
 		addField(ife);
  	}

@@ -8,6 +8,10 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
+
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
@@ -28,9 +32,6 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 import com.mulgasoft.emacsplus.commands.MinibufferHandler;
 import com.mulgasoft.emacsplus.minibuffer.IMinibufferExecutable;
 import com.mulgasoft.emacsplus.minibuffer.SwitchMinibuffer;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 
 /**
  * Implements Select/Display buffer in another window
@@ -106,7 +107,7 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 				// convenience hack: change direction on uArg
 				splitIt(miniPart, getDirection((isUniversalPresent()) ? !DISPLAY_HORIZONTAL : DISPLAY_HORIZONTAL));
 			} else {
-				// case 2: multiple frames, move to adjacent frame
+				// case 2: multiple stacks, move to adjacent stack
 				// get the starting stack
 				MElementContainer<MUIElement> stack = getParentStack(apart).getStack();
 				// get the topart's stack

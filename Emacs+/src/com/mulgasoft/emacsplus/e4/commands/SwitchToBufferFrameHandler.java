@@ -13,23 +13,26 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 
 /**
- * Prompt for a buffer and display it in another frame. If:
- *  - only one stack, then split and display new buffer
- *  - multiple stacks, move buffer to adjacent stack if not in destination stack,
- *  - else simply expose in destination stack
- *  
- *  When splitting, split horizontally unless called with ^U
- *  
+ * E4 Dispatch method for switch-to-buffer-other-frame 
+ * 
  * @author mfeber - Initial API and implementation
  */
-public class ShowBufferOtherHandler extends SwitchToBufferOtherHandler {
+public class SwitchToBufferFrameHandler extends E4WindowHandler<SwitchToBufferFrameCmd> {
 
-	private static final String PREFIX = EmacsPlusActivator.getResourceString("Display_Other_Buffer"); //$NON-NLS-1$ 
-
+	private static final String PREFIX = EmacsPlusActivator.getResourceString("Switch_Other_Frame"); //$NON-NLS-1$ 
+	
+	/**
+	 * @param clazz
+	 */
+	public SwitchToBufferFrameHandler() {
+		super(SwitchToBufferFrameCmd.class);
+	}
+	
 	@Override
 	protected void addToContext(IEclipseContext ctx) {
-		super.addToContext(ctx);
-		ctx.set(E4CmdHandler.CMD_CTX_KEY, true);		
+		ctx.set(E4CmdHandler.CMD_CTX_KEY, false);		
 		ctx.set(E4CmdHandler.PRE_CTX_KEY, PREFIX);
+		super.addToContext(ctx);
 	}
+
 }

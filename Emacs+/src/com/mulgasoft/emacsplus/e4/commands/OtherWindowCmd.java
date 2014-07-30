@@ -31,7 +31,8 @@ public class OtherWindowCmd extends E4WindowCmd {
 	
 		@Execute
 		protected void doOtherWindow(@Active MPart apart, @Named(E4CmdHandler.CMD_CTX_KEY)String cmd, @Active EmacsPlusCmdHandler handler) {
-			MElementContainer<MUIElement> otherStack = getAdjacentElement(getParentStack(apart).getStack(), true);
+			PartAndStack ps = getParentStack(apart); 
+			MElementContainer<MUIElement> otherStack = getAdjacentElement(ps.getStack(), ps.getPart(), true);
 			MPart other = (MPart)otherStack.getSelectedElement();
 			// TODO An egregious hack that may break at any time
 			// Is there a defined way of getting the IEditorPart from an MPart?

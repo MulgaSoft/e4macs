@@ -13,10 +13,10 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 
 /**
- * Prompt for a buffer and select it in another frame. If:
- *  - only one frame, then split and select new buffer
- *  - multiple frames, move buffer to adjacent frame if not in destination frame,
- *  - else simply select in destination frame
+ * Prompt for a buffer and select it in another stack. If:
+ *  - only one stack, then split and select new buffer
+ *  - multiple stacks, move buffer to adjacent stack if not in destination stack,
+ *  - else simply select buffer in destination stack
  *  
  *  When splitting, split horizontally unless called with ^U
  *  

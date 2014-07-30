@@ -33,6 +33,10 @@ public class EmacsPlusPreferenceConstants {
 	public static final String P_COMMAND_CATEGORIES = "commandCategories";  //$NON-NLS-1$
 
 	public static final String P_SPLIT_SELF = "splitSelf";  				//$NON-NLS-1$
+
+	public static final String P_FRAME_INIT = "initialFrameRect"; 			//$NON-NLS-1$
+
+	public static final String P_FRAME_DEF = "defaultFrameRect";			//$NON-NLS-1$
 	
 	public static final String P_GNU_YANK = "gnuYank";  					//$NON-NLS-1$
 

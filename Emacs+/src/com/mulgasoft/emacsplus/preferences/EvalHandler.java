@@ -158,6 +158,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 								mbState = numberState(var);
 								mbState.run(editor);
 								break;
+							case RECT:
 							case STRING:
 								mbState = stringState(var);
 								mbState.run(editor);
