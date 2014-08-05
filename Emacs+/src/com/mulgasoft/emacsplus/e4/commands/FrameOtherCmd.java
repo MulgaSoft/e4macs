@@ -40,7 +40,7 @@ public class FrameOtherCmd extends E4WindowCmd {
 				// just make the main window first in line
 				focusIt(getEditArea(application.getChildren().get(0)));
 			} else {
-				focusIt(frames.get(--index).getSelectedElement());
+				focusIt(frames.get(--index));
 			}
 		}
 		return null;
@@ -53,9 +53,12 @@ public class FrameOtherCmd extends E4WindowCmd {
 	 */
 	private void focusIt(MUIElement ele) {
 	 	MUIElement sel = getSelected(ele);
-		sel.setVisible(true);
-		if (sel instanceof MPart) {
-			reactivate((MPart)sel);
-		}
+	 	// There's a bug somewhere in eclipse where this could return null, so check
+	 	if (sel != null) {
+	 		sel.setVisible(true);
+	 		if (sel instanceof MPart) {
+	 			reactivate((MPart)sel);
+	 		}
+	 	}
 	}
 }

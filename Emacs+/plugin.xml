@@ -1214,6 +1214,18 @@
 	</command>
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
+		description="%windowdeclother.command.description"
+		id="com.mulgasoft.emacsplus.declotherWindow"
+		name="%windowdeclother.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
 		description="%windowbalance.command.description"
 		id="com.mulgasoft.emacsplus.balanceWindow"
 		name="%windowbalance.command.name" />
@@ -1362,6 +1374,9 @@
 		class="com.mulgasoft.emacsplus.e4.commands.WindowOtherHandler"
 		commandId="com.mulgasoft.emacsplus.otherWindow"/>
 	<handler
+		class="com.mulgasoft.emacsplus.e4.commands.WindowDeclOtherHandler"
+		commandId="com.mulgasoft.emacsplus.declotherWindow"/>
+	<handler
 		class="com.mulgasoft.emacsplus.e4.commands.WindowBalanceHandler"
 		commandId="com.mulgasoft.emacsplus.balanceWindow"/>
 	<handler
@@ -1455,6 +1470,11 @@
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+X 4 CTRL+O"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.declotherWindow"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X 4 ."/>
 		
 	<!-- Frame Commands -->
 	<key

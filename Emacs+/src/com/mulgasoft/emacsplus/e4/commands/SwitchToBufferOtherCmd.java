@@ -47,8 +47,8 @@ import com.mulgasoft.emacsplus.minibuffer.SwitchMinibuffer;
  */
 public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibufferExecutable {
 
-	private MPart apart;
-	private EmacsPlusCmdHandler handler;
+	MPart apart;
+	EmacsPlusCmdHandler handler;
 	private boolean displayOnly = false;
 	private String prefix = "Buffer%s";	//$NON-NLS-1$
 	
@@ -102,30 +102,34 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 		if (minibufferResult instanceof IEditorPart) {
 			// get the MPart from the editor
 			MPart miniPart = (MPart) ((IEditorPart) minibufferResult).getSite().getService(MPart.class);
-			if (getOrderedStacks(apart).size() == 1) {
-				// case 1: 1 frame, split with miniPart
-				// convenience hack: change direction on uArg
-				splitIt(miniPart, getDirection((isUniversalPresent()) ? !DISPLAY_HORIZONTAL : DISPLAY_HORIZONTAL));
-			} else {
-				// case 2: multiple stacks, move to adjacent stack
-				// get the starting stack
-				MElementContainer<MUIElement> stack = getParentStack(apart).getStack();
-				// get the topart's stack
-				MElementContainer<MUIElement> tstack = getParentStack(miniPart).getStack();
-				stack = findNextStack(apart, stack, 1);
-				if (stack != null && stack != tstack) {
-					modelService.move(miniPart, stack, 0);
-				}
-			}
-			if (displayOnly) {
-				// brings to top
-				partService.showPart(miniPart, PartState.VISIBLE);
-				reactivate(apart);
-			} else {
-				reactivate(miniPart);				
-			}
+			switchTo(miniPart);
 		}
 		return false;
+	}
+	
+	void switchTo(MPart newPart) {
+		if (getOrderedStacks(apart).size() == 1) {
+			// case 1: 1 frame, split with miniPart
+			// convenience hack: change direction on uArg
+			splitIt(newPart, getDirection((isUniversalPresent()) ? !DISPLAY_HORIZONTAL : DISPLAY_HORIZONTAL));
+		} else {
+			// case 2: multiple stacks, move to adjacent stack
+			// get the starting stack
+			MElementContainer<MUIElement> stack = getParentStack(apart).getStack();
+			// get the topart's stack
+			MElementContainer<MUIElement> tstack = getParentStack(newPart).getStack();
+			stack = findNextStack(apart, stack, 1);
+			if (stack != null && stack != tstack) {
+				modelService.move(newPart, stack, 0);
+			}
+		}
+		if (displayOnly) {
+			// brings to top
+			partService.showPart(newPart, PartState.VISIBLE);
+			reactivate(apart);
+		} else {
+			reactivate(newPart);
+		}
 	}
 
 	public void setResultMessage(String resultMessage, boolean resultError) {

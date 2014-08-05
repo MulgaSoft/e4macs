@@ -248,7 +248,8 @@ Window navigation -
     
     * Switch To Buffer Other Window (Ctrl-X 4 B): Select the buffer shown in the minibuffer in another window
     * Display Buffer Other Window (Ctrl-X 4 Ctrl-O): Display the buffer shown in the minibuffer in another window without selecting it        
-
+    * Open Declaration Other Window (Ctrl-x 4 .): Open declaration of the element under point in another window stack 
+    
 Frame commands - 
 
     * Make Frame (Ctrl-X 5 2): Make a new frame using the current buffer
