@@ -270,6 +270,12 @@ public interface IEmacsPlusCommandDefinitionIds extends ITextEditorActionDefinit
 	final String MARK_WORD= "com.mulgasoft.emacsplus.markWord"; 							   //$NON-NLS-1$
 	
 	// Window Commands
+
+	/**
+	 * Command definition id of switch-to-buffer
+	 * Value: <code>"com.mulgasoft.emacsplus.switchToBuffer"</code>
+	 */
+	final String SWITCH_TO_BUFFER = "com.mulgasoft.emacsplus.switchToBuffer";                          //$NON-NLS-1
 	
 	/**
 	 * Command definition id of split window horizontally
@@ -296,23 +302,63 @@ public interface IEmacsPlusCommandDefinitionIds extends ITextEditorActionDefinit
 	final String JOIN_WINDOW= "com.mulgasoft.emacsplus.joinWindow"; 						   //$NON-NLS-1$
 	
 	/**
+	 * Command definition id of deactivate window
+	 * Value: <code>"com.mulgasoft.emacsplus.deleteWindow"</code>
+	 */
+	final String DELETE_WINDOW= "com.mulgasoft.emacsplus.deleteWindow"; 						   //$NON-NLS-1$
+	
+	/**
 	 * Command definition id of other window
 	 * Value: <code>"com.mulgasoft.emacsplus.otherWindow"</code>
 	 */
 	final String OTHER_WINDOW= "com.mulgasoft.emacsplus.otherWindow";   					   //$NON-NLS-1$
 	
 	/**
-	 * Command definition id of backwards-window
-	 * Value: <code>"com.mulgasoft.emacsplus.backwardsWindow"</code>
+	 * Command definition id of switch to buffer other window
+	 * Value: <code>"com.mulgasoft.emacsplus.switchOtherWindow"</code>
 	 */
-	final String OTHER_WINDOW_BACKWARDS = "com.mulgasoft.emacsplus.backwardsWindow";		   //$NON-NLS-1$
+	final String SWITCH_OTHER_WINDOW= "com.mulgasoft.emacsplus.switchOtherWindow";   					   //$NON-NLS-1$
 	
 	/**
-	 * Command definition id of switch-to-buffer
-	 * Value: <code>"com.mulgasoft.emacsplus.switchToBuffer"</code>
+	 * Command definition id of open declaration other window
+	 * Value: <code>"com.mulgasoft.emacsplus.declOtherWindow"</code>
 	 */
-	final String SWITCH_TO_BUFFER = "com.mulgasoft.emacsplus.switchToBuffer";   			   //$NON-NLS-1$
+	final String DECL_OTHER_WINDOW= "com.mulgasoft.emacsplus.declotherWindow";   					   //$NON-NLS-1$
 	
+	
+	/**
+	 * Command definition id of display buffer other window
+	 * Value: <code>"com.mulgasoft.emacsplus.showOtherWindow"</code>
+	 */
+	final String SHOW_OTHER_WINDOW = "com.mulgasoft.emacsplus.showOtherWindow";		   //$NON-NLS-1$
+	
+	/**
+	 * Command definition id of shrink window
+	 * Value: <code>"com.mulgasoft.emacsplus.shrinkWindow"</code>
+	 */
+	final String SHRINK_WINDOW= "com.mulgasoft.emacsplus.shrinkWindow"; 						   //$NON-NLS-1$
+	
+	/**
+	 * Command definition id of enlarge window
+	 * Value: <code>"com.mulgasoft.emacsplus.enlargeWindow"</code>
+	 */
+	final String ENLARGE_WINDOW= "com.mulgasoft.emacsplus.enlargeWindow"; 						   //$NON-NLS-1$
+	
+	/**
+	 * Command definition id of balance window
+	 * Value: <code>"com.mulgasoft.emacsplus.balanceWindow"</code>
+	 */
+	final String BALANCE_WINDOW= "com.mulgasoft.emacsplus.balanceWindow"; 						   //$NON-NLS-1$
+	
+	// Frame commands
+	
+	final String MAKE_FRAME= "com.mulgasoft.emacsplus.createFrame"; 						   //$NON-NLS-1$
+	final String OTHER_FRAME= "com.mulgasoft.emacsplus.otherFrame"; 						   //$NON-NLS-1$
+	final String JOIN_FRAME= "com.mulgasoft.emacsplus.joinFrame"; 						   //$NON-NLS-1$
+	final String JOIN_FRAMES= "com.mulgasoft.emacsplus.joinFrames"; 						   //$NON-NLS-1$
+	final String SWITCH_OTHER_FRAME= "com.mulgasoft.emacsplus.switchOtherFrame"; 						   //$NON-NLS-1$
+	final String SHOW_OTHER_FRAME= "com.mulgasoft.emacsplus.showOtherFrame"; 						   //$NON-NLS-1$
+
 	// Point and Mark 
 	
 	/**

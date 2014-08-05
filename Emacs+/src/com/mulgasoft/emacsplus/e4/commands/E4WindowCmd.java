@@ -44,7 +44,8 @@ public abstract class E4WindowCmd extends E4Cmd {
 	 */
 	public static final int TOTAL_SIZE = 10000;
 	
-	public static final List<String> EDITOR_TAG = Arrays.asList("Editor");	//$NON-NLS-1$
+	public static final List<String> EDITOR_TAG = Arrays.asList("Editor"); //$NON-NLS-1$
+	public static final String TOP_TAG = "topLevel";					   //$NON-NLS-1$
 	
 	// split editor in two when true, else just rearrange editors in stack
 	private static boolean splitSelf = EmacsPlusUtils.getPreferenceBoolean(ENABLE_SPLIT_SELF.getPref());
@@ -300,6 +301,13 @@ public abstract class E4WindowCmd extends E4Cmd {
 	 	MUIElement sel = ele;
 		while (sel instanceof MElementContainer) {
 			sel = ((MElementContainer<MUIElement>)sel).getSelectedElement();
+		}
+		// on occasion the above returns null which is bizarre, so try skipping the first level
+		if (sel == null && ele instanceof MElementContainer) {
+			List<MUIElement> c = ((MElementContainer<MUIElement>)ele).getChildren();
+			if (c.size() == 1 && c.get(0) instanceof MPartStack) {
+				sel = ((MElementContainer<MUIElement>)c.get(0)).getSelectedElement();
+			}
 		}
 		return sel;
 	}
