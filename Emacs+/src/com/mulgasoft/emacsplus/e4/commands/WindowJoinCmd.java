@@ -24,6 +24,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
 
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
@@ -46,10 +47,15 @@ public class WindowJoinCmd extends E4WindowCmd {
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)Join jtype,
 			@Active EmacsPlusCmdHandler handler) {
-		preJoin(editor);
+		MPart active = apart;
+		boolean joined = preJoin(editor);
 		switch (jtype) {
 		case ONE:
-			joinOne(apart);
+			active = joinOne(apart);
+			if (joined) {
+				// don't switch on split self merge
+				active = apart;
+			}
 			break;
 		case ALL:
 			joinAll(apart);
@@ -61,7 +67,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 			// change setting without changing preference store
 			setSplitSelf(!isSplitSelf());
 		}
-		reactivate(apart);
+		reactivate(active);
 		forceFocus();
 		return null;
 	}
@@ -70,35 +76,48 @@ public class WindowJoinCmd extends E4WindowCmd {
 	 * Use a generic command to remove duplicates
 	 * @param editor
 	 */
-	protected void preJoin(IEditorPart editor) {
-		closeOthers(editor);
+	protected boolean preJoin(IEditorPart editor) {
+		return closeOthers(editor);
 	}
 	
 	protected void postJoin(IEditorPart editor) {
 		// for sub-classes
 	}
 
-	void closeOthers(IEditorPart editor) {
+	/**
+	 * Close any duplicate editors that match this one
+	 * 
+	 * @param editor
+	 * @return true if any were closed
+	 */
+	boolean closeOthers(IEditorPart editor) {
+		IWorkbenchPage page = EmacsPlusUtils.getWorkbenchPage();
+		int pre = EmacsPlusUtils.getSortedEditors(page).length;		
 		if (isSplitSelf()) {
 			try {
 				EmacsPlusUtils.executeCommand(IEmacsPlusCommandDefinitionIds.CLOSE_OTHER_INSTANCES, null, editor);
 			} catch (Exception e) {} 
 		}
+		return (pre != EmacsPlusUtils.getSortedEditors(page).length);
 	}
 	
 	/**
 	 * Merge the stack containing the selected part into its neighbor
 	 * 
 	 * @param apart
+	 * @return the element to select
 	 */
-	void joinOne(MPart apart) {
+	MPart joinOne(MPart apart) {
 		PartAndStack ps = getParentStack(apart);
 		MElementContainer<MUIElement> pstack = ps.getStack();
 		MPart part = ps.getPart();		
-		if (pstack == null || join2Stacks(pstack, getAdjacentElement(pstack, part, true), part) == null) {
+		MElementContainer<MUIElement> adjacent = getAdjacentElement(pstack, part, true);
+		MUIElement sel = getSelected(adjacent);
+		if (pstack == null || join2Stacks(pstack, adjacent, part) == null) {
 			// Invalid state 
 			Beeper.beep();
 		}
+		return (sel instanceof MPart) ? (MPart)sel : apart;
 	}
 
 	/**
