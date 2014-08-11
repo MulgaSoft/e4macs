@@ -128,6 +128,8 @@ public class SwitchToBufferOtherCmd extends WindowSplitCmd implements IMinibuffe
 			partService.showPart(newPart, PartState.VISIBLE);
 			reactivate(apart);
 		} else {
+			// bug in Kepler forces us to activate the old before the new
+			reactivate(apart);
 			reactivate(newPart);
 		}
 	}

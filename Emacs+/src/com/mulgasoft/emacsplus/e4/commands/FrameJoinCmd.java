@@ -56,14 +56,15 @@ public class FrameJoinCmd extends WindowJoinCmd {
 
 	
 	@Override
-	void joinOne(MPart apart) {
+	MPart joinOne(MPart apart) {
 		joined = true;
 		if ((Object)getTopElement(apart.getParent()) instanceof MTrimmedWindow) {
-			super.joinOne(apart);
+			return super.joinOne(apart);
 		} else {
 			joined = false;
 			Beeper.beep();
 		}
+		return apart;
 	}
 
 	private List<MPart> getParts(MUIElement element, int location) {
@@ -103,7 +104,7 @@ public class FrameJoinCmd extends WindowJoinCmd {
 		return result;
 	}
 	
-	protected void preJoin(IEditorPart editor) {}
+	protected boolean preJoin(IEditorPart editor) {return false;}
 	
 	protected void postJoin(IEditorPart editor) {
 		if (joined) {

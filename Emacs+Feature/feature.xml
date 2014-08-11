@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.1.2"
+      version="4.1.3"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,6 +11,9 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
+4.1.3:
+- On C-x 0 activate the selected buffer in the target window
+- Add workaround to show correct buffer after split in Kepler
 4.1.2:
 - Add C-X 4 . Open Declaration Other Window
 4.1.1:

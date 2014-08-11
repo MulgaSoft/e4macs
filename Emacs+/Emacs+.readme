@@ -217,9 +217,7 @@ Split window behavior - Adapt the Emacs notion of window splitting to the Eclips
           o When the split editor preference is checked (default), the current editor is split and placed beside itself
     * Join Other Window (Ctrl-X 1): Join a previously split editor window to the (upper left) editor stack
           o When the split editor preference is checked (default), duplicate instances of the editor are closed
-    * Deactivate Window (Ctrl-X 0):  Remove (duplicate) editor from the display. 
-          o If the editor is the only one in its stack, the stack is deleted as well.
-          o If the editor is the last instance, then it is not removed - the previous editor is activated
+    * Deactivate Window (Ctrl-X 0):  Remove split editor window from the display. 
     * Enlarge Window (Ctrl+X }): Make selected window larger
 	* Shrink Window (Ctrl+X {): Make selected window smaller
 	* Balance Windows (Ctrl+X +): Make windows same height or width in selected frame
@@ -248,7 +246,7 @@ Window navigation -
     
     * Switch To Buffer Other Window (Ctrl-X 4 B): Select the buffer shown in the minibuffer in another window
     * Display Buffer Other Window (Ctrl-X 4 Ctrl-O): Display the buffer shown in the minibuffer in another window without selecting it        
-    * Open Declaration Other Window (Ctrl-x 4 .): Open declaration of the element under point in another window stack 
+    * Open Declaration Other Window (Ctrl-X 4 .): Open declaration of the element under point in another window stack 
     
 Frame commands - 
 
