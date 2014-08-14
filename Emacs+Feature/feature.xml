@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.1.3"
+      version="4.1.4"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,6 +11,8 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
+4.1.4:
+- Remove dynamic binding (^C^V^Y) to restore ^C for those who want it
 4.1.3:
 - On C-x 0 activate the selected buffer in the target window
 - Add workaround to show correct buffer after split in Kepler

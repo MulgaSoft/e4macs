@@ -217,10 +217,10 @@ Split window behavior - Adapt the Emacs notion of window splitting to the Eclips
           o When the split editor preference is checked (default), the current editor is split and placed beside itself
     * Join Other Window (Ctrl-X 1): Join a previously split editor window to the (upper left) editor stack
           o When the split editor preference is checked (default), duplicate instances of the editor are closed
-    * Deactivate Window (Ctrl-X 0):  Remove split editor window from the display. 
-    * Enlarge Window (Ctrl+X }): Make selected window larger
-	* Shrink Window (Ctrl+X {): Make selected window smaller
-	* Balance Windows (Ctrl+X +): Make windows same height or width in selected frame
+    * Deactivate Window (Ctrl-X 0):  Remove split editor window from the display
+    * Enlarge Window (Ctrl-X }): Make selected window larger
+	* Shrink Window (Ctrl-X {): Make selected window smaller
+	* Balance Windows (Ctrl-X +): Make windows same height or width in selected frame
     * Scroll Other Window (Ctrl-Alt-V or Alt-PageDown):  Scroll the other window near full screen
     * Scroll Other Window Down (Alt-PageUp):  Scroll the other window down near full screen
     * Begin Other Window (Alt-Home):  Go to the beginning of the buffer in the other window
@@ -254,11 +254,11 @@ Frame commands -
           o When the split editor preference is checked (default), the current editor is split and moved to a new frame
           o The preferences Initial/Default split frame rectangles when not 0,0,0,0 specify where to place the first/subsequent frames
             [NB: Eclipse always forces detached frames to be in front of the workbench window when overlapped]
-    * Join Frame (Ctrl+X 5 0): Join current frame to the main frame
-	* Join Other Frames (Ctrl+X 5 1): Join all frames to the main frame
-	* Other Frame (Ctrl+X 5 O): Activate the next editor frame
-	* Switch to Buffer Other Frame (Ctrl+X 5 B): Select buffer in another frame
-	* Display Buffer Other Frame (Ctrl+X 5 Ctrl+O): Display Buffer in another Frame
+    * Join Frame (Ctrl-X 5 0): Join current frame to the main frame
+	* Join Other Frames (Ctrl-X 5 1): Join all frames to the main frame
+	* Other Frame (Ctrl-X 5 O): Activate the next editor frame
+	* Switch to Buffer Other Frame (Ctrl-X 5 B): Select buffer in another frame
+	* Display Buffer Other Frame (Ctrl-X 5 Ctrl-O): Display Buffer in another Frame
 
 
 Narrow Region - 
@@ -384,7 +384,7 @@ Indenting and Alignment
     * Indent Rigidly (Ctrl-X TAB): Indent all lines starting in the region sideways by ARG columns (default 1)
     
     * Indent For Tab (unbound): Indent line or region in the proper way for the current major mode
-          o This command is unbound by default as it is not Emacs+ policy to rebind fundamental keys.  It can be bound to TAB on the keys preference page using the dropdown next to the Binding: key field entry. The command uses some heuristics to invoke the 'proper' command for the given editor (if one can be found) or else inserts tabs (or the equivalent spaces as described below).  It should not be bound to Ctrl+I, as that will result in a no-op.
+          o This command is unbound by default as it is not Emacs+ policy to rebind fundamental keys.  It can be bound to TAB on the keys preference page using the dropdown next to the Binding: key field entry. The command uses some heuristics to invoke the 'proper' command for the given editor (if one can be found) or else inserts tabs (or the equivalent spaces as described below).  It should not be bound to Ctrl-I, as that will result in a no-op.
           o If called with Ctrl-U, then insert tabs or spaces at the beginning of the region and on each following line of the region.
           When invoked with Ctrl-U, there is no good way for Emacs+ to determine whether a given editor class has been configured to use tabs or spaces nor is there a way to determine what some other plugin may do in this regard.  Therefore, Emacs+ uses the setting of the 'primary' tabs preference (at General -> Editors -> Text Editors) to determine which is most likely appropriate, although different editors use different preferences (or even internal heuristics) when inserting tabs/spaces.
 
@@ -475,7 +475,6 @@ Optional Language Specific Functionality
 
     * Find Tag (Alt-.): Open an editor on the selected element.  The mark is set on the current location before the command is executed.
           o Currently available in Java, JavaScript, C/C++, and Aptana Ruby 
-          o Alternate binding - Open Declaration (Ctrl-C Ctrl-V Ctrl-Y)
 
     * Select Enclosing Element (Ctrl-Alt-U): Select the enclosing element
           o Currently available in Java and JavaScript

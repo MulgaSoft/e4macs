@@ -168,7 +168,6 @@ public class DynamicInitializer {
 		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"ESC P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener()));   	 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"ESC .",MarkUtils.getTagListener()));  					 //$NON-NLS-1$ //$NON-NLS-2$
 
 		// javascript bindings
@@ -180,7 +179,6 @@ public class DynamicInitializer {
 		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"ESC .",MarkUtils.getTagListener()));   			 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener())); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// pde bindings
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",PEDITOR,"ESC ;"));  											 //$NON-NLS-1$ //$NON-NLS-2$
@@ -194,15 +192,12 @@ public class DynamicInitializer {
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.text.c.toggle.comment",CEDITOR,"ESC ;")); 												 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.open.quick.type.hierarchy",CEDITOR,"CTRL+["));											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.cdt.ui.edit.opendecl",CEDITOR,"ESC .",MarkUtils.getTagListener()));   								 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.cdt.ui.edit.opendecl",CEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener()));   					 //$NON-NLS-1$ //$NON-NLS-2$
 
 		// ruby bindings (aptana)
 		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.toggle.comment",RBYEDITOR,"ESC ;")); 										 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"ESC .",MarkUtils.getTagListener())); 				 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"CTRL+C CTRL+V CTRL+Y",MarkUtils.getTagListener())); 	 //$NON-NLS-1$ //$NON-NLS-2$
-		
 	}};
-
+	
 	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> altBindings = new HashSet<MinderBinder>() {{
 
