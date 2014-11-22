@@ -170,6 +170,13 @@ public abstract class SexpHandler extends EmacsPlusNoEditHandler {
 	protected abstract int endTransform(ITextEditor editor, int offset, ITextSelection origSelection,ITextSelection selection);
 	protected abstract int endTransform(TextConsoleViewer viewer, int offset, ITextSelection origSelection, ITextSelection selection);
 		
+	@Override
+	protected void preTransform(ITextEditor editor, ITextSelection selection) {
+		// in this context, will often generate unbalanced message, so clear first
+		EmacsPlusUtils.clearMessage(editor);
+		super.preTransform(editor, selection);
+	}
+
 	/**
 	 * Get the transposition sexp, i.e: - a complete sexp at current position -
 	 * ignore non-identifier constituents
@@ -639,7 +646,7 @@ public abstract class SexpHandler extends EmacsPlusNoEditHandler {
 			} catch (Exception e) {
 			}
 		}
-		selectAndReveal(editor,offset,mark);
+		selectAndReveal(editor, offset, mark);
 		return NO_OFFSET;
 	}
 	
@@ -647,9 +654,9 @@ public abstract class SexpHandler extends EmacsPlusNoEditHandler {
 		// move the cursor if moveit == true	
 		int newOffset = selection.getOffset();
 		newOffset = (moveit ? newOffset + selection.getLength() : newOffset);
-		selectAndReveal(editor,newOffset,newOffset);
+		selectAndReveal(editor, newOffset, newOffset);
 		
-		return offset;
+		return NO_OFFSET;
 	}
 	
 	protected int selectTransform(TextConsoleViewer viewer, int offset, ITextSelection origSelection, ITextSelection selection) {
@@ -667,7 +674,7 @@ public abstract class SexpHandler extends EmacsPlusNoEditHandler {
 		newOffset = (moveit ? newOffset + selection.getLength() : newOffset);
 		viewer.setSelectedRange(newOffset, 0);
 		
-		return offset;
+		return NO_OFFSET;
 	}
 
 }

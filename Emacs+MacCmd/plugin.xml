@@ -708,6 +708,18 @@
 	<key
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="ESC M3+ARROW_RIGHT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="ESC COMMAND+ARROW_RIGHT"/>
+		
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"		
 		sequence="CTRL+M3+B"/>
 	<key
@@ -717,6 +729,18 @@
 		platform="cocoa"		
 		sequence="CTRL+COMMAND+B"/>
 		
+	<key
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="ESC M3+ARROW_LEFT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="ESC COMMAND+ARROW_LEFT"/>
+
     <!-- Search/Replace Commands -->		
 	<key
 		contextId="org.eclipse.ui.textEditorScope"

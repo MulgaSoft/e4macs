@@ -21,8 +21,6 @@ import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsoleViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.mulgasoft.emacsplus.EmacsPlusUtils;
-
 /**
  * Implements: forward-sexp. Move forward one s-expression
  *  
@@ -41,8 +39,6 @@ public abstract class SexpBaseForwardHandler extends SexpHandler implements ICon
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection, ExecutionEvent event)
 	throws BadLocationException {
 		ITextSelection selection = null;
-		// in this context, will often generate unbalanced message, so reset
-		EmacsPlusUtils.clearMessage(editor);
 		try {
 			ITextSelection nSelection = currentSelection;
 			if (checkMark(editor, currentSelection.getOffset(),currentSelection.getLength())) {

@@ -60,7 +60,11 @@ public class TransposeSexpHandler extends EmacsPlusCmdHandler {
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event, boolean wordp) throws BadLocationException {
 		int result = NO_OFFSET;
-		int offset = currentSelection.getOffset();
+		
+		// clear any selection before embarking on the kill as depending on the selection, it's offset may not be the cursor offset
+		ITextSelection sexpSelection = MarkUtils.setSelection(editor, getCursorOffset(editor), 0);
+
+		int offset = sexpSelection.getOffset();
 		if (getUniversalCount() < 0) {
 			try {
 				executeCommand(IEmacsPlusCommandDefinitionIds.BACKWARD_SEXP, null, editor);
@@ -75,9 +79,9 @@ public class TransposeSexpHandler extends EmacsPlusCmdHandler {
 				throw new BadLocationException();
 			}
 		} else if (getUniversalCount() == 0) {
-			result = transformAtPointAndMark(editor,document,currentSelection,event,wordp);
+			result = transformAtPointAndMark(editor,document,sexpSelection,event,wordp);
 		} else {
-			result = transformAtPoint(editor,document,currentSelection,event,wordp);
+			result = transformAtPoint(editor,document,sexpSelection,event,wordp);
 		}
 		return result;
 	}

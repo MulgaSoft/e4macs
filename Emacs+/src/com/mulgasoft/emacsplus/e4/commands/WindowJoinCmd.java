@@ -8,8 +8,6 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.isMac;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -210,17 +208,14 @@ public class WindowJoinCmd extends E4WindowCmd {
 	}
 
 	/**
-	 * Semi-workaround for egregious eclipse bug that denies focus on join
-	 * Unfortunately, the cursor is invisible.  If just reactivate is called, then
-	 * the cursor is visible, but the keyboard has lost focus.
-	 * I believe this only affects OSX (TBD)
-	 * 
-	 * @param editor
-	 * @param apart
+	 * Semi-workaround for egregious eclipse bug that denies focus on join which, unfortunately,
+	 * leaves the cursor is invisible.
+	 * If just reactivate is called, then the cursor is visible, but the keyboard has lost focus.
+	 * A defect has been submitted which covers this (and other cases): 
+	 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=441010
 	 */
 	protected void forceFocus() {
-		if (isMac()) 
-			shell.forceFocus();
+		shell.forceFocus();
 	}
 
 }

@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.1.4"
+      version="4.1.5"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -11,6 +11,12 @@
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
 See emacs+news (C-h n) for history details.  Recent changes include:
+4.1.5:
+- Add focus forcing on Deactivate Window for all platforms
+- Improve performance of sexp commands when called with count
+- Fix issues with sexp commands and selections
+- Add some ESC bindings for sexp commands
+- Skip &apos;initial&apos; whitespace when changing case in reverse
 4.1.4:
 - Remove dynamic binding (^C^V^Y) to restore ^C for those who want it
 4.1.3:
