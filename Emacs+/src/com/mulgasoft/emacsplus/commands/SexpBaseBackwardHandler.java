@@ -22,8 +22,6 @@ import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsoleViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.mulgasoft.emacsplus.EmacsPlusUtils;
-
 /**
  * Implements: backward-sexp. Move backward one s-expression
  * 
@@ -42,8 +40,6 @@ public abstract class SexpBaseBackwardHandler extends SexpHandler  implements IC
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection, ExecutionEvent event)
 	throws BadLocationException {
 		ITextSelection selection = null;
-		// in this context, will often generate unbalanced message, so clear first
-		EmacsPlusUtils.clearMessage(editor);
 		try {
 			ITextSelection nSelection = currentSelection;
 			if (checkMark(editor, currentSelection.getOffset(),currentSelection.getLength())) {

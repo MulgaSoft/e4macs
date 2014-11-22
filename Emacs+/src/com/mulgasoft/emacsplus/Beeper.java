@@ -8,16 +8,16 @@
  */
 package com.mulgasoft.emacsplus;
 
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Add interrupt behavior to beep() for kbd macro interrupts

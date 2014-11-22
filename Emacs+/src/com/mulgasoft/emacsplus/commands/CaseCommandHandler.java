@@ -77,6 +77,10 @@ public abstract class CaseCommandHandler extends EmacsPlusCmdHandler {
 				// if we're starting from embedded position, search from end and then prune result to initial position
 				result = getNextSelection(document, fore, false, REVERSE_TOKEN_EXP);	
 				result = new TextSelection(document,result.getOffset(),result.getLength() - (fore.getOffset() - initialSel.getOffset()));
+				if (result.equals(selection)) {
+					// if we're back where we started, then not embedded so search back one token
+					result = getNextSelection(document, selection, false, REVERSE_TOKEN_EXP);	
+				}
 			} else if (fore == null && (initialSel.getOffset() >= document.getLength())) {
 				// if we're starting at document end
 				result = getNextSelection(document,new TextSelection(document,selection.getOffset()-1,0),false,REVERSE_TOKEN_EXP);				
@@ -128,9 +132,9 @@ public abstract class CaseCommandHandler extends EmacsPlusCmdHandler {
 	}
 	
 	@Override
-	protected void preTransform(ITextSelection selection) {
+	protected void preTransform(ITextEditor editor, ITextSelection selection) {
 		initialSel = selection;
-		super.preTransform(selection);
+		super.preTransform(editor, selection);
 	}
 
 	@Override

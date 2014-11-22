@@ -8,8 +8,6 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.isMac;
-
 import java.util.List;
 
 import javax.inject.Inject;

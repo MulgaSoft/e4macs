@@ -366,7 +366,7 @@ public class MarkUtils {
 	 * @param length
 	 *            - in model coords
 	 */
-	public static void setSelection(ITextEditor editor, int start, int length) {
+	public static ITextSelection setSelection(ITextEditor editor, int start, int length) {
 
 		TextViewer tv = findTextViewer(editor);
 		ITextSelection selection = new TextSelection(null, start, length);
@@ -375,6 +375,7 @@ public class MarkUtils {
 		} else {
 			setSelection(editor, selection);
 		}
+		return selection;
 	}
 
 	/**
@@ -386,7 +387,7 @@ public class MarkUtils {
 	 * @param selection
 	 *            in model coords
 	 */
-	public static void setSelection(ITextEditor editor, ITextSelection selection) {
+	public static ITextSelection setSelection(ITextEditor editor, ITextSelection selection) {
 		boolean isNarrow = editor.showsHighlightRangeOnly();
 		// Use the text widget, as the IRewriteTarget has unpleasant scrolling side effects 
 		Control text = getTextWidget(editor);
@@ -402,6 +403,7 @@ public class MarkUtils {
 			}
 			text.setRedraw(true);
 		}
+		return selection;
 	}
 
 	/**

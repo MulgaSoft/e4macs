@@ -40,8 +40,6 @@ public class BackwardUpListHandler extends SexpBaseBackwardHandler implements IC
 	@Override
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
-		// in this context, will often generate unbalanced message, so reset
-		EmacsPlusUtils.clearMessage(editor);
 		boolean isBackup = getUniversalCount() > 0;  	// normal direction
 		int offset = doTransform(document,currentSelection,getCursorOffset(editor,currentSelection),isBackup);
 		if (offset < 0) {

@@ -17,8 +17,6 @@ import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsoleViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.mulgasoft.emacsplus.EmacsPlusUtils;
-
 /**
  * Implements: down-list
  * 
@@ -34,9 +32,7 @@ public class DownListHandler extends SexpForwardHandler implements IConsoleDispa
 	@Override
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection, ExecutionEvent event)
 	throws BadLocationException {
-		// in this context, will often generate unbalanced message, so reset
 		ITextSelection selection = null;
-		EmacsPlusUtils.clearMessage(editor);
 		selection = downList(document, currentSelection);
 		if (selection == null) {
 			unbalanced(editor,true);

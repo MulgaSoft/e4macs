@@ -1105,6 +1105,11 @@
 		commandId="com.mulgasoft.emacsplus.killbackwardsexp"
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC CTRL+BS"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.killbackwardsexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+M3+BS"/>
 	<key
 		commandId="com.mulgasoft.emacsplus.transposesexp"
@@ -2426,10 +2431,30 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+M3+F"/>
 	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC M3+ARROW_RIGHT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.forwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC CTRL+ARROW_RIGHT"/>
+	<key
 		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+M3+B"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC M3+ARROW_LEFT"/>
+	<key
+		commandId="com.mulgasoft.emacsplus.backwardMarkSexp"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="ESC CTRL+ARROW_LEFT"/>
   </extension>
    
  <!-- ******************** Miscellaneous ******************** -->   

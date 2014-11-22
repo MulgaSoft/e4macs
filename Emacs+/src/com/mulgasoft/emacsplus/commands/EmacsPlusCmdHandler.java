@@ -322,7 +322,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			// Get the current selection
 			ISelectionProvider selectionProvider = editor.getSelectionProvider();
 			ITextSelection selection = (ITextSelection) selectionProvider.getSelection();
-			preTransform(selection);
+			preTransform(editor, selection);
 			return transformWithCount(editor,getThisDocument(),selection,event);
 			
 		} finally {
@@ -338,7 +338,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	 * For use by sub-classes
 	 * @param selection
 	 */
-	protected void preTransform(ITextSelection selection) {
+	protected void preTransform(ITextEditor editor, ITextSelection selection) {
 		// default does nothing
 	}
 	
@@ -749,12 +749,12 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		return result;
 	}
 	
-	protected void setSelection(ITextEditor editor,ITextSelection selection){
-		MarkUtils.setSelection(editor, selection);
+	protected ITextSelection setSelection(ITextEditor editor, ITextSelection selection){
+		return MarkUtils.setSelection(editor, selection);
 	}
 	
-	protected void setSelection(ITextEditor editor,int offset, int length){
-		MarkUtils.setSelection(editor, offset, length);
+	protected ITextSelection setSelection(ITextEditor editor,int offset, int length){
+		return MarkUtils.setSelection(editor, offset, length);
 	}
 	
 	protected void updateText(IDocument document,ITextSelection selection,String newText) throws BadLocationException{
