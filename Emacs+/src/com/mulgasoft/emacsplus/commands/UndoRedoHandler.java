@@ -19,10 +19,13 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
-import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.MarkUtils;
 import com.mulgasoft.emacsplus.MarkUtils.ICommandIdListener;
 import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
+
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.UNDO_REDO;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.EMP_UNDO;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.EMP_REDO;
 
 /**
  * Approximate support for enhanced undo behavior from Emacs:
@@ -48,9 +51,9 @@ import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
  */
 public class UndoRedoHandler extends EmacsPlusCmdHandler implements ICommandIdListener {
 	
-	private static String UNDO_EMPTY = EmacsPlusActivator.getResourceString("Undo_Empty");   //$NON-NLS-1$  
-	private static String UNDO_STATUS = EmacsPlusActivator.getResourceString("Undo_Status"); //$NON-NLS-1$  
-	private static String REDO_STATUS= EmacsPlusActivator.getResourceString("Redo_Status");  //$NON-NLS-1$  
+	private static final String UNDO_EMPTY = EmacsPlusActivator.getResourceString("Undo_Empty");   //$NON-NLS-1$  
+	private static final String UNDO_STATUS = EmacsPlusActivator.getResourceString("Undo_Status"); //$NON-NLS-1$  
+	private static final String REDO_STATUS= EmacsPlusActivator.getResourceString("Redo_Status");  //$NON-NLS-1$  
 
 	private static UndoState state;
 	private static boolean emacsUndo = EmacsPlusUtils.getPreferenceBoolean(EmacsPlusPreferenceConstants.P_EMACS_UNDO);
@@ -96,10 +99,8 @@ public class UndoRedoHandler extends EmacsPlusCmdHandler implements ICommandIdLi
 	public void setCommandId(String commandId) {
 		if (emacsUndo) {
 			if (commandId != null) {
-				boolean cstate = (IEmacsPlusCommandDefinitionIds.UNDO_REDO.equals(commandId) || 
-						IEmacsPlusCommandDefinitionIds.EMP_UNDO.equals(commandId));
 				// transition state based on previous command executed
-				state.updateState(cstate, commandId);
+				state.updateState((UNDO_REDO.equals(commandId) || EMP_UNDO.equals(commandId)), commandId);
 			}
 		}
 	}
@@ -137,7 +138,7 @@ public class UndoRedoHandler extends EmacsPlusCmdHandler implements ICommandIdLi
 		}
 
 		public String getCommandId() {
-			return IEmacsPlusCommandDefinitionIds.EMP_UNDO;
+			return EMP_UNDO;
 		}
 		
 		public String toString() {
@@ -145,7 +146,7 @@ public class UndoRedoHandler extends EmacsPlusCmdHandler implements ICommandIdLi
 		}
 	};
 	
-	private  final UndoState redo = new UndoState() {
+	private final UndoState redo = new UndoState() {
 
 		public void updateState(boolean isUndo, String id) {
 			// TODO: verify that Eclipse clears redo on text changed
@@ -158,7 +159,7 @@ public class UndoRedoHandler extends EmacsPlusCmdHandler implements ICommandIdLi
 		}
 		
 		public String getCommandId() {
-			return IEmacsPlusCommandDefinitionIds.EMP_REDO;
+			return EMP_REDO;
 		}
 		
 		public String toString() {

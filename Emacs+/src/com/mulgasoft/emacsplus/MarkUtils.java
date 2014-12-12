@@ -9,6 +9,12 @@
  */
 package com.mulgasoft.emacsplus;
 
+import static com.mulgasoft.emacsplus.execute.RepeatCommandSupport.isRepeatCommand;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.EMP_COPY;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.METAX_EXECUTE;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.YANK;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.YANK_POP;
+
 import java.util.HashMap;
 
 import org.eclipse.core.commands.Command;
@@ -529,7 +535,7 @@ public class MarkUtils {
 		}
 	};
 	
-	/*************************** Enhanced Mark handling ***************************/
+	/*************************** Command state handling ***************************/
 
 	private static boolean ignoreDispatchId = false;
 	
@@ -572,12 +578,15 @@ public class MarkUtils {
 	}
 	
 	private static void setLastCommand(String commandId) {
-		for (Object listener : commandIdListeners.getListeners()) {
-			if (!ignoreDispatchId && listener instanceof ICommandIdListener) {
-				((ICommandIdListener)listener).setCommandId(commandId);
+		// repeat commands (^X Z) should not change command state
+		if (!isRepeatCommand(commandId)) {
+			for (Object listener : commandIdListeners.getListeners()) {
+				if (!ignoreDispatchId) {
+					((ICommandIdListener)listener).setCommandId(commandId);
+				}
 			}
+			lastCommand = commandId;
 		}
-		lastCommand = commandId;
 	}
 	
 	// Copy command should clear mark & region
@@ -626,15 +635,12 @@ public class MarkUtils {
 				}
 				
 				private boolean notYank(String commandId) {
-					return	(!(IEmacsPlusCommandDefinitionIds.YANK.equals(commandId) || 
-							   IEmacsPlusCommandDefinitionIds.YANK_POP.equals(commandId)|| 
-							   IEmacsPlusCommandDefinitionIds.METAX_EXECUTE.equals(commandId)
-					));
+					return	(!(YANK.equals(commandId) || YANK_POP.equals(commandId)|| METAX_EXECUTE.equals(commandId)));
 				}
 			};
 			ics.addExecutionListener(execExecListener);
 
-			Command com = ics.getCommand(IEmacsPlusCommandDefinitionIds.EMP_COPY);
+			Command com = ics.getCommand(EMP_COPY);
 			if (com != null) {
 				// Add a listener to COPY command to always clear the mark region
 				copyCmdExecListener = new IExecutionListener() {
@@ -665,7 +671,7 @@ public class MarkUtils {
 				ics.removeExecutionListener(execExecListener);
 			}
 			if (copyCmdExecListener != null) {
-				Command com = ics.getCommand(IEmacsPlusCommandDefinitionIds.EMP_COPY);
+				Command com = ics.getCommand(EMP_COPY);
 				if (com != null) {
 					com.removeExecutionListener(copyCmdExecListener);
 				}

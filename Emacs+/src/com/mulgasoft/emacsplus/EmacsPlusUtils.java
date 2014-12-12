@@ -12,7 +12,6 @@ package com.mulgasoft.emacsplus;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,15 +20,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.eclipse.core.commands.AbstractParameterValueConverter;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IParameter;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterType;
-import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.core.commands.Parameterization;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.CommandException;
 import org.eclipse.core.commands.common.NotDefinedException;
@@ -45,6 +39,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TypedPosition;
+import org.eclipse.jface.util.Util;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
@@ -65,7 +60,6 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
 import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
-import org.eclipse.jface.util.Util;
 
 // Getting an arbitrary widget:
 //	Control focus= page.getWorkbenchWindow().getShell().getDisplay().getFocusControl();
@@ -474,7 +468,7 @@ public class EmacsPlusUtils {
 			if (command != null) {
 				try {
 					MarkUtils.setIgnoreDispatchId(true);
-					ParameterizedCommand pcommand = generateCommand(command, parameters);
+					ParameterizedCommand pcommand = ParameterizedCommand.generateCommand(command, parameters);
 					if (pcommand != null) {
 						result = ihs.executeCommand(pcommand, event);
 					}
@@ -484,51 +478,6 @@ public class EmacsPlusUtils {
 			}
 		}
 		return result;
-	}
-
-	/**
-	 * Provide an implementation that is Europa compatible as this method wasn't added to 
-	 * ParameterizedCommand until 3.4
-	 * 
-	 * @see org.eclipse.core.commands.ParameterizedCommand#generateCommand(Command, Map) 
-	 */
-	private static final ParameterizedCommand generateCommand(Command command, Map<String, ?> parameters) {
-		// no parameters
-		if (parameters == null || parameters.isEmpty()) {
-			return new ParameterizedCommand(command, null);
-		}
-
-		try {
-			ArrayList<Parameterization> parms = new ArrayList<Parameterization>();
-			// iterate over given parameters
-			for (String key : parameters.keySet()) {
-				IParameter parameter = null;
-				// get the parameter from the command
-				parameter = command.getParameter(key);
-
-				// if the parameter is defined add it to the parameter list
-				if (parameter == null) {
-					return null;
-				}
-				ParameterType parameterType = command.getParameterType(key);
-				if (parameterType == null) {
-					parms.add(new Parameterization(parameter, (String) parameters.get(key)));
-				} else {
-					AbstractParameterValueConverter valueConverter = parameterType.getValueConverter();
-					if (valueConverter != null) {
-						String val = valueConverter.convertToString(parameters.get(key));
-						parms.add(new Parameterization(parameter, val));
-					} else {
-						parms.add(new Parameterization(parameter, (String) parameters.get(key)));
-					}
-				}
-			}
-			// convert the parameters to an Parameterization array and create the command
-			return new ParameterizedCommand(command, (Parameterization[]) parms.toArray(new Parameterization[parms.size()]));
-		} catch (NotDefinedException e) {
-		} catch (ParameterValueConversionException e) {
-		}
-		return null;
 	}
 
 	/**

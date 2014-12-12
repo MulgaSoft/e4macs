@@ -2483,6 +2483,55 @@
 		commandId="com.mulgasoft.emacsplus.eclipseKeys"/>
   </extension>
    
+ <!-- **************** Repeat Commands **************** -->
+ 
+  <extension
+		point="org.eclipse.ui.contexts">
+	<context
+		name="%context.repeating.name"
+		description="%context.repeating.description"
+		id="com.mulgasoft.emacsplus.repeating"
+		parentId="org.eclipse.ui.textEditorScope">
+	</context>
+  </extension>
+ 
+  <extension
+		point="org.eclipse.ui.commands">
+	<command
+		categoryId="org.eclipse.ui.category.textEditor"
+		description="%repeat.command.description"
+		id="com.mulgasoft.emacsplus.repeat"
+		name="%repeat.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.RepeatHandler"
+		commandId="com.mulgasoft.emacsplus.repeat"/>
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.repeat"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+X Z" />
+	<key
+		commandId="com.mulgasoft.emacsplus.repeat"
+		contextId="com.mulgasoft.emacsplus.repeating"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="Z" />
+  </extension>
+
  <!-- *************** Search/Replace Commands *************** -->
   <extension
 		point="org.eclipse.ui.commands">

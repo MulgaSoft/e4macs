@@ -53,6 +53,7 @@ import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.IBeepListener;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.MarkUtils;
+import com.mulgasoft.emacsplus.execute.RepeatCommandSupport;
 
 /**
  * Base class of all Emacs+ command handlers
@@ -254,7 +255,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		setUniversalCount(result);
 		return result;
 	}
-	
+
 	/**
 	 * Determine whether it is allowed for the command to be invoked outside the context of a text editor
 	 * 
@@ -276,6 +277,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	/**
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
+	@SuppressWarnings("unchecked")
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ITextEditor editor = getTextEditor(event);
 		if (editor == null) { 
@@ -307,13 +309,12 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			}
 			
 			// Retrieve the universal-argument parameter value if passed 
-			int count = extractUniversalCount(event);
-			if (count != 1) {
+			if (extractUniversalCount(event) != 1) {
 				// check if we should dispatch a related command based on the universal argument
 				String dispatchId = checkDispatchId(event.getCommand().getId());
 				if (dispatchId != null) {
 					// recurse on new id (inverse or arg value driven)
-					return dispatchId(editor, dispatchId, event);
+					return dispatchId(editor, dispatchId, getParams(event.getCommand(), event.getParameters()));
 				}
 			}
 			
@@ -323,7 +324,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			ISelectionProvider selectionProvider = editor.getSelectionProvider();
 			ITextSelection selection = (ITextSelection) selectionProvider.getSelection();
 			preTransform(editor, selection);
-			return transformWithCount(editor,getThisDocument(),selection,event);
+			return transformWithCount(editor, getThisDocument(), selection, event);
 			
 		} finally {
 			// normal commands clean up here
@@ -332,7 +333,47 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			}
 		}
 	}
+	
+	/**
+	 * Make a parameter map, if it uses one, for this command
+	 * @param command
+	 * @param count
+	 * @param params
+	 * @return the populated map, or an empty one
+	 */
+	private Map<String,Object> getParams(Command command, Map<String,Object> params) {
+		try {
+			if (command.getParameter(UNIVERSAL) != null) {
+				if (params.isEmpty()) {
+					params = new HashMap<String, Object>();
+				}
+				params.put(UNIVERSAL, Integer.toString(getUniversalCount()));
+			}
+		} catch (CommandException e) {}	// won't happen
+		return params;
+	}
 
+	/**
+	 * Support repeating the last (Emacs+ handled) command.
+	 * Determine the type of the last command, and re-execute as appropriate
+	 * @param editor
+	 * @return the result of the execution
+	 */
+	protected Object repeatLast(ITextEditor editor, String id, Map<String,Object> params) {
+		// check for synthetic (non-Emacs+) uArg commands
+		if (isUniversalCmd(id)) {
+			try {
+				Integer count =  (Integer)params.get(UNIVERSAL);
+				executeUniversal(editor, id, null, (count != null ? count : 1), true);
+			} catch (Exception e) {
+				// Ignore, as command id should always be valid
+			}
+			return NO_OFFSET;
+		} else {
+			return dispatchId(editor, id, params);
+		}
+	}
+	
 	/**
 	 * Add any extra processing once the handler is set up prior to the transform call
 	 * For use by sub-classes
@@ -1189,12 +1230,20 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	 */
 	void executeUniversal(ITextEditor editor, Command cmd, Event event, int count, boolean isNumeric)
 	throws NotDefinedException,	ExecutionException, CommandException {
-		String id = cmd.getId();
-		String did = null;
 		// pass universal arg if non-default and cmd accepts it
+		String id = cmd.getId();
 		if (cmd.getParameter(UNIVERSAL) != null) {
 			EmacsPlusUtils.executeCommand(id, count, event, editor);
-		} else if ((did = getInternalCmd(id)) != null) {
+		} else {
+			executeUniversal(editor, id, event, count, isNumeric);
+		}
+
+	}
+	
+	void executeUniversal(ITextEditor editor, String id, Event event, int count, boolean isNumeric) 
+	throws NotDefinedException,	ExecutionException, CommandException {
+		String did = null;
+		if ((did = getInternalCmd(id)) != null) {
 			// Emacs+ internal commands should support +- universal-argument
 			EmacsPlusUtils.executeCommand(did, count, event, editor);
 		} else if (count != 1 && (isUniversalCmd(id) || (alwaysUniversal && !id.startsWith(EmacsPlusUtils.MULGASOFT)))) {
@@ -1223,7 +1272,12 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 			setUniversalCount(count);
 			// check if we should dispatch a related command based on the universal argument
 			String dispatchId = checkDispatchId(id);
-			executeWithCount(editor, getThisDocument(editor), (dispatchId != null ? dispatchId : id), Math.abs(count));
+
+			id = (dispatchId != null ? dispatchId : id);
+			count = Math.abs(count);
+			// Associate count with non-Emacs+ uArg command
+			RepeatCommandSupport.getInstance().storeCommand(id, count);
+			executeWithCount(editor, getThisDocument(editor), id, count);
 		} finally {
 			// restore count to default
 			setUniversalCount(1);
@@ -1286,7 +1340,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	 * @param event
 	 * @return execution result
 	 */
-	private Object dispatchId(ITextEditor editor, String id, ExecutionEvent event) {
+	private Object dispatchId(ITextEditor editor, String id, Map<String,Object> params) {
 		Object result = null;
 		if (id != null) {
 			ICommandService ics = (ICommandService) editor.getSite().getService(ICommandService.class);
@@ -1294,18 +1348,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 				Command command = ics.getCommand(id);
 				if (command != null) {
 					try {
-						// check if the dispatch command also takes the parameter
-						if (command.getParameter(UNIVERSAL) != null) {
-							@SuppressWarnings("unchecked")
-							Map<String,Object> params = (Map<String,Object>)event.getParameters();
-							if (params == java.util.Collections.EMPTY_MAP) {
-								params = new HashMap<String, Object>();
-							}
-							params.put(UNIVERSAL, Integer.toString(getUniversalCount()));
-							result = (executeCommand(id, params, null, getThisEditor()));
-						} else {
-							result = executeCommand(id, null, getThisEditor());
-						}
+						result = executeCommand(id, (Map<String,?>)params, null, getThisEditor());
 					} catch (CommandException e) {}
 				}
 			}

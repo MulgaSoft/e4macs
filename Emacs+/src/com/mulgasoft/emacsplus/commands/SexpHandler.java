@@ -172,7 +172,8 @@ public abstract class SexpHandler extends EmacsPlusNoEditHandler {
 		
 	@Override
 	protected void preTransform(ITextEditor editor, ITextSelection selection) {
-		// in this context, will often generate unbalanced message, so clear first
+		// depending on the context, will often generate unbalanced message, so clear first
+		// TODO only clear when used indirectly
 		EmacsPlusUtils.clearMessage(editor);
 		super.preTransform(editor, selection);
 	}
