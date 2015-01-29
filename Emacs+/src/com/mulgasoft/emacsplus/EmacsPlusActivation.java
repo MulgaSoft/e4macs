@@ -57,6 +57,7 @@ import org.eclipse.ui.texteditor.TextEditorAction;
 
 import com.mulgasoft.emacsplus.KillRingListeners.EmacsActionDelegate;
 import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
+import com.mulgasoft.emacsplus.execute.RepeatCommandSupport;
 import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
 
 /**
@@ -65,7 +66,6 @@ import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
  * @author Mark Feber - initial API and implementation
  */
 @SuppressWarnings("restriction")	// For dangerous use of BindingService.addBinding/removeBinding
-//public class EmacsPlusActivation implements IPartListener2 {
 public enum EmacsPlusActivation implements IPartListener2 {
 	
 	ACTIVATION_INSTANCE;
@@ -127,17 +127,22 @@ public enum EmacsPlusActivation implements IPartListener2 {
 			// detect when the workbench is (re)activated, or a new window is opened
 			bench.addWindowListener(KillRingListeners.getActivationListener());
 			bench.addWindowListener(getWindowActivationListener());
-			activateKeySchemeListener();			
+			activateKeySchemeListener(bench);			
+			activateRepeatListener(bench);
 			activatePage(window,true);
 		}
 	}
 
+	private void activateRepeatListener(IWorkbench bench) {
+		((ICommandService)bench.getService(ICommandService.class)).addExecutionListener(RepeatCommandSupport.getInstance());
+	}
+	
 	/**
 	 * Potentially delay adding the dynamic bindings as even though they are in the emacs+ scheme, prefix keys can
 	 * still wind up blocking any other usage in the default binding due to yet another eclipse keybinding issue.
 	 */
-	private void activateKeySchemeListener() {
-		IBindingService bindingSvc = ((IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class));		
+	private void activateKeySchemeListener(IWorkbench bench) {
+		IBindingService bindingSvc = ((IBindingService) bench.getService(IBindingService.class));		
 		// if emacs+ scheme is already enabled, add the dynamic bindings
 		activateDynamics(bindingSvc.getActiveScheme().getId());
 		bindingSvc.addBindingManagerListener(new IBindingManagerListener() {

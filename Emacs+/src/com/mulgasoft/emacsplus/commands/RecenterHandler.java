@@ -8,17 +8,18 @@
  */
 package com.mulgasoft.emacsplus.commands;
 
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.RECENTER_TOP_BOTTOM;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.TextConsoleViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.swt.custom.StyledText;
 
-import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.MarkUtils;
 import com.mulgasoft.emacsplus.MarkUtils.ICommandIdListener;
 
@@ -113,12 +114,12 @@ public class RecenterHandler extends EmacsPlusNoEditHandler implements IConsoleD
 	}
 
 	/**
-	 * We don't actually set up the listener, as its unnecessarily expensive
+	 * We don't actually set up the listener, as it's unnecessarily expensive
 	 * 
 	 * @see com.mulgasoft.emacsplus.MarkUtils.ICommandIdListener#setCommandId(java.lang.String)
 	 */
 	public void setCommandId(String commandId) {
-		if (!IEmacsPlusCommandDefinitionIds.RECENTER_TOP_BOTTOM.equals(commandId)) {
+		if (!RECENTER_TOP_BOTTOM.equals(commandId)) {
 			// so re-center will center
 			recenterState = bState;
 		}

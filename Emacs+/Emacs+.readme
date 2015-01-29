@@ -31,6 +31,14 @@ Commands and Command Execution - Provides the ability to execute an arbitrary Ec
     * Emacs+ News (Optional binding - Ctrl-H N - see below): Display a history of user visible changes to Emacs+
     * Where Is Command (Optional binding - Ctrl-H W - see below): Reads a command name from the minibuffer and displays just key-binding information about it
     * Describe Help Commands (Optional binding - Ctrl-H ? - see below): Provide help about the Emacs+ help commands
+    
+    * Repeat (Ctrl-X Z): Repeats the most recently executed text editing command.  A repeated command uses the same arguments that were used before 
+      (e.g. Ctrl-U 20 Ctrl-D deletes 20 characters; calling Ctrl-X Z immediately after, will delete 20 more).
+
+      o If called with Ctrl-U <num>, the new argument is applied to the repeated command.
+      o After repeat has been invoked with Ctrl-X Z, subsequent invocations can be made with Z until a non-repeat command is typed.  [NB: As Eclipse does not 
+        truly support programmatic dynamic rebinding, there are separate keybindings for the initial and subsequent repeat which can (and must) be changed independently.
+        The Z binding uses the special repeating context.]
 
 
 Keyboard Macros - A keyboard macro is a command defined by the Eclipse user to stand for another sequence of command and key invocations.  The current version of Emacs+ keyboard macros does not support editing macros.  Once kbd macros have been saved, they can be set up for subsequent auto-loading on Eclipse restart via the Kbd Macros Preference page.

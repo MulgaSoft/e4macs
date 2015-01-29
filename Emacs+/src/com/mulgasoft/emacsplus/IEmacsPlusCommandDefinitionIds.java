@@ -676,6 +676,8 @@ public interface IEmacsPlusCommandDefinitionIds extends ITextEditorActionDefinit
 	
 	// Others
 	
+	final String REPEAT_COMMAND = "com.mulgasoft.emacsplus.repeat";							   //$NON-NLS-1$
+
 	/**
 	 * As of Ganymede, not yet defined globally 
 	 */

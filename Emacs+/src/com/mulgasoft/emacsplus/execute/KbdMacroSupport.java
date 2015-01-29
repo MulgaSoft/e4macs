@@ -8,22 +8,24 @@
  */
 package com.mulgasoft.emacsplus.execute;
 
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_END;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_END_CALL;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_EXECUTE;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KEYBOARD_QUIT;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.Stack;
 import java.util.TreeMap;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -64,7 +66,7 @@ import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
  * 
  * @author Mark Feber - initial API and implementation
  */
-public class KbdMacroSupport implements IExecutionListener {
+public class KbdMacroSupport extends RepeatingSupport {
 	
 	private static KbdMacroSupport instance = null;
 	private static KbdMacro kbdMacro = null;
@@ -145,12 +147,7 @@ public class KbdMacroSupport implements IExecutionListener {
 	public interface IKbdExecutionListener {
 		void executionDone();
 	}
-	
-	// while defining a macro, record when M-x has been seen
-	// ignore key events after that until a command is seen 
-	// (or the M-x fails and an interrupt is generated)
-	private boolean inMetaXCommand = false;
-	
+
 	public boolean isDefining() {
 		return isdefining;
 	}
@@ -185,10 +182,6 @@ public class KbdMacroSupport implements IExecutionListener {
 			// flag minibuffer exit
 			kbdMacro.addExit();
 		}
-	}
-	
-	private boolean isInMetaXCommand() {
-		return inMetaXCommand;
 	}
 	
 	private void setEditor(ITextEditor editor) {
@@ -727,24 +720,23 @@ public class KbdMacroSupport implements IExecutionListener {
 	public void postExecuteSuccess(String commandId, Object returnValue) {
 		// true, if command was invoked by a binding
 		ExecutionEvent event = popEvent();
-		Event trigger = ((event.getTrigger() != null && event.getTrigger() instanceof Event) ? ((Event)event.getTrigger()) : null);
+		Event trigger = getTrigger(event); 
 		// save cmdId if it immediately follows an M-x or if it was called from a key binding
-		boolean addCmd = inMetaXCommand || trigger != null;
-		inMetaXCommand = false;
-		if (IEmacsPlusCommandDefinitionIds.KBDMACRO_END.equals(commandId)) {
+		boolean addCmd = isInMetaXCommand() || trigger != null;
+		if (isInMetaXCommand(commandId)) {
+			; // ignore.  Sets flag as side-effect
+		} else if (KEYBOARD_QUIT.equals(commandId)) {
+			; // ignore. This can happen during appending to a definition			
+		} else if (KBDMACRO_END_CALL.equals(commandId)) {
+			; // ignore during definition
+		} else if (KBDMACRO_END.equals(commandId)) {
 			// check if called from minibuffer
 			kbdMacro.checkTrigger(commandId, null, trigger,true);
-		} else if (IEmacsPlusCommandDefinitionIds.KBDMACRO_EXECUTE.equals(commandId)) {
+		} else if (KBDMACRO_EXECUTE.equals(commandId)) {
 			// check if called from minibuffer
 			kbdMacro.checkTrigger(commandId, null, trigger,true);
 			// If you enter `C-x e' while defining a macro, the macro is terminated and executed immediately.
 			endKbdMacro();
-		} else if (IEmacsPlusCommandDefinitionIds.METAX_EXECUTE.equals(commandId)) {
-			inMetaXCommand = true;			
-		} else if (IEmacsPlusCommandDefinitionIds.KEYBOARD_QUIT.equals(commandId)) {
-			; // ignore. This can happen during appending to a definition			
-		} else if (IEmacsPlusCommandDefinitionIds.KBDMACRO_END_CALL.equals(commandId)) {
-			; // ignore during definition
 		} else if (addCmd) {
 			Map<?,?> parameters = event.getParameters();
 			if (parameters != null && parameters.isEmpty()) {
@@ -759,17 +751,6 @@ public class KbdMacroSupport implements IExecutionListener {
 //	boolean inUniversalArg = false;
 	private void popUniversal() {
 		kbdMacro.popUniversal();
-	}
-	private Stack<ExecutionEvent> currentEvent = new Stack<ExecutionEvent>();
-	private ExecutionEvent popEvent() {
-		ExecutionEvent result;
-		try {
-			result = currentEvent.pop();
-		} catch (EmptyStackException e) {
-			// ignore, just return empty event
-			result = new ExecutionEvent();
-		}
-		return result;
 	}
 	
 	/**
@@ -997,7 +978,7 @@ public class KbdMacroSupport implements IExecutionListener {
 		 *
 		 * 2) A binding that is not a full command and is not handled by the minibuffer
 		 *    - the minibuffer is exited
-		 *    - the event is forwarded on where is may be part of a multi-key binding
+		 *    - the event is forwarded on where it may be part of a multi-key binding
 		 *    - checkTrigger (attempts to) handle this (called locally)
 		 *    
 		 * Some future version of the minibuffer may use the command structure to set up sub commands
