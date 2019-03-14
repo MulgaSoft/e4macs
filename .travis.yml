@@ -6,8 +6,13 @@ cache:
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+  - oraclejdk9
+  - oraclejdk11
+
+matrix:
+  allow_failures:
+  - jdk: oraclejdk9
+  - jdk: oraclejdk11
 
 before_install:
   - wget https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip
