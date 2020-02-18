@@ -1,9 +1,10 @@
+Automatic-Module-name: com.mulgasoft.emacsplus.maccmd
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Emacs+ Mac OS X Command Bindings
 Bundle-SymbolicName: com.mulgasoft.emacsplus.maccmd;singleton:=true
-Bundle-Version: 4.1.5
+Bundle-Version: 4.3.0
 Bundle-Vendor: Mark Feber, MulgaSoft
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: com.mulgasoft.emacsplus;bundle-version="4.0.0"
 

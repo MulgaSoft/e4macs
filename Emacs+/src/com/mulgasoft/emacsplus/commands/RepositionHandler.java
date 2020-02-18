@@ -50,7 +50,6 @@ public class RepositionHandler extends EmacsPlusNoEditHandler {
 		ITextViewerExtension viewer = MarkUtils.getITextViewer(editor);
 		if (viewer instanceof ProjectionViewer) {
 			ProjectionAnnotationModel projection = ((ProjectionViewer)viewer).getProjectionAnnotationModel();
-			@SuppressWarnings("unchecked") // the method name says it all
 			Iterator<Annotation> pit = projection.getAnnotationIterator();
 			while (pit.hasNext()) {
 				Position p = projection.getPosition(pit.next());

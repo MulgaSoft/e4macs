@@ -548,7 +548,7 @@ public class MarkUtils {
 		void setCommandId(String commandId);
 	}
 	
-	private static ListenerList commandIdListeners = new ListenerList();
+	private static ListenerList<ICommandIdListener> commandIdListeners = new ListenerList<ICommandIdListener>();
 	public static void addCommandIdListener(ICommandIdListener listener) {
 		commandIdListeners.add(listener);
 	}

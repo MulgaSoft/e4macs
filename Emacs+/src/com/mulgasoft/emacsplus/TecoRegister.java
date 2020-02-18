@@ -166,7 +166,7 @@ public class TecoRegister {
 	 * @param number new number
 	 */
 	public void put(String key,int number) {
-		put(key, new Integer(number));
+		put(key, Integer.valueOf(number));
 	}
 	
 	/**
@@ -246,7 +246,7 @@ public class TecoRegister {
 	public Integer increment(String key, int incr) {
 		Integer number = getNumber(key);
 		if (number != null) {
-			number = new Integer(number + incr);
+			number = Integer.valueOf(number + incr);
 			put(key,number);
 		}
 		return number;

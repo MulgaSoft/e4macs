@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.bindings.Binding;
-import org.eclipse.jface.bindings.Trigger;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -42,7 +41,7 @@ import com.mulgasoft.emacsplus.execute.IBindingResult;
 public class KeyHandlerMinibuffer extends ExecutingMinibuffer { 
 
 	private String prefix = null;
-	private List<Trigger> keys = new ArrayList<Trigger>();
+	private List<KeyStroke> keys = new ArrayList<KeyStroke>();
 	private Binding binding = null;
 	private KeySequence trigger = null;
 	private int keyCharacter = 0;
@@ -108,7 +107,7 @@ public class KeyHandlerMinibuffer extends ExecutingMinibuffer {
 	 */
 	protected void resetKeys() {
 		trigger = null;
-		keys = new ArrayList<Trigger>(); 
+		keys = new ArrayList<KeyStroke>(); 
 	}
 	
 	public String getMinibufferPrefix() {
@@ -221,7 +220,7 @@ public class KeyHandlerMinibuffer extends ExecutingMinibuffer {
 		if (binding == null) {
 			if (!partial) {
 				keyCharacter = character;
-				result = false;
+				result = false; 
 			}
 		} else if (partial) {
 			// keep looking when there are additional partial matches

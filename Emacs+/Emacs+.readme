@@ -1,10 +1,8 @@
 Emacs+ is designed to provide a more Emacs like experience in the Eclipse text editors.  Included are enhancements for keyboard driven command execution and keyboard macros, Emacs style region selection, Emacs style search and query/replace, a kill ring for deleted text, balanced expression (S-expression) behavior, keyboard driven editor window splitting, transposition behavior, simple text manipulation and, for the java editor, append line comment operations.  In cases where the normal Emacs binding interferes with the default Eclipse binding, the Emacs binding is preferred.
 
-    The plugin supports Kepler and later versions and is compiled with 1.6 jdk. 
+    The plugin is compiled with 1.8 jdk. 
     This plug-in is provided as is and may be used freely (see the Emacs+ plug-in license). 
     You may contact support at: support@mulgasoft.com. If you find this plug-in useful, please: Rate this plug-in
-
-Installation: Add the update site http://www.mulgasoft.com/emacsplus/update-site to the eclipse update manager (Help > Software Updates...) and install the desired features.  A zip file with the current release is available here as well.
 
 The Emacs+ Key Scheme extends the Emacs Key Scheme accessible from > Preferences > General > Keys.
 Eclipse text editors are enhanced with the following new or extended features:

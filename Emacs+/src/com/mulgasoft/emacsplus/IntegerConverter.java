@@ -26,9 +26,9 @@ public class IntegerConverter extends AbstractParameterValueConverter {
 	public Object convertToObject(String parameterValue) throws ParameterValueConversionException {
 		Integer result = null;
 		try {
-			result = new Integer(parameterValue);
+			result = Integer.valueOf(parameterValue);
 		} catch (NumberFormatException e) {
-			result = new Integer(1);
+			result = Integer.valueOf(1);
 		}
 		return result;
 	}
