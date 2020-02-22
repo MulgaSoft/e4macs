@@ -588,11 +588,16 @@
 		point="org.eclipse.ui.bindings">
 		
   <!-- C-<number> -->	
+  
+	<!-- Starting in Neon, Eclipse uses this as the zoom out command
+		 Users will have to use the C-u form for negation -->
+	<!--
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="Ctrl+-" />
+	-->
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
 		contextId="org.eclipse.ui.textEditorScope"
