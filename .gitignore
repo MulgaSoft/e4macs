@@ -2,7 +2,6 @@
 bin/
 target/
 # ignore local deployment directory
-Local+Update/
 # ignore cruft files
 *~
 #ignore eclipse metatdata
