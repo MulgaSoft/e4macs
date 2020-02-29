@@ -1,5 +1,5 @@
-Automatic-Module-name: com.mulgasoft.emacsplus.maccmd
 Manifest-Version: 1.0
+Automatic-Module-name: com.mulgasoft.emacsplus.maccmd
 Bundle-ManifestVersion: 2
 Bundle-Name: Emacs+ Mac OS X Command Bindings
 Bundle-SymbolicName: com.mulgasoft.emacsplus.maccmd;singleton:=true
