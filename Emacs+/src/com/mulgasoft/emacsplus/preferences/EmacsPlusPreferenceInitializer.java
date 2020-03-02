@@ -29,6 +29,9 @@ import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_SEXP_TO_CLIPBO
 import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_SPLIT_SELF;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_INIT;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_DEF;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
 
 /**
  * Class used to initialize default preference values.
@@ -69,18 +72,20 @@ public class EmacsPlusPreferenceInitializer extends AbstractPreferenceInitialize
 		store.setDefault(EmacsPlusPreferenceConstants.P_KBD_MACRO_NAME_LOAD,EmacsPlusUtils.EMPTY_STR);
 		store.setDefault(EmacsPlusPreferenceConstants.P_KBD_MACRO_AUTO_LOAD,LoadState.NONE.toString());
 		// new definition style
-		store.setDefault(ENABLE_SPLIT_SELF.getPref(),(Boolean)ENABLE_SPLIT_SELF.getDefault());
-		store.setDefault(FRAME_INIT.getPref(),(String)FRAME_INIT.getDefault());
-		store.setDefault(FRAME_DEF.getPref(),(String)FRAME_DEF.getDefault());
-		store.setDefault(ENABLE_SPLIT_SELF.getPref(),(Boolean)ENABLE_SPLIT_SELF.getDefault());
-		store.setDefault(DELETE_WORD_TO_CLIPBOARD.getPref(),(Boolean)DELETE_WORD_TO_CLIPBOARD.getDefault());
 		store.setDefault(DELETE_SEXP_TO_CLIPBOARD.getPref(),(Boolean)DELETE_SEXP_TO_CLIPBOARD.getDefault());
+		store.setDefault(DELETE_WORD_TO_CLIPBOARD.getPref(),(Boolean)DELETE_WORD_TO_CLIPBOARD.getDefault());
+		store.setDefault(ENABLE_DOT_SEXP.getPref(),(Boolean)ENABLE_DOT_SEXP.getDefault());
+		store.setDefault(ENABLE_GNU_SEXP.getPref(),(Boolean)ENABLE_GNU_SEXP.getDefault());
+		store.setDefault(ENABLE_SPLIT_SELF.getPref(),(Boolean)ENABLE_SPLIT_SELF.getDefault());
+		store.setDefault(ENABLE_UNDER_SEXP.getPref(),(Boolean)ENABLE_UNDER_SEXP.getDefault());
+		store.setDefault(FRAME_DEF.getPref(),(String)FRAME_DEF.getDefault());
+		store.setDefault(FRAME_INIT.getPref(),(String)FRAME_INIT.getDefault());
 		store.setDefault(KILL_RING_MAX.getPref(), Integer.toString((Integer)KILL_RING_MAX.getDefault()));
 		store.setDefault(REPLACE_TEXT_TO_KILLRING.getPref(),(Boolean)REPLACE_TEXT_TO_KILLRING.getDefault());
-		store.setDefault(ENABLE_GNU_SEXP.getPref(),(Boolean)ENABLE_GNU_SEXP.getDefault());
-		store.setDefault(ENABLE_DOT_SEXP.getPref(),(Boolean)ENABLE_DOT_SEXP.getDefault());
-		store.setDefault(ENABLE_UNDER_SEXP.getPref(),(Boolean)ENABLE_UNDER_SEXP.getDefault());
-		// preferences that are only set by toggle commands and have no preference UI manifestation
+		store.setDefault(SHOW_OTHER_HORIZONTAL.getPref(),(Boolean)SHOW_OTHER_HORIZONTAL.getDefault());
+		// preferences that are only set by toggle or set variable and have no preference UI manifestation
 		store.setDefault(KILL_WHOLE_LINE.getPref(),(Boolean)KILL_WHOLE_LINE.getDefault());
-		}
+		store.setDefault(RING_BELL_FUNCTION.getPref(), (String)RING_BELL_FUNCTION.getDefault());
+		store.setDefault(SEARCH_EXIT_OPTION.getPref(), (String)SEARCH_EXIT_OPTION.getDefault());
+	}
 }

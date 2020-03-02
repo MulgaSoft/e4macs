@@ -9,6 +9,7 @@
 package com.mulgasoft.emacsplus.preferences;
 
 import java.util.Arrays;
+import java.util.SortedMap;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.text.BadLocationException;
@@ -29,16 +30,15 @@ import com.mulgasoft.emacsplus.minibuffer.ReadNumberMinibuffer;
 import com.mulgasoft.emacsplus.minibuffer.TextMinibuffer;
 
 /**
- * Set preference variables to a value dynamically
+ * Show/Set preference variables to a value dynamically
  * 
  * @author Mark Feber - initial API and implementation
  */
 public class EvalHandler extends PreferenceHandler implements IMinibufferExecutable, INonEditingCommand {
 
 	private final static String PROMPT = ": ";  											//$NON-NLS-1$
-	private final static String INIT = "M-";												//$NON-NLS-1$
 	private final static String ABORT = EmacsPlusActivator.getResourceString("Exec_Abort"); //$NON-NLS-1$
-	private final static String SV = EmacsPlusActivator.getResourceString("Set_Variable"); //$NON-NLS-1$
+	private final static String SV = EmacsPlusActivator.getResourceString("Set_Variable");  //$NON-NLS-1$
 
 	// the state object for linked minibuffers
 	protected IMinibufferState mbState = null;
@@ -58,9 +58,9 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 	};
 
 	protected String getTypePrompt(EvalType e) {
-		return e.name();
+		return e.toString();
 	}
-	
+
 	/**
 	 * @see com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler#transform(org.eclipse.ui.texteditor.ITextEditor,
 	 *      org.eclipse.jface.text.IDocument, org.eclipse.jface.text.ITextSelection,
@@ -70,18 +70,17 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
 
-		if (isUniversalPresent()) {
-			// show only
-			mbState = variableState(EvalType.eval);
-			mbState.run(editor);
-		} else {
-			mbState = evalState(INIT+PROMPT);
-			return mbState.run(editor);
-		}
-		return NO_OFFSET;
+		mbState = evalOrSetState(getTypePrompt(EvalType.eval)+PROMPT, !isUniversalPresent());
+		return mbState.run(editor);
 	}
 
-	private IMinibufferState evalState(final String prompt) {
+	/**
+	 * Select the preference variable to show, or transition to set variable
+	 *  
+	 * @param prompt for the ui
+	 * @param setState true if allowing set variable (setq)
+	 */
+	private IMinibufferState evalOrSetState(final String prompt, boolean setState) {
 
 		return new IMinibufferState() {
 
@@ -90,43 +89,46 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 			}
 
 			public int run(ITextEditor editor) {
-				miniTransform(
-						new StrictMinibuffer(EvalHandler.this, Arrays.asList(EvalType.eval.name(), EvalType.setq.name()), true) {},
-						editor, null);
+				miniTransform(new EvalMinibuffer(EvalHandler.this) {
+					protected SortedMap<String, PrefVars> getCompletions() {
+						return PrefVars.getCompletions(setState);
+					}
+				}, editor, null);
 				return NO_OFFSET;
 			}
 
 			public boolean executeResult(ITextEditor editor, Object minibufferResult) {
-				EvalType type = null;
-				if (minibufferResult != null) {
-					try {
-						type = EvalType.valueOf((String) minibufferResult);
-					} catch (Exception e) {
-					} // ignore
-				}
-				if (type != null) {
-					mbState = variableState(type);
-					mbState.run(editor);
+				PrefVars var = null;
+				if (minibufferResult != null && minibufferResult instanceof PrefVars) {
+					var = (PrefVars)minibufferResult;
+					if (var != null) {
+						if (var == PrefVars.SETQ) {
+							mbState = variableSetState();
+							mbState.run(editor);
+						} else {
+							setResultMessage(var.getDisplayName() + ' ' + var.getValue().toString(), false, editor);
+						}
+					} 
 				} else {
 					setResultMessage(ABORT, true, editor);
-				}
+				}				
 				return true;
 			}
 		};
 	}
 
 	/**
-	 * Get state object to handle variable selection
+	 * Get state object to handle the set variable selection 
 	 * 
 	 * @param prompt the minibuffer prompt
 	 * @return the variable minibuffer state object
 	 */
-	IMinibufferState variableState(final EvalType type) {
+	IMinibufferState variableSetState() {
 
 		return new IMinibufferState() {
 
 			public String getMinibufferPrefix() {
-				return getTypePrompt(type) + PROMPT;
+				return getTypePrompt(EvalType.setq) + PROMPT;
 			}
 
 			public int run(ITextEditor editor) {
@@ -137,43 +139,35 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 			public boolean executeResult(ITextEditor editor, Object minibufferResult) {
 				boolean result = true;
 				if (minibufferResult != null && minibufferResult instanceof PrefVars) {
-					PrefVars var = (PrefVars) minibufferResult;
-					transitionState(editor, var);
+					transitionState(editor, (PrefVars)minibufferResult);
 				}
 				return result;
 			}
 
 			private void transitionState(ITextEditor editor, PrefVars var) {
-				switch (type) {
-					case eval:
-						setResultMessage(var.getValue().toString(), false, editor);
+				switch (var.getType()) {
+					case BOOLEAN:
+						mbState = trueFalseState(var);
+						mbState.run(editor);
 						break;
-					case setq:
-						switch (var.getType()) {
-							case BOOLEAN:
-								mbState = trueFalseState(var);
-								mbState.run(editor);
-								break;
-							case INTEGER:
-								mbState = numberState(var);
-								mbState.run(editor);
-								break;
-							case RECT:
-							case STRING:
-								mbState = stringState(var);
-								mbState.run(editor);
-								break;
-							default:
-								break;
-						}
+					case INTEGER:
+						mbState = numberState(var);
+						mbState.run(editor);
 						break;
-				}
+					case RECT:
+					case STRING:
+						mbState = stringState(var);
+						mbState.run(editor);
+						break;
+					default:
+						break;
+				}				
 			}
 		};
 	}
 
 	/**
-	 * Get state to handle true/false prompt
+	 * Get state to handle true/false input
 	 * 
 	 * @param var the variable object we're setting
 	 * @return true/false minibuffer state object
@@ -203,9 +197,15 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 			}
 		};
 	}
-	
+
+	/**
+	 * Get state to handle numeric input
+	 * 
+	 * @param var the variable object we're setting
+	 * @return true/false minibuffer state object
+	 */
 	private IMinibufferState numberState(final PrefVars var) {
-		
+
 		return new IMinibufferState() {
 
 			public String getMinibufferPrefix() {
@@ -227,10 +227,10 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 				}
 				return result;
 			}
-			
+
 		};
 	}
-	
+
 	/**
 	 * Return a minibuffer state object for reading and setting a string value.  The string read may be 
 	 * free form, or limited by a set of values defined by an enum on the preference declaration.

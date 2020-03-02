@@ -33,8 +33,8 @@ public class EvalMinibuffer extends CompletionMinibuffer {
 	 * @see com.mulgasoft.emacsplus.minibuffer.CompletionMinibuffer#getCompletions()
 	 */
 	@Override
-	protected SortedMap<String, ?> getCompletions() {
-		return PrefVars.getCompletions();
+	protected SortedMap<String, PrefVars> getCompletions() {
+		return PrefVars.getCompletions(false);
 	}
 	
 	/**

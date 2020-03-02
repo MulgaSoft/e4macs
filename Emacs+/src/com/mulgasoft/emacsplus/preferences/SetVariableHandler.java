@@ -34,7 +34,7 @@ public class SetVariableHandler extends EvalHandler {
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
 
-		mbState = variableState(EvalType.setq);
+		mbState = variableSetState();
 		mbState.run(editor);
 		return NO_OFFSET;
 	}

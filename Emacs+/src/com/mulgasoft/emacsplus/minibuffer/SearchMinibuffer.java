@@ -9,9 +9,6 @@
  */
 package com.mulgasoft.emacsplus.minibuffer;
 
-//import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
-//import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
-
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -23,8 +20,8 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.MarkSelection;
 import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.source.ISourceViewer;
-//import org.eclipse.jface.util.IPropertyChangeListener;
-//import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -41,8 +38,9 @@ import com.mulgasoft.emacsplus.RegexpRingBuffer;
 import com.mulgasoft.emacsplus.RegexpRingBuffer.RegexpRingBufferElement;
 import com.mulgasoft.emacsplus.RingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
-//import com.mulgasoft.emacsplus.preferences.PrefVars;
-import com.mulgasoft.emacsplus.preferences.PrefVars.SEOptions;
+import com.mulgasoft.emacsplus.preferences.PrefVars.SearchExitOption;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 
 /**
  * Search minibuffer handles Ctrl and Alt
@@ -120,22 +118,20 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 	// command driven case sensitivity state
 	Case_Sensitive toggleCase = Case_Sensitive.OFF;
 	
-	private static SEOptions search_exit_option = SEOptions.t;
-//	private static SEOptions search_exit_option = PrefVars.SEOptions.valueOf(EmacsPlusUtils.getPreferenceString(SEARCH_EXIT_OPTION.getPref()));
-//	
-//	static {
+	private static SearchExitOption search_exit_option = SearchExitOption.valueOf((String)SEARCH_EXIT_OPTION.getValue());
 
+	static {
 		// listen for changes in the property store
-//		getPreferenceStore().addPropertyChangeListener(
-//				new IPropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent event) {
-//						if (SEARCH_EXIT_OPTION.getPref().equals(event.getProperty())) {
-//							search_exit_option = PrefVars.SEOptions.valueOf((String)event.getNewValue());
-//						}
-//					}
-//				}
-//		);
-//	}
+		getPreferenceStore().addPropertyChangeListener(
+				new IPropertyChangeListener() {
+					public void propertyChange(PropertyChangeEvent event) {
+						if (SEARCH_EXIT_OPTION.getPref().equals(event.getProperty())) {
+							search_exit_option = SearchExitOption.valueOf((String)event.getNewValue());
+						}
+					}
+				}
+		);
+	}
 		
 	/**
 	 */
@@ -529,9 +525,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 						regExp = LINE_EXP;
 						break;
 					case nil:
-						setQuoting(true);
-//						result = true;
-						SearchMinibuffer.this.handleKey(event);
+						quoteIt(event);
 						break;
 					case disable:
 						result = super.dispatchCtrl(event);
@@ -568,9 +562,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 							break;
 						}
 					case nil:
-						setQuoting(true);
-//						result = true;
-						SearchMinibuffer.this.handleKey(event);
+						quoteIt(event);
 						break;
 					case disable:
 						result = super.dispatchCtrl(event);
@@ -588,11 +580,20 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 				result = true;
 				break;
 			default:
-				result = super.dispatchCtrl(event);
+				if (search_exit_option == SearchExitOption.nil ) {
+					quoteIt(event);
+				} else {
+					result = super.dispatchCtrl(event);
+				}
 			break;
 			}
 		}
 		return result;
+	}
+
+	private void quoteIt(VerifyEvent event) {
+		setQuoting(true);
+		SearchMinibuffer.this.handleKey(event);
 	}
 
 	protected boolean dispatchAlt(VerifyEvent event) {

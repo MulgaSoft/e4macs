@@ -64,7 +64,7 @@ public class EmacsPlusConsoleParticipant implements
 	/**
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+	public <T> T getAdapter(Class<T> key) {
 		return null;
 	}
 }

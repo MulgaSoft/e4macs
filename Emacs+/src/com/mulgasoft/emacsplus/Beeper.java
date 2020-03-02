@@ -8,7 +8,7 @@
  */
 package com.mulgasoft.emacsplus;
 
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceString;
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
 
@@ -19,6 +19,8 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PlatformUI;
 
+import com.mulgasoft.emacsplus.preferences.PrefVars.DisableOptions;
+
 /**
  * Add interrupt behavior to beep() for kbd macro interrupts
  * 
@@ -27,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
 public class Beeper {
 	
 	// A global, sticky variable to enable/disable the bell noise, set to true to disable bell
-	private static boolean BELL_OFF = getPreferenceBoolean(RING_BELL_FUNCTION.getPref());
+	private static boolean BELL_OFF = getBoolean(getPreferenceString(RING_BELL_FUNCTION.getPref()));
 	
 	static {
 		// listen for changes in the property store
@@ -35,13 +37,17 @@ public class Beeper {
 				new IPropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent event) {
 						if (RING_BELL_FUNCTION.getPref().equals(event.getProperty())) {
-							setRingBell((Boolean)event.getNewValue());
+							setRingBell(getBoolean((String)event.getNewValue()));
 						}
 					}
 				}
 		);
 	}
 
+	private static boolean getBoolean(String prefVal) {
+		return DisableOptions.disable.name().equals(prefVal);
+	}
+	
 	public static void setRingBell(boolean offon) {
 		Beeper.BELL_OFF = offon;
 	}

@@ -37,20 +37,21 @@ import org.eclipse.swt.graphics.Rectangle;
  */
 public enum PrefVars {
 
-	KILL_RING_MAX(P_RING_SIZE, Ptype.INTEGER, 60),
-	DELETE_WORD_TO_CLIPBOARD(P_CLIP_WORD, Ptype.BOOLEAN, false),
-	DELETE_SEXP_TO_CLIPBOARD(P_CLIP_SEXP, Ptype.BOOLEAN, true),
-	REPLACE_TEXT_TO_KILLRING(P_REPLACED_TOKILL, Ptype.BOOLEAN, false),
-	ENABLE_SPLIT_SELF(P_SPLIT_SELF, Ptype.BOOLEAN, true),
-	ENABLE_GNU_SEXP(P_GNU_SEXP,Ptype.BOOLEAN,true),
-	ENABLE_DOT_SEXP(P_DOT_SEXP,Ptype.BOOLEAN,true),
-	ENABLE_UNDER_SEXP(P_UNDER_SEXP,Ptype.BOOLEAN,false),
+	DELETE_SEXP_TO_CLIPBOARD(Ptype.BOOLEAN, P_CLIP_SEXP, true),
+	DELETE_WORD_TO_CLIPBOARD(Ptype.BOOLEAN, P_CLIP_WORD, false),
+	ENABLE_DOT_SEXP(Ptype.BOOLEAN, P_DOT_SEXP, true),
+	ENABLE_GNU_SEXP(Ptype.BOOLEAN, P_GNU_SEXP, true),
+	ENABLE_SPLIT_SELF(Ptype.BOOLEAN, P_SPLIT_SELF, true),
+	ENABLE_UNDER_SEXP(Ptype.BOOLEAN, P_UNDER_SEXP, false),
+	FRAME_DEF(Ptype.RECT, P_FRAME_DEF, PRect.DEFAULT),
+	FRAME_INIT(Ptype.RECT, P_FRAME_INIT, PRect.DEFAULT),
+	KILL_RING_MAX(Ptype.INTEGER, P_RING_SIZE, 60),
 	KILL_WHOLE_LINE(Ptype.BOOLEAN, false),
-	RING_BELL_FUNCTION(Ptype.BOOLEAN, false),
+	REPLACE_TEXT_TO_KILLRING(Ptype.BOOLEAN, P_REPLACED_TOKILL, false),
+	RING_BELL_FUNCTION(Ptype.STRING, DisableOptions.class, DisableOptions.nil.toString()),
+	SEARCH_EXIT_OPTION(Ptype.STRING, SearchExitOption.class, SearchExitOption.t.toString()),
 	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
-//	SEARCH_EXIT_OPTION(Ptype.STRING, SEOptions.class, SEOptions.t.toString());
-	FRAME_INIT(P_FRAME_INIT, Ptype.RECT, PRect.DEFAULT),
-	FRAME_DEF(P_FRAME_DEF, Ptype.RECT, PRect.DEFAULT),
+	SETQ(Ptype.BOOLEAN, true),
 	;
 	
 	private final static String DOC = "_DOC";  //$NON-NLS-1$
@@ -60,38 +61,40 @@ public enum PrefVars {
 	private String dispName;
 	private Object defVal;
 	private Ptype type;
-	private Class e_class;
+	private Class<? extends Object> e_class;
 	
 	private PrefVars(Ptype type, Object defVal) {
-		this(null,null,type,defVal);
+		this(type,null,null,defVal);
 	}
 	
-	private PrefVars(Ptype type, Class values, Object defVal) {
+	private <T extends Enum<T>> PrefVars(Ptype type, Class<T> values, Object defVal) {
 		this(type,defVal);
 		e_class = values;
 	}
 	
-	private PrefVars(String prefName, Ptype type, Object defVal) {
-		this(prefName,null,type,defVal);
+	private PrefVars(Ptype type, String prefName, Object defVal) {
+		this(type,prefName,null,defVal);
 	}
 
-	private PrefVars(String prefName, String dispName, Ptype type, Object defVal) {		
+	private PrefVars(Ptype type, String prefName, String dispName, Object defVal) {		
 		this.prefName = prefName;
 		this.dispName = dispName;
 		this.type = type;
 		this.defVal = defVal;
 	}
 	
-	private PrefVars(String prefName, String dispName, Class values, Object defVal) {		
+	private PrefVars(String prefName, String dispName, Class<Object> values, Object defVal) {		
 		// a string type can have a set of values represented by an enum
-		this(prefName,dispName,Ptype.STRING,defVal);
+		this(Ptype.STRING,prefName,dispName,defVal);
 		this.e_class = values;
 	}
 	
-	public static SortedMap<String, PrefVars> getCompletions() {
+	public static SortedMap<String, PrefVars> getCompletions(boolean withSetq) {
 		SortedMap<String, PrefVars> result = new TreeMap<String, PrefVars>();
 		for (PrefVars q : PrefVars.values()) {
-			result.put(q.getDisplayName(), q);
+			if (withSetq || q != SETQ) {
+				result.put(q.getDisplayName(), q);
+			}
 		}
 		return result;
 	}
@@ -127,43 +130,43 @@ public enum PrefVars {
 	public void setValue(Object val) {
 		IPreferenceStore store = getPreferenceStore();
 		switch (type) {
-			case BOOLEAN:
-				if (val instanceof Boolean) {
-					store.setValue(getPref(), (Boolean) val);
-				} else {
+		case BOOLEAN:
+			if (val instanceof Boolean) {
+				store.setValue(getPref(), (Boolean) val);
+			} else {
+				Beeper.beep();
+			}
+			break;
+		case INTEGER:
+			if (val instanceof Integer) {
+				store.setValue(getPref(), (Integer) val);
+			} else if (val instanceof String) {
+				try {
+					Integer iv = Integer.parseInt((String) val);
+					store.setValue(getPref(), iv);
+				} catch (NumberFormatException e) {
 					Beeper.beep();
 				}
-				break;
-			case INTEGER:
-				if (val instanceof Integer) {
-					store.setValue(getPref(), (Integer) val);
-				} else if (val instanceof String) {
-					try {
-						Integer iv = Integer.parseInt((String) val);
-						store.setValue(getPref(), iv);
-					} catch (NumberFormatException e) {
-						Beeper.beep();
-					}
-				} else {
-					Beeper.beep();
-				}
-				break;
-			case RECT: 
-				if (val instanceof String && PRect.parseRect((String)val) != null) {
-					store.setValue(getPref(), (String) val);
-				} else {
-					Beeper.beep();
-				}
-				break;
-			case STRING:
-				if (val instanceof String) {
-					store.setValue(getPref(), (String) val);
-				} else {
-					Beeper.beep();
-				}
-				break;
-			default:
-				break;
+			} else {
+				Beeper.beep();
+			}
+			break;
+		case RECT: 
+			if (val instanceof String && PRect.parseRect((String)val) != null) {
+				store.setValue(getPref(), (String) val);
+			} else {
+				Beeper.beep();
+			}
+			break;
+		case STRING:
+			if (val instanceof String) {
+				store.setValue(getPref(), (String) val);
+			} else {
+				Beeper.beep();
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -196,8 +199,12 @@ public enum PrefVars {
 		BOOLEAN, INTEGER, RECT, STRING;
 	}
 	
-	public enum SEOptions {
-		t, nil, disable;
+	public enum DisableOptions {
+		disable, nil;
+	}
+	
+	public enum SearchExitOption {
+		disable, nil, t;
 	}
 	
 	public String[] getPossibleValues() {
