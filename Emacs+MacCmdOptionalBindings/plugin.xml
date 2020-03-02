@@ -271,12 +271,14 @@
   <!-- M-<number> enabled here - disabled in MacCmd Bindings -->
   <extension point="org.eclipse.ui.bindings">
 
+    <!-- preempted by zoom out starting in Neon 
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
 		contextId="org.eclipse.ui.textEditorScope"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="COMMAND+-" />
+	-->
 	<key
 		commandId="com.mulgasoft.emacsplus.universalArgument"
 		contextId="org.eclipse.ui.textEditorScope"
