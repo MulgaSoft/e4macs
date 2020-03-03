@@ -815,6 +815,15 @@
 		platform="cocoa"		
 		sequence="COMMAND+="/>
 		
+	<!-- zoom -->
+	<!-- at least on US keyboards -->		
+	<key
+		commandId="org.eclipse.ui.edit.text.zoomIn"
+		contextId="org.eclipse.ui.textEditorScope"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"		
+		sequence="COMMAND+SHIFT+="/>
+
     <!-- kill ring -->		
     <key
 		contextId="org.eclipse.ui.textEditorScope"
