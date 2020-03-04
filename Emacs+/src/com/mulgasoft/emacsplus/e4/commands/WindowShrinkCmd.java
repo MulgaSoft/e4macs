@@ -17,6 +17,9 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 
@@ -45,6 +48,7 @@ public class WindowShrinkCmd extends E4WindowCmd {
 		MElementContainer<MUIElement> next = getAdjacentElement(stack, ps.getPart(), false);
 		
 		int count = handler.getUniversalCount();
+		// if we have an adjacent part, we're in a sash
 		if (next != null) {
 			switch (stype) {
 			case SHRINK:
@@ -56,6 +60,15 @@ public class WindowShrinkCmd extends E4WindowCmd {
 			case BALANCE:
 				balancePartSash(stack);
 				break;
+			}
+			// For some reason, in recent eclipses, we have to request the layout manually
+            Object widget = stack.getWidget();
+            // Double check before grabbing the parent composite for looping 
+			if (widget instanceof CTabFolder) {
+				// this is apparently the recommended way of getting these to redraw properly
+				for (Control c : ((Composite)widget).getParent().getChildren()) {
+					c.requestLayout();
+				}
 			}
 		}	
 		return null;
