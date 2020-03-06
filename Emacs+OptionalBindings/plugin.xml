@@ -285,6 +285,12 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="CTRL+M3+SHIFT+L">
 	</key>
+	<key
+		commandId="org.eclipse.ui.window.previousView"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="CTRL+M3+SHIFT+P">
+	</key>
 	
   </extension>	
  

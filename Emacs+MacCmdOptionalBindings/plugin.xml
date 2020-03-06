@@ -259,12 +259,19 @@
 		platform="cocoa"
 		sequence="CTRL+M3+SHIFT+L"/>
 		
+	<!-- add additional binding to existing command -->
 	<key
 		commandId="org.eclipse.ui.window.nextView"
 		contextId="org.eclipse.ui.contexts.window"
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		platform="cocoa"
 		sequence="CTRL+COMMAND+SHIFT+L"/>
+	<key
+		commandId="org.eclipse.ui.window.previousView"
+		contextId="org.eclipse.ui.contexts.window"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		platform="cocoa"
+		sequence="CTRL+COMMAND+SHIFT+P"/>
 
   </extension>
 
