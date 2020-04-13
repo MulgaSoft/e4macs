@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2014 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,26 +9,27 @@
 package com.mulgasoft.emacsplus.preferences;
 
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_SEXP;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_WORD;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_DOT_SEXP;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_DEF;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_INIT;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_GNU_SEXP;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_REPLACED_TOKILL;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_SPLIT_SELF;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_INIT;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_FRAME_DEF;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_UNDER_SEXP;
-
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_WORD;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_SEXP;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_RING_SIZE;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_SPLIT_SELF;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_UNDER_SEXP;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_FLASH_MODE_LINE;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.graphics.Rectangle;
 
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
-import org.eclipse.swt.graphics.Rectangle;
+import com.mulgasoft.emacsplus.ModeLineFlasher;
 
 /**
  * Define selected internal/preference variables in an enum
@@ -48,28 +49,33 @@ public enum PrefVars {
 	KILL_RING_MAX(Ptype.INTEGER, P_RING_SIZE, 60),
 	KILL_WHOLE_LINE(Ptype.BOOLEAN, false),
 	REPLACE_TEXT_TO_KILLRING(Ptype.BOOLEAN, P_REPLACED_TOKILL, false),
-	RING_BELL_FUNCTION(Ptype.STRING, DisableOptions.class, DisableOptions.nil.toString()),
-	SEARCH_EXIT_OPTION(Ptype.STRING, SearchExitOption.class, SearchExitOption.t.toString()),
+	RING_BELL_FUNCTION(Ptype.STRING, RingBellOptions.nil),
+	SEARCH_EXIT_OPTION(Ptype.STRING, SearchExitOption.t),
 	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
 	SETQ(Ptype.BOOLEAN, true),
 	;
 	
-	private final static String DOC = "_DOC";  //$NON-NLS-1$
-	private final static String DASH = "-";  //$NON-NLS-1$
-	private final static String UDASH = "_"; //$NON-NLS-1$
+	private final static String DOC = "_DOC";	//$NON-NLS-1$
+	private final static String DASH = "-";		//$NON-NLS-1$
+	private final static String UDASH = "_";	//$NON-NLS-1$
+	private Ptype type;
 	private String prefName;
 	private String dispName;
 	private Object defVal;
-	private Ptype type;
-	private Class<? extends Object> e_class;
+	private DisplayOption defOption;
 	
 	private PrefVars(Ptype type, Object defVal) {
 		this(type,null,null,defVal);
 	}
 	
-	private <T extends Enum<T>> PrefVars(Ptype type, Class<T> values, Object defVal) {
+	private <T extends Enum<T>> PrefVars(Ptype type, DisplayOption defOption) {
+		this(type,defOption.toString());
+		this.defOption = defOption;
+	}
+
+	private <T extends Enum<T>> PrefVars(Ptype type, DisplayOption defOption, Object defVal) {
 		this(type,defVal);
-		e_class = values;
+		this.defOption = defOption;
 	}
 	
 	private PrefVars(Ptype type, String prefName, Object defVal) {
@@ -82,13 +88,7 @@ public enum PrefVars {
 		this.type = type;
 		this.defVal = defVal;
 	}
-	
-	private PrefVars(String prefName, String dispName, Class<Object> values, Object defVal) {		
-		// a string type can have a set of values represented by an enum
-		this(Ptype.STRING,prefName,dispName,defVal);
-		this.e_class = values;
-	}
-	
+
 	public static SortedMap<String, PrefVars> getCompletions(boolean withSetq) {
 		SortedMap<String, PrefVars> result = new TreeMap<String, PrefVars>();
 		for (PrefVars q : PrefVars.values()) {
@@ -120,6 +120,10 @@ public enum PrefVars {
 
 	public Ptype getType() {
 		return type;
+	}
+	
+	public boolean isEnum() {
+		return defOption != null;
 	}
 
 	/**
@@ -160,7 +164,11 @@ public enum PrefVars {
 			break;
 		case STRING:
 			if (val instanceof String) {
-				store.setValue(getPref(), (String) val);
+				String newVal = (String) val;
+				if (isEnum()) {
+					newVal = newVal.replaceAll(DASH, UDASH);
+				}
+				store.setValue(getPref(), newVal);
 			} else {
 				Beeper.beep();
 			}
@@ -195,22 +203,80 @@ public enum PrefVars {
 		return result;
 	}
 
+	public Object getDisplayValue() {
+		if (isEnum()) {
+			IPreferenceStore store = getPreferenceStore();
+			String name = store.getString(getPref());
+			return ((DisplayOption)defOption.getValue(name)).getDisplayName();
+		} else { 
+			return getValue();
+		}
+	}
 	public enum Ptype {
 		BOOLEAN, INTEGER, RECT, STRING;
 	}
 	
-	public enum DisableOptions {
-		disable, nil;
+	public interface DisplayOption {
+		public String getDisplayName();
+		public Enum<? extends DisplayOption> getValue(String name);
 	}
 	
-	public enum SearchExitOption {
+	public enum RingBellOptions implements DisplayOption {
+		nil, 
+		ignore,
+		flash_mode_line(PV_FLASH_MODE_LINE);
+
+		private String displayName = null;
+		private RingBellOptions() {}
+		private RingBellOptions(String displayName) {
+			this.displayName = displayName;
+		}
+
+		public boolean ringBell() {
+			boolean result = false;
+			switch (this) {
+				case ignore:
+					result = true;
+					break;
+				case flash_mode_line:
+					result = ModeLineFlasher.ring();
+					break;
+				default:
+					break;
+			}
+			return result;
+		}
+
+		public String getDisplayName() {
+			return (displayName != null ? displayName : toString());
+		}
+		
+		public Enum<RingBellOptions> getValue(String name) {
+			return valueOf(name);
+		}
+	}
+	
+	public enum SearchExitOption implements DisplayOption {
 		disable, nil, t;
+		public String getDisplayName() {
+			return toString();
+		}
+		
+		public Enum<SearchExitOption> getValue(String name) {
+			return valueOf(name);
+		}
 	}
 	
+	public <T extends Enum<T>> String getDisplayName(T clazz) {
+		((DisplayOption)clazz).getDisplayName();
+		return null;
+	}
+	
+
 	public String[] getPossibleValues() {
 		String[] result = null;
-		if (e_class != null){
-			Object[] enumConstants = e_class.getEnumConstants();
+		if (defOption != null){
+			Object[] enumConstants = defOption.getClass().getEnumConstants();
 			if (enumConstants != null) {
 				result = new String[enumConstants.length];
 				for (int i = 0; i < enumConstants.length; i ++ ) {

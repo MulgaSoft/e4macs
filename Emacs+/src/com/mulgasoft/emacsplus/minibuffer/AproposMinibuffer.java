@@ -14,7 +14,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import com.mulgasoft.emacsplus.RingBuffer;
 
 /**
- * Just read a string and return if for execution by the apropos command
+ * Just read a string and return it for execution by the apropos command
  * 
  * @author Mark Feber - initial API and implementation
  */

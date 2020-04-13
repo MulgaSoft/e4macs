@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -89,7 +89,8 @@ public class EmacsOverrunHandler extends EmacsMovementHandler {
 			IHandler handler = event.getCommand().getHandler();
 			// The handler class is not visible
 			if (handler != null && handler.getClass().getName().startsWith(ASSIST_HANDLER)) {
-				Beeper.setBeepon(false); // disable beep if in content assist
+				// disable beep if in content assist				
+				Beeper.setBeepon(false);	// will be set back in the finally clause 
 			}
 		}
 	};

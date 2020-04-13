@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2011 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,15 +17,12 @@ import org.eclipse.ui.texteditor.ITextEditor;
  */
 public class BooleanMinibuffer extends StrictMinibuffer {
 
-	private static final String T = "t";	 //$NON-NLS-1$
-	private static final String NIL = "nil"; //$NON-NLS-1$
-	
 	/**
 	 * @param executable
 	 */
 	public BooleanMinibuffer(IMinibufferExecutable executable) {
 		super(executable);
-		setCandidates(Arrays.asList(Boolean.TRUE.toString(), Boolean.FALSE.toString(), T, NIL));
+		setCandidates(Arrays.asList(Boolean.TRUE.toString(), Boolean.FALSE.toString()));
 	}
 
 	/**
@@ -40,8 +37,9 @@ public class BooleanMinibuffer extends StrictMinibuffer {
 
 	private Boolean getBoolean(String cmdResult) {
 		Boolean result = null;
-		if (cmdResult != null && (cmdResult.length() > 0) && (cmdResult = matchCandidate(cmdResult)) != null) {
-			result = new Boolean(cmdResult);
+		String match = matchCandidate(cmdResult, true);
+		if (match != null) {
+			result = new Boolean(match);
 		}
 		return result;
 	}

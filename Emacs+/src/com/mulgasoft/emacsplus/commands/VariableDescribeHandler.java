@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2013 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -75,7 +75,7 @@ public class VariableDescribeHandler extends MinibufferExecHandler implements IN
 		console.printBold(DESC_ID);
 		console.printContext(name + CR + CR);
 		console.printBold(' ' + VAR_VAL_HEADING);
-		console.print(var.getValue() + CR + CR);
+		console.print(var.getDisplayValue() + CR + CR);
 		console.printBold(' ' + VAR_DESC_HEADING + CR + SWT.TAB);
 		console.print(var.getDescription());
 	}

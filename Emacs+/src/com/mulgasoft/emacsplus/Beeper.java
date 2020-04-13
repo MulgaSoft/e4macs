@@ -8,8 +8,8 @@
  */
 package com.mulgasoft.emacsplus;
 
-import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceString;
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceString;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
 
 import java.util.HashSet;
@@ -17,9 +17,9 @@ import java.util.Set;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.widgets.Display;
 
-import com.mulgasoft.emacsplus.preferences.PrefVars.DisableOptions;
+import com.mulgasoft.emacsplus.preferences.PrefVars.RingBellOptions;
 
 /**
  * Add interrupt behavior to beep() for kbd macro interrupts
@@ -27,31 +27,31 @@ import com.mulgasoft.emacsplus.preferences.PrefVars.DisableOptions;
  * @author Mark Feber - initial API and implementation
  */
 public class Beeper {
-	
-	// A global, sticky variable to enable/disable the bell noise, set to true to disable bell
-	private static boolean BELL_OFF = getBoolean(getPreferenceString(RING_BELL_FUNCTION.getPref()));
-	
+
+	private static RingBellOptions ringer;
 	static {
+		//initialize the ring bell function from our properties
+		setRingBellOption(getPreferenceString(RING_BELL_FUNCTION.getPref()));
 		// listen for changes in the property store
 		getPreferenceStore().addPropertyChangeListener(
 				new IPropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent event) {
 						if (RING_BELL_FUNCTION.getPref().equals(event.getProperty())) {
-							setRingBell(getBoolean((String)event.getNewValue()));
+							setRingBellOption((String)event.getNewValue());
 						}
 					}
 				}
 		);
 	}
 
-	private static boolean getBoolean(String prefVal) {
-		return DisableOptions.disable.name().equals(prefVal);
+	private static boolean ringBell() {
+		return (ringer != null ? ringer.ringBell() : false);
 	}
-	
-	public static void setRingBell(boolean offon) {
-		Beeper.BELL_OFF = offon;
+
+	private static void setRingBellOption(String option) {
+		ringer = RingBellOptions.valueOf(option);
 	}
-	
+
 	// temporarily disable the beep by setting to false
 	private static boolean beepon = true;
 	
@@ -75,11 +75,9 @@ public class Beeper {
 	
 	public static void beep() {
 		Beeper.interrupt();
-		try {
-			if (!BELL_OFF && beepon) {
-				PlatformUI.getWorkbench().getDisplay().beep();
-			}
-		} catch (Exception e) {}
+		if (beepon && !ringBell()) {
+			Display.getCurrent().beep();
+		}
 	}
 
 	public static void addBeepListener(IBeepListener beeper) {

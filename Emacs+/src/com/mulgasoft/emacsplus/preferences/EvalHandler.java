@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -106,7 +106,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 							mbState = variableSetState();
 							mbState.run(editor);
 						} else {
-							setResultMessage(var.getDisplayName() + ' ' + var.getValue().toString(), false, editor);
+							setResultMessage(var.getDisplayName() + ' ' + var.getDisplayValue().toString(), false, editor);							
 						}
 					} 
 				} else {
@@ -177,7 +177,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 		return new IMinibufferState() {
 
 			public String getMinibufferPrefix() {
-				return getTypePrompt(EvalType.setq) + ' ' + var.name() + PROMPT;
+				return getTypePrompt(EvalType.setq) + ' ' + var.getDisplayName() + PROMPT;
 			}
 
 			public int run(ITextEditor editor) {
@@ -209,7 +209,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 		return new IMinibufferState() {
 
 			public String getMinibufferPrefix() {
-				return getTypePrompt(EvalType.setq) + ' ' + var.name() + PROMPT;
+				return getTypePrompt(EvalType.setq) + ' ' + var.getDisplayName() + PROMPT;
 			}
 
 			public int run(ITextEditor editor) {
@@ -227,7 +227,6 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 				}
 				return result;
 			}
-
 		};
 	}
 
@@ -243,14 +242,14 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 		return new IMinibufferState() {
 
 			public String getMinibufferPrefix() {
-				return EvalType.setq.name() + ' ' + var.name() + PROMPT;
+				return EvalType.setq.name() + ' ' + var.getDisplayName() + PROMPT;
 			}
 
 			public int run(ITextEditor editor) {
 				String[] pvalues = var.getPossibleValues();
 				ExecutingMinibuffer mini = null;
 				if (pvalues != null) {
-					mini = new StrictMinibuffer(EvalHandler.this, Arrays.asList(pvalues), true) {};
+					mini = new StrictMinibuffer(EvalHandler.this, Arrays.asList(pvalues)) {};
 				} else {
 					mini = new TextMinibuffer(EvalHandler.this);
 				}
@@ -262,7 +261,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 				boolean result = true;
 				if (minibufferResult != null) {
 					var.setValue(minibufferResult.toString());
-					setResultMessage(minibufferResult.toString(), false, editor);
+					setResultMessage(var.getDisplayValue().toString(), false, editor);
 				} else {
 					setResultMessage(ABORT, true, editor);
 				}

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2011 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.mulgasoft.emacsplus.RingBuffer;
 
@@ -60,15 +61,22 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 	}
 
 	protected boolean canBeCandidate(String possible) {
-		return matchCandidate(possible) != null;
+		return matchCandidate(possible, true) != null;
 	}
 
-	protected String matchCandidate(String possible) {
+	protected String matchCandidate(String possible, boolean allowMultiples) {
 		String result = null;
-		for (String c : candidates) {
-			if (c.startsWith(possible)) {
-				result = c;
-				break;
+		// weirdly, startsWith returns true on the empty string  
+		if (possible != null && possible.length() > 0) {
+			for (String c : candidates) {
+				int count = 0;
+				if (c.startsWith(possible)) {
+					if (++count > 1 && !allowMultiples) {
+						result = null;
+						break;
+					}
+					result = c;
+				}
 			}
 		}
 		return result;
@@ -90,6 +98,20 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 		setExecuting(true);
 		executeResult(getEditor(), key);
 		leave(true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * This will return the first match, if the minibuffer exited with a substring 	 
+	 */
+	@Override
+	protected boolean executeResult(ITextEditor editor, Object commandResult) {
+		Object result = commandResult;
+		// A subclass might have already converted the minibuffer result to some relevant non-String object
+		if (commandResult instanceof String) {
+			result = matchCandidate((String)commandResult, false);
+		}
+		return super.executeResult(editor, result);
 	}
 
 	/**

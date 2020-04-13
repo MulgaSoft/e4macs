@@ -17,6 +17,8 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.bindings.Binding;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -67,9 +69,9 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	protected final static String EMPTY_STR = "";   		  //$NON-NLS-1$ 
 	
 	// The element before which to insert our status updates
-	private static final String POSITION_ID = "ElementState"; //$NON-NLS-1$ 
+	public static final String POSITION_ID = "ElementState"; //$NON-NLS-1$ 
 	// The identifier for the StatusLineContributionItem 
-	private static final String STATUS_ID = "minibuffer";     //$NON-NLS-1$ 
+	public static final String MINIBUFF_ID = "minibuffer";     //$NON-NLS-1$ 
 	
 	static final String N_GEN = "\\c";  					  //$NON-NLS-1$
 	static final String N_NEW = "\\n";  					  //$NON-NLS-1$
@@ -86,7 +88,7 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	
 	private boolean installed = false;
 	
-	private static StatusLineContributionItem statusItem;
+	private static StatusLineContributionItem miniBuffItem;
 	
 	/* mini-buffer commands lose their identity once the mini-buffer setup is complete, so remember it here */
 	private String commandId = null;	// the command id of the invoker
@@ -344,7 +346,6 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 		} finally {
 			widget = null;
 			page = null;	// TODO: elsewhere?
-//			bindingService = null;
 			installed = false;
 		}
 	}
@@ -382,12 +383,12 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	private String prevMessage = EMPTY_STR;
 	
 	protected void updateStatusLine(String message) {
-		if (statusItem != null && (!KbdMacroSupport.getInstance().isExecuting()) ) {
+		if (miniBuffItem != null && (!KbdMacroSupport.getInstance().isExecuting()) ) {
 			{
 				prevMessage = message;
 				String normalizedMessage = normalizeString(message);
-				statusItem.setText(getMinibufferPrefix() + normalizedMessage);
-				((IStatusFieldExtension) statusItem).setVisible(true);
+				miniBuffItem.setText(getMinibufferPrefix() + normalizedMessage);
+				((IStatusFieldExtension) miniBuffItem).setVisible(true);
 				// make sure we're still active 
 				if (editor != null) {
 					EmacsPlusUtils.forceStatusUpdate(editor);
@@ -477,28 +478,31 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	}
 	
  	private synchronized void removeStatusContribution(IWorkbenchPart part) {
-		statusItem.setVisible(false);
-		EmacsPlusUtils.getStatusLineManager(part).remove(statusItem);
+		miniBuffItem.setText(EMPTY_STR);
+		miniBuffItem.setVisible(false);
 		EmacsPlusUtils.forceStatusUpdate(part);
-		statusItem.setText(EMPTY_STR);
 	}
 
-	private synchronized void addStatusContribution(IWorkbenchPart editor) {
-		statusItem = getStatusLineItem();
-		try {
-			EmacsPlusUtils.getStatusLineManager(editor).insertBefore(POSITION_ID, statusItem);
-		} catch (IllegalArgumentException e) {
-			EmacsPlusUtils.getStatusLineManager(editor).add(statusItem);
-		}
-		statusItem.setVisible(true);
-		statusItem.setText(EMPTY_STR);
-	}
+ 	private synchronized void addStatusContribution(IWorkbenchPart editor) {
+ 		miniBuffItem = getStatusLineItem();
+ 		IStatusLineManager slm = EmacsPlusUtils.getStatusLineManager(editor);
+ 		IContributionItem present = slm.find(MINIBUFF_ID);		
+ 		if (present == null) {
+ 			if (slm.find(POSITION_ID) != null) {
+ 				slm.insertBefore(POSITION_ID, miniBuffItem);
+ 			} else {
+ 				slm.add(miniBuffItem);
+ 			}
+ 		}
+ 		miniBuffItem.setVisible(true);
+ 		miniBuffItem.setText(EMPTY_STR);
+ 	}
 
 	private synchronized StatusLineContributionItem getStatusLineItem() {
-		if (statusItem == null) {
-			statusItem = new StatusLineContributionItem(STATUS_ID, true, getStatusLineLength());
+		if (miniBuffItem == null) {
+			miniBuffItem = new StatusLineContributionItem(MINIBUFF_ID, true, getStatusLineLength());
 		}
-		return statusItem;
+		return miniBuffItem;
 	}
 
 	// TODO: compute a reasonable length
@@ -882,20 +886,16 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 	 */
 	protected void asyncCallBinding(final ITextEditor editor, final Binding binding) {
 		if (binding != null) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
 					callBinding(editor, binding);
-				}
 			});
 		}
 	}
 	
 	protected void asyncPostEvent(final KeyEvent event) {
 		if (event != null) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
 					resendEvent(event);
-				}
 			});
 		}
 	}	

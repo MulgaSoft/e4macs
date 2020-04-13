@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -64,4 +64,5 @@ public class EmacsPlusPreferenceConstants {
 		
 	public static final String P_KBD_MACRO_NAME_LOAD = "kbdMacroNameLoad";  //$NON-NLS-1$
 
+	public static final String PV_FLASH_MODE_LINE = "flash-mode-line";		//$NON-NLS-1$
 }
