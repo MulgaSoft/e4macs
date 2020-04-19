@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2013 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,8 +17,6 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.bindings.Binding;
 import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -55,6 +53,7 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
 
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.MarkUtils;
+import com.mulgasoft.emacsplus.StatusItemSupport;
 import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
 
 /**
@@ -64,14 +63,12 @@ import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
  * 
  * @author Mark Feber - initial API and implementation
  */
-public abstract class WithMinibuffer implements FocusListener, ISelectionChangedListener, ITextListener, MouseListener, VerifyKeyListener {
+public abstract class WithMinibuffer extends StatusItemSupport implements FocusListener, ISelectionChangedListener, ITextListener, MouseListener, VerifyKeyListener {
 
 	protected final static String EMPTY_STR = "";   		  //$NON-NLS-1$ 
 	
-	// The element before which to insert our status updates
-	public static final String POSITION_ID = "ElementState"; //$NON-NLS-1$ 
 	// The identifier for the StatusLineContributionItem 
-	public static final String MINIBUFF_ID = "minibuffer";     //$NON-NLS-1$ 
+	public static final String MINIBUFF_ID = "minibuffer";    //$NON-NLS-1$ 
 	
 	static final String N_GEN = "\\c";  					  //$NON-NLS-1$
 	static final String N_NEW = "\\n";  					  //$NON-NLS-1$
@@ -290,7 +287,6 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 					widget = null;
 					return false;
 				}
-				addStatusContribution(editor);
 				widget.addMouseListener(this);
 				widget.addFocusListener(this);
 				viewer.addTextListener(this);
@@ -309,6 +305,7 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 				installed = true;
 			}
 		}
+		addStatusContribution(editor, POSITION_ID);		
 		return installed;
 	}
 	
@@ -483,27 +480,17 @@ public abstract class WithMinibuffer implements FocusListener, ISelectionChanged
 		EmacsPlusUtils.forceStatusUpdate(part);
 	}
 
- 	private synchronized void addStatusContribution(IWorkbenchPart editor) {
- 		miniBuffItem = getStatusLineItem();
- 		IStatusLineManager slm = EmacsPlusUtils.getStatusLineManager(editor);
- 		IContributionItem present = slm.find(MINIBUFF_ID);		
- 		if (present == null) {
- 			if (slm.find(POSITION_ID) != null) {
- 				slm.insertBefore(POSITION_ID, miniBuffItem);
- 			} else {
- 				slm.add(miniBuffItem);
- 			}
- 		}
- 		miniBuffItem.setVisible(true);
+ 	protected synchronized void addStatusContribution(ITextEditor editor, String placeId) {
+ 		super.addStatusContribution(editor, placeId);
  		miniBuffItem.setText(EMPTY_STR);
  	}
-
-	private synchronized StatusLineContributionItem getStatusLineItem() {
-		if (miniBuffItem == null) {
-			miniBuffItem = new StatusLineContributionItem(MINIBUFF_ID, true, getStatusLineLength());
-		}
-		return miniBuffItem;
-	}
+ 	
+ 	protected StatusLineContributionItem initStatusLineItem() {
+ 		if (miniBuffItem == null) {
+ 			miniBuffItem = new StatusLineContributionItem(MINIBUFF_ID, true, getStatusLineLength());
+ 		}
+ 		return miniBuffItem;
+ 	}
 
 	// TODO: compute a reasonable length
 	protected int getStatusLineLength() {

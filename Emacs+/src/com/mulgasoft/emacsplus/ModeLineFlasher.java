@@ -9,10 +9,8 @@
 package com.mulgasoft.emacsplus;
 
 import static com.mulgasoft.emacsplus.minibuffer.WithMinibuffer.MINIBUFF_ID;
-import static com.mulgasoft.emacsplus.minibuffer.WithMinibuffer.POSITION_ID;
 
 import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.StatusLineLayoutData;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.SWT;
@@ -32,7 +30,7 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
  * 
  * @author mfeber
  */
-public class ModeLineFlasher {
+public class ModeLineFlasher extends StatusItemSupport {
 	
 	private static ModeLineFlasher instance = null;
 	private ModeLineFlasher() {};
@@ -49,14 +47,14 @@ public class ModeLineFlasher {
 		return instance;
 	}
 
-	private static final String FLASH_ID = "flash_mode";     // $NON-NLS-1$
+	private static final String FLASH_ID = "flash_mode";     //$NON-NLS-1$
 
 	private static FlashLineContributionItem flashItem = null;
 	private static int flashCount = 3;
 	private static int waitTime = 25;
 
-	private static String foregroundKey = "org.eclipse.ui.editors.foregroundColor";	// $NON-NLS-1$
-	private static String backgroundKey = "org.eclipse.ui.editors.backgroundColor";	// $NON-NLS-1$
+	private static String foregroundKey = "org.eclipse.ui.editors.foregroundColor";	//$NON-NLS-1$
+	private static String backgroundKey = "org.eclipse.ui.editors.backgroundColor";	//$NON-NLS-1$
 
 	private static Color[] backs = { PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED), PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_BLACK)}; 
 
@@ -87,29 +85,15 @@ public class ModeLineFlasher {
 		asyncForce(editor);
 	}
 
-	private void initFlashItem(ITextEditor editor) {
+	protected StatusLineContributionItem initStatusLineItem() {
 		if (flashItem == null) {
 			setColors();
 			flashItem = new FlashLineContributionItem(FLASH_ID, true, 83);;
 		}		
 		flashItem.setBackground(backs[flashCount % backs.length]);
+		return flashItem;
 	}
 
-	private synchronized void addStatusContribution(ITextEditor editor) {
-		initFlashItem(editor);
-		IStatusLineManager slm = EmacsPlusUtils.getStatusLineManager(editor);
-		IContributionItem fItem = slm.find(FLASH_ID);		
-		if (fItem == null) {
-			try {
-				slm.insertBefore(((slm.find(MINIBUFF_ID) != null) ? MINIBUFF_ID : POSITION_ID), flashItem);
-			} catch (IllegalArgumentException e) {
-				slm.insertBefore(POSITION_ID, flashItem);
-			}
-		} else {
-			flashItem.setVisible(true);
-		}
-	}
-	
 	/**
 	 * Flash an area on the mode line a number of times
 	 * 
@@ -120,7 +104,7 @@ public class ModeLineFlasher {
 	 */
 	public void flashModeLine(Display display) {
 		final ITextEditor editor = EmacsPlusUtils.getCurrentEditor();
-		addStatusContribution(editor);
+		addStatusContribution(editor, MINIBUFF_ID);
 		asyncForce(editor);
 		Display.getDefault().asyncExec(() -> {
 			runFlash(flashCount, flashItem, editor);
@@ -148,7 +132,7 @@ public class ModeLineFlasher {
 	/**
 	 * Add a background to a simplified StatusLineContributionItem
 	 */
-	private static class FlashLineContributionItem extends StatusLineContributionItem {
+	private class FlashLineContributionItem extends StatusLineContributionItem {
 
 		private static final int INDENT= 3;
 		private int fFixedWidth= -1;
@@ -170,7 +154,6 @@ public class ModeLineFlasher {
 		 */
 		public FlashLineContributionItem(String id, boolean visible, int widthInChars) {
 			super(id);
-			setVisible(visible);
 			fWidthInChars= widthInChars;
 		}
 
