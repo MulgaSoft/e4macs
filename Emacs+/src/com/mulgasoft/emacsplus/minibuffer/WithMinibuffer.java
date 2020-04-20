@@ -305,7 +305,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 				installed = true;
 			}
 		}
-		addStatusContribution(editor, POSITION_ID);		
+		addStatusContribution(editor);		
 		return installed;
 	}
 	
@@ -480,8 +480,8 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 		EmacsPlusUtils.forceStatusUpdate(part);
 	}
 
- 	protected synchronized void addStatusContribution(ITextEditor editor, String placeId) {
- 		super.addStatusContribution(editor, placeId);
+ 	protected synchronized void addStatusContribution(ITextEditor editor) {
+ 		super.addStatusContribution(editor);
  		miniBuffItem.setText(EMPTY_STR);
  	}
  	

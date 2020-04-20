@@ -22,7 +22,7 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
  */
 public abstract class StatusItemSupport {
 
-	protected static String POSITION_ID = STATUS_CATEGORY_ELEMENT_STATE;
+	private String placeId = STATUS_CATEGORY_ELEMENT_STATE;
 	
 	protected abstract StatusLineContributionItem initStatusLineItem(); 
 	
@@ -33,20 +33,15 @@ public abstract class StatusItemSupport {
 	 * the StausLineManager setup (in text editors afaik).
 	 *  
 	 * @param editor - the current editor
-	 * @param placeId - add the status line item before this
 	 */
-	protected synchronized void addStatusContribution(ITextEditor editor, String placeId) {
+	protected synchronized void addStatusContribution(ITextEditor editor) {
 		IStatusLineManager slm = EmacsPlusUtils.getStatusLineManager(editor);
 		IContributionItem item = initStatusLineItem();
-		IContributionItem fItem = slm.find(item.getId());		
-		if (fItem == null  || !hasInnerItem(slm, item)) {
-			System.out.println("Adding " + item.getId() + " at " + placeId + " for " + editor.toString());
-			if (slm.find(placeId) != null) {
-				slm.insertBefore(placeId, item);
-			} else {
-				slm.add(item);
-			}
+		if (!hasInnerItem(slm, item)) {
+			slm.insertBefore(placeId, item);
 		}
+		// reset to default
+		placeId = STATUS_CATEGORY_ELEMENT_STATE; 
 		item.setVisible(true);
 	}	
 	
@@ -63,6 +58,7 @@ public abstract class StatusItemSupport {
 		String id = item.getId();
 		// get the most local items
 		IContributionItem[] items = slm.getItems();
+		placeId = items[0].getId();
 		for (IContributionItem i : items) {
 			if (id.equals(i.getId())) {
 				result = true;
