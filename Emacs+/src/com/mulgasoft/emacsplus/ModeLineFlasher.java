@@ -8,6 +8,8 @@
  */
 package com.mulgasoft.emacsplus;
 
+import static com.mulgasoft.emacsplus.minibuffer.WithMinibuffer.MINIBUFF_ID;
+
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.StatusLineLayoutData;
 import org.eclipse.jface.resource.ColorRegistry;
@@ -102,7 +104,7 @@ public class ModeLineFlasher extends StatusItemSupport {
 	 */
 	public void flashModeLine(Display display) {
 		final ITextEditor editor = EmacsPlusUtils.getCurrentEditor();
-		addStatusContribution(editor);
+		addStatusContribution(editor, MINIBUFF_ID);
 		asyncForce(editor);
 		Display.getDefault().asyncExec(() -> {
 			runFlash(flashCount, flashItem, editor);

@@ -22,8 +22,6 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
  */
 public abstract class StatusItemSupport {
 
-	private String placeId = STATUS_CATEGORY_ELEMENT_STATE;
-	
 	protected abstract StatusLineContributionItem initStatusLineItem(); 
 	
 	/**
@@ -34,17 +32,19 @@ public abstract class StatusItemSupport {
 	 *  
 	 * @param editor - the current editor
 	 */
-	protected synchronized void addStatusContribution(ITextEditor editor) {
+	protected synchronized void addStatusContribution(ITextEditor editor, String place) {
 		IStatusLineManager slm = EmacsPlusUtils.getStatusLineManager(editor);
 		IContributionItem item = initStatusLineItem();
 		if (!hasInnerItem(slm, item)) {
-			slm.insertBefore(placeId, item);
+			slm.insertBefore((slm.find(place) != null ? place : STATUS_CATEGORY_ELEMENT_STATE), item);
 		}
-		// reset to default
-		placeId = STATUS_CATEGORY_ELEMENT_STATE; 
 		item.setVisible(true);
 	}	
 	
+	protected synchronized void addStatusContribution(ITextEditor editor) {
+		addStatusContribution(editor, STATUS_CATEGORY_ELEMENT_STATE);
+	}
+
 	/**
 	 * We have to paw through the new SubContributionManager's items to see if we've already been
 	 * added.  Fortunately, the list only has a few items.
@@ -58,7 +58,6 @@ public abstract class StatusItemSupport {
 		String id = item.getId();
 		// get the most local items
 		IContributionItem[] items = slm.getItems();
-		placeId = items[0].getId();
 		for (IContributionItem i : items) {
 			if (id.equals(i.getId())) {
 				result = true;
