@@ -176,6 +176,7 @@ public abstract class E4WindowCmd extends E4Cmd {
 				int size = children.size(); 
 				if (size > 1) {
 					int index = children.indexOf(dragStack)+1;
+					// use the next element, or previous if we're the last one
 					result = (MElementContainer<MUIElement>)children.get((index == size) ? index - 2 : index);
 					if (stackp) {
 						result =  findTheStack(result);

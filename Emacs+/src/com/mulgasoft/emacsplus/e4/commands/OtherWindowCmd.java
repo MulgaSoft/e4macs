@@ -28,30 +28,30 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
  */
 @SuppressWarnings("restriction") // E4 hackery
 public class OtherWindowCmd extends E4WindowCmd {
-	
-		@Execute
-		protected void doOtherWindow(@Active MPart apart, @Named(E4CmdHandler.CMD_CTX_KEY)String cmd, @Active EmacsPlusCmdHandler handler) {
-			PartAndStack ps = getParentStack(apart); 
-			MElementContainer<MUIElement> otherStack = getAdjacentElement(ps.getStack(), ps.getPart(), true);
-			MPart other = (MPart)otherStack.getSelectedElement();
-			// TODO An egregious hack that may break at any time
-			// Is there a defined way of getting the IEditorPart from an MPart?
-			if (other.getObject() instanceof CompatibilityEditor) {
-				IEditorPart editor = ((CompatibilityEditor) other.getObject()).getEditor();
-				try {
-					reactivate(other);
-					if (handler.isUniversalPresent()) {
-						EmacsPlusUtils.executeCommand(cmd, handler.getUniversalCount(), null, editor);
-					} else {
-						EmacsPlusUtils.executeCommand(cmd, null, editor);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+
+	@Execute
+	protected void doOtherWindow(@Active MPart apart, @Named(E4CmdHandler.CMD_CTX_KEY)String cmd, @Active EmacsPlusCmdHandler handler) {
+		PartAndStack ps = getParentStack(apart); 
+		MElementContainer<MUIElement> otherStack = getAdjacentElement(ps.getStack(), ps.getPart(), true);
+		MPart other = (MPart)otherStack.getSelectedElement();
+		// TODO An egregious hack that may break at any time
+		// Is there a defined way of getting the IEditorPart from an MPart?
+		if (other.getObject() instanceof CompatibilityEditor) {
+			IEditorPart editor = ((CompatibilityEditor) other.getObject()).getEditor();
+			try {
+				reactivate(other);
+				if (handler.isUniversalPresent()) {
+					EmacsPlusUtils.executeCommand(cmd, handler.getUniversalCount(), null, editor);
+				} else {
+					EmacsPlusUtils.executeCommand(cmd, null, editor);
 				}
-				finally {
-					reactivate(apart);
-				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				reactivate(apart);
 			}
 		}
+	}
 
 }
