@@ -8,9 +8,6 @@
  */
 package com.mulgasoft.emacsplus.e4.commands;
 
-import static com.mulgasoft.emacsplus.commands.CloseOtherInstancesHandler.closeAllDuplicates;
-import static com.mulgasoft.emacsplus.commands.CloseOtherInstancesHandler.closeDuplicates;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,13 +37,14 @@ import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
+import com.mulgasoft.emacsplus.commands.IDeduplication;
 
 /**
  * Join frames together based on the context argument
  * 
  * @author mfeber - Initial API and implementation
  */
-public class WindowJoinCmd extends E4WindowCmd {
+public class WindowJoinCmd extends E4WindowCmd implements IDeduplication {
 
 	@Inject private Shell shell;	
 	
@@ -134,7 +132,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 	void joinAll(MPart apart) {
 		try {
 			// deduplicate editors across all stacks
-			closeAllDuplicates(EmacsPlusUtils.getWorkbenchPage());
+			IDeduplication.closeAllDuplicates(EmacsPlusUtils.getWorkbenchPage());
 		} catch (PartInitException e) {
 			// Ignore
 		}
@@ -176,7 +174,7 @@ public class WindowJoinCmd extends E4WindowCmd {
 		Collection<IEditorReference> editors = getStackEditors(stack1);
 		editors.addAll(getStackEditors(stack2));
 		try {
-			result = closeDuplicates(EmacsPlusUtils.getWorkbenchPage(), editors.toArray(new IEditorReference[editors.size()]));
+			result = IDeduplication.closeDuplicates(EmacsPlusUtils.getWorkbenchPage(), editors.toArray(new IEditorReference[editors.size()]));
 		} catch (PartInitException e) {
 			// Ignore
 		}

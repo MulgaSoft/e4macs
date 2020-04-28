@@ -16,7 +16,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.StatusLineContributionItem;
 
 /**
- * Workaround for multiple status line contribution managers 
+ * Workaround for multiple status line contribution managers on some platforms (Windows...)
  *  
  * @author mfeber
  */
@@ -26,9 +26,9 @@ public abstract class StatusItemSupport {
 	
 	/**
  	 * Each editor type adds their own org.eclipse.jface.action.SubContributionManager with a parallel
-	 * set of items to the other editors.  We need to add ourselves to each set as we encounter them.  
-	 * Eclipse uses the exact same initialization code to modify the EditAction menu, while duplicating 
-	 * the StausLineManager setup (in text editors afaik).
+	 * set of items to the other editors.  On some platforms, we need to add ourselves to each set as 
+	 * we encounter them. Eclipse uses the exact same initialization code to modify the EditAction menu, 
+	 * while duplicating the StausLineManager setup (in text editors afaik).
 	 *  
 	 * @param editor - the current editor
 	 */
