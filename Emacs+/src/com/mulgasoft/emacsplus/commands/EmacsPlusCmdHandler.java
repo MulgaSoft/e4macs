@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010, Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020, Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,6 +11,7 @@ package com.mulgasoft.emacsplus.commands;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
@@ -79,6 +80,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	
 	/** the universal-argument name used by Emacs+ */
 	static final String UNIVERSAL = EmacsPlusUtils.UNIVERSAL_ARG;
+	static final String NUMERIC = EmacsPlusUtils.NUMERIC_ARG;
 	/** the shift select argument name used by Emacs+ movement commands*/
 	static final String SHIFT_ARG = "shiftArg"; 							  //$NON-NLS-1$
 	enum ShiftState {
@@ -103,6 +105,8 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	
 	/** hold the current universal-argument value */
 	private int universalCount = 1;
+	/** True if a number was entered, else false (i.e. naked ^U invocation) */
+	private boolean universalNumeric = true;	
 	/** remember if the universal-argument was present */
 	private boolean universalPresent = false;
 	// can be set to true to turn on for all (non-Emacs+) commands (which is probably a bad idea)
@@ -235,27 +239,33 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 
 	/**
 	 * If the universal argument has been passed as a parameter to this command then
-	 * extract it and set the universal count appropriately.
+	 * extract it and set the universal count and states appropriately.
 	 * 
 	 * @param event
 	 * @return the value of the universal-argument if set, else 1
 	 */
 	protected int extractUniversalCount(ExecutionEvent event) {
 		int result = 1;
+		// Retrieve the universal argument parameters if present 
 		setUniversalPresent(false);
-		// Retrieve the universal-argument parameter value if passed 
-		String universalArg = event.getParameter(UNIVERSAL);
-		if (universalArg != null && universalArg.length() > 0) {
-			try {
-				result = Integer.parseInt(universalArg);
-				setUniversalPresent(true);
-			} catch (NumberFormatException e) {	// if invalid number, proceed with count=1
-			}
-		} 
-		setUniversalCount(result);
+		extractUniversal(event, NUMERIC, x -> {setNumericUniversal(x > 0 ? true : false); return x;});
+		result = extractUniversal(event, UNIVERSAL, x -> {setUniversalCount(x); setUniversalPresent(true); return x;});
 		return result;
 	}
 
+	private int extractUniversal(ExecutionEvent event, String key, Function<Integer, Integer> fn) {
+		int result = 1;
+		String arg = event.getParameter(key);
+		if (arg != null && arg.length() > 0) {
+			try {
+				result = Integer.parseInt(arg); 
+				fn.apply(result);
+			} catch (NumberFormatException e) { // ignore if invalid integer
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * Determine whether it is allowed for the command to be invoked outside the context of a text editor
 	 * 
@@ -1179,7 +1189,25 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	private void setUniversalPresent(boolean universalPresent) {
 		this.universalPresent = universalPresent;
 	}
-
+	
+	/**
+	 * Return true if the command has been invoked with a numeric universal-argument, else false
+	 * 
+	 * @return true if a numeric universal-argument supplied, else false
+	 */
+	public boolean isNumericUniversal() {
+		return universalNumeric;
+	}
+	
+	/**
+	 * Record whether the command has been invoked with a numeric universal-argument
+	 * 
+	 * @param isNumeric the value to set
+	 */
+	private void setNumericUniversal(boolean isNumeric) {
+		this.universalNumeric = isNumeric;
+	}
+	
 	/**
 	 * Commands that need to specify arg-value based processing should override this
 	 * 
@@ -1233,7 +1261,12 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		// pass universal arg if non-default and cmd accepts it
 		String id = cmd.getId();
 		if (cmd.getParameter(UNIVERSAL) != null) {
-			EmacsPlusUtils.executeCommand(id, count, event, editor);
+			Map<String, Integer> parameters = new HashMap<String, Integer>();
+			parameters.put(UNIVERSAL, count);
+			if (cmd.getParameter(NUMERIC) != null) {
+				parameters.put(NUMERIC, (isNumeric ? 1 : 0));
+			}
+			EmacsPlusUtils.executeCommand(id, parameters, event, editor);
 		} else {
 			executeUniversal(editor, id, event, count, isNumeric);
 		}

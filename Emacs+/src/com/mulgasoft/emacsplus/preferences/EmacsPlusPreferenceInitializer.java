@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009-2012 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,6 +9,22 @@
  */
 package com.mulgasoft.emacsplus.preferences;
 
+import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_SEXP_TO_CLIPBOARD;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_WORD_TO_CLIPBOARD;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_DOT_SEXP;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_GNU_SEXP;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_SPLIT_SELF;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_UNDER_SEXP;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_DEF;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_INIT;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.KILL_RING_MAX;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.KILL_WHOLE_LINE;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.REPLACE_TEXT_TO_KILLRING;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SCROLL_MARGIN;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -17,21 +33,6 @@ import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.YankRotate;
 import com.mulgasoft.emacsplus.commands.BlockHandler;
 import com.mulgasoft.emacsplus.execute.KbdMacroSupport.LoadState;
-
-import static com.mulgasoft.emacsplus.preferences.PrefVars.KILL_RING_MAX;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.KILL_WHOLE_LINE;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_GNU_SEXP;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_DOT_SEXP;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_UNDER_SEXP;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.REPLACE_TEXT_TO_KILLRING;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_WORD_TO_CLIPBOARD;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.DELETE_SEXP_TO_CLIPBOARD;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.ENABLE_SPLIT_SELF;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_INIT;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.FRAME_DEF;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.SHOW_OTHER_HORIZONTAL;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
-import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
 
 /**
  * Class used to initialize default preference values.
@@ -87,5 +88,6 @@ public class EmacsPlusPreferenceInitializer extends AbstractPreferenceInitialize
 		store.setDefault(KILL_WHOLE_LINE.getPref(),(Boolean)KILL_WHOLE_LINE.getDefault());
 		store.setDefault(RING_BELL_FUNCTION.getPref(), (String)RING_BELL_FUNCTION.getDefault());
 		store.setDefault(SEARCH_EXIT_OPTION.getPref(), (String)SEARCH_EXIT_OPTION.getDefault());
+		store.setDefault(SCROLL_MARGIN.getPref(), Integer.toString((Integer)SCROLL_MARGIN.getDefault()));		
 	}
 }

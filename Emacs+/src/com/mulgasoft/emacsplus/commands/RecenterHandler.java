@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,12 +8,17 @@
  */
 package com.mulgasoft.emacsplus.commands;
 
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceInt;
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.RECENTER_TOP_BOTTOM;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.SCROLL_MARGIN;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.console.IConsoleView;
@@ -31,49 +36,98 @@ import com.mulgasoft.emacsplus.MarkUtils.ICommandIdListener;
  *  centers point vertically within the window.  Successive calls
  *  scroll the window, placing point on the top, bottom, and middle
  *  consecutively.  The cycling order is middle -> top -> bottom.
+ *  
+ * If scroll-margin > 0 then leave that number of lines as a margin
  * 
  * A prefix argument is handled like (Emacs)`recenter':
- *  With numeric prefix arg, move current line to window-line arg.
- * 
+ *  - With numeric prefix arg, move current line to screen line arg relative to the 
+ *    current window.  If arg is negative, count up from the bottom of the window.
+ *  - With plain `C-u', move current line to window center.
+ *  
  * @author Mark Feber - initial API and implementation
  */
 public class RecenterHandler extends EmacsPlusNoEditHandler implements IConsoleDispatch, ICommandIdListener {
-	// not supported: With plain `C-u', move current line to window center.
 
-	private interface RecenterState {
-		int getLine(int caretLine, int areaHeight, int lineHeight);
+	static int scrollMargin = 0;
+	static {
+		// initialize the scroll margin from our properties
+		setScrollMargin(getPreferenceInt(SCROLL_MARGIN.getPref()));
+		// listen for changes in the property store
+		getPreferenceStore().addPropertyChangeListener(
+				new IPropertyChangeListener() {
+					public void propertyChange(PropertyChangeEvent event) {
+						if (SCROLL_MARGIN.getPref().equals(event.getProperty())) {
+							setScrollMargin((Integer)event.getNewValue());
+						}
+					}
+				}
+		);
+	}	
+	
+	public static void setScrollMargin(int sm) {
+		scrollMargin = (sm < 0 ? 0 : sm);
 	}
 	
-	private static final RecenterState tState = new RecenterState() {
-		public int getLine(int caretLine, int areaHeight, int lineHeight) {
-			recenterState = bState;
-			return Math.max(0, (caretLine - (areaHeight / lineHeight)+1));
-		}
-	};
-	private static final RecenterState cState = new RecenterState() {
-		public int getLine(int caretLine, int areaHeight, int lineHeight) {
-			recenterState = tState;
-			return caretLine;
-		}
-	};
-	private static final RecenterState bState = new RecenterState() {
-		public int getLine(int caretLine, int areaHeight, int lineHeight) {
-			recenterState = cState;
-			return Math.max(0, (caretLine - (areaHeight / (lineHeight * 2)))); 
-		}
-	};
+	private CS state = CS.C;
 
-	private static RecenterState recenterState = cState;
-	
-	@Override
-	protected boolean isLooping() {
-		return false;
+	// Center, Top, Bottom
+	private static enum CS {
+		C,T,B;
+		private CS next;
+		static {
+			C.next = T;
+			T.next = B;
+			B.next = C;
+		}
+		int argLines = 0;
+
+		/**
+		 * Recenter the widget:
+		 *    - cycle through center/top/bottom
+		 *    - with ^U arg, position arg lines from top
+		 *    - with ^U, center regardless of cycle
+		 *    - only scroll within the current view area 
+		 * 
+		 * @param widget our StyledText widget
+		 * @param withArg true if called with some variant of ^U
+		 * @return the next recenter state in sequence
+		 */
+		private CS recenter(StyledText widget, boolean withArg) {
+			int topLine = -1;
+			int caretLine= widget.getLineAtOffset(widget.getCaretOffset());
+			int areaLines = (widget.getClientArea().height / widget.getLineHeight()); 
+			if (withArg) {
+				int newLine = caretLine - argLines;
+				// ensure we never scroll out of the currently displayed area
+				if (argLines < 0) {
+					topLine = Math.min(newLine - areaLines, caretLine);
+				} else {
+					topLine = Math.max(caretLine - areaLines, newLine);
+				}
+			} else {
+				switch (this) {
+					case B:
+						// ensure we never scroll out of the currently displayed area
+						topLine = Math.min((caretLine - areaLines + (scrollMargin > 0 ? scrollMargin : 1)), caretLine);
+						break;
+					case T:
+						// ensure we never scroll out of the currently displayed area
+						topLine =  Math.max((caretLine - scrollMargin), (caretLine - areaLines + 1));
+						break;
+					case C:
+					default:
+						topLine =  caretLine - (areaLines / 2); 
+				}
+			}
+			widget.setTopIndex(Math.max(0, topLine));
+			return next;
+		}
 	}
 
 	protected int transform(ITextEditor editor, IDocument document, ITextSelection currentSelection,
 			ExecutionEvent event) throws BadLocationException {
-		Control widget = getTextWidget(editor);
 		setCommandId(MarkUtils.getLastCommandId());
+		Control widget = getTextWidget(editor);
 		if (widget instanceof StyledText) {
 			recenter((StyledText)widget);
 		}
@@ -81,20 +135,18 @@ public class RecenterHandler extends EmacsPlusNoEditHandler implements IConsoleD
 	}
 
 	private void recenter(StyledText txtWidget) {
-		int topLine = -1;
-		int caretLine= txtWidget.getLineAtOffset(txtWidget.getCaretOffset());
-
 		if (isUniversalPresent()) {
-			// ^U arg lines from top
-			topLine = Math.min(txtWidget.getLineCount()-1, Math.max(0, (caretLine - getUniversalCount())));
-			recenterState = bState;				// so next unadorned re-center will center
+			state = CS.C;
+			if (isNumericUniversal()) {
+				// ^U arg lines from top (or bottom on -)
+				state.argLines = getUniversalCount();
+				state = state.recenter(txtWidget, true);
+			} else {
+				// Naked ^U always centers
+				state = state.recenter(txtWidget, false);
+			}
 		} else {
-			int areaHeight= txtWidget.getClientArea().height;
-			int lineHeight= txtWidget.getLineHeight();
-			topLine = recenterState.getLine(caretLine, areaHeight, lineHeight);
-		}
-		if (topLine >= 0) {
-			txtWidget.setTopIndex(topLine);
+			state = state.recenter(txtWidget, false);
 		}
 	}
 	
@@ -102,13 +154,14 @@ public class RecenterHandler extends EmacsPlusNoEditHandler implements IConsoleD
 	 * @see com.mulgasoft.emacsplus.commands.IConsoleDispatch#consoleDispatch(TextConsoleViewer, IConsoleView, ExecutionEvent)
 	 */
 	public Object consoleDispatch(TextConsoleViewer viewer, IConsoleView activePart, ExecutionEvent event) {
-		RecenterState saveState = recenterState;
+		CS saveState = state;
 		try {
+			state = CS.C;
 			StyledText st = viewer.getTextWidget();
 			st.redraw();
 			recenter(st);
 		} finally {
-			recenterState = saveState;
+			state = saveState;
 		}
 		return null;
 	}
@@ -120,9 +173,13 @@ public class RecenterHandler extends EmacsPlusNoEditHandler implements IConsoleD
 	 */
 	public void setCommandId(String commandId) {
 		if (!RECENTER_TOP_BOTTOM.equals(commandId)) {
-			// so re-center will center
-			recenterState = bState;
+			// always start from the center
+			state = CS.C;
 		}
 	}
 
+	@Override
+	protected boolean isLooping() {
+		return false;
+	}	
 }

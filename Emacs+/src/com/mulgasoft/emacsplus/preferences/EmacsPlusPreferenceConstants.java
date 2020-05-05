@@ -65,4 +65,6 @@ public class EmacsPlusPreferenceConstants {
 	public static final String P_KBD_MACRO_NAME_LOAD = "kbdMacroNameLoad";  //$NON-NLS-1$
 
 	public static final String PV_FLASH_MODE_LINE = "flash-mode-line";		//$NON-NLS-1$
+	
+	public static final String PV_SCROLL_MARGIN = "scroll-margin";			//$NON-NLS-1$
 }

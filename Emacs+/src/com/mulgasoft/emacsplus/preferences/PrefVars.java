@@ -20,6 +20,7 @@ import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_SPLIT_SELF;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_UNDER_SEXP;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_FLASH_MODE_LINE;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_SCROLL_MARGIN;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -50,6 +51,7 @@ public enum PrefVars {
 	KILL_WHOLE_LINE(Ptype.BOOLEAN, false),
 	REPLACE_TEXT_TO_KILLRING(Ptype.BOOLEAN, P_REPLACED_TOKILL, false),
 	RING_BELL_FUNCTION(Ptype.STRING, RingBellOptions.nil),
+	SCROLL_MARGIN(Ptype.P_INTEGER, PV_SCROLL_MARGIN, 0),
 	SEARCH_EXIT_OPTION(Ptype.STRING, SearchExitOption.t),
 	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
 	SETQ(Ptype.BOOLEAN, true),
@@ -142,14 +144,20 @@ public enum PrefVars {
 			}
 			break;
 		case INTEGER:
+		case P_INTEGER:
+			Integer iVal = null;
 			if (val instanceof Integer) {
-				store.setValue(getPref(), (Integer) val);
+				iVal = (Integer)val;
 			} else if (val instanceof String) {
 				try {
-					Integer iv = Integer.parseInt((String) val);
-					store.setValue(getPref(), iv);
-				} catch (NumberFormatException e) {
+					iVal = Integer.parseInt((String) val);
+				} catch (NumberFormatException e) {}
+			} 
+			if (iVal != null) {
+				if ((type == Ptype.P_INTEGER) && iVal < 0) {
 					Beeper.beep();
+				} else {
+					store.setValue(getPref(),iVal);
 				}
 			} else {
 				Beeper.beep();
@@ -195,6 +203,7 @@ public enum PrefVars {
 				result = store.getString(getPref());
 				break;
 			case INTEGER:
+			case P_INTEGER:
 				result = store.getInt(getPref());
 				break;
 			default:
@@ -213,7 +222,7 @@ public enum PrefVars {
 		}
 	}
 	public enum Ptype {
-		BOOLEAN, INTEGER, RECT, STRING;
+		BOOLEAN, INTEGER, P_INTEGER, RECT, STRING;
 	}
 	
 	public interface DisplayOption {
@@ -267,20 +276,14 @@ public enum PrefVars {
 		}
 	}
 	
-	public <T extends Enum<T>> String getDisplayName(T clazz) {
-		((DisplayOption)clazz).getDisplayName();
-		return null;
-	}
-	
-
 	public String[] getPossibleValues() {
 		String[] result = null;
 		if (defOption != null){
-			Object[] enumConstants = defOption.getClass().getEnumConstants();
+			DisplayOption[] enumConstants = defOption.getClass().getEnumConstants();
 			if (enumConstants != null) {
 				result = new String[enumConstants.length];
 				for (int i = 0; i < enumConstants.length; i ++ ) {
-					result[i] = enumConstants[i].toString();
+					result[i] = enumConstants[i].getDisplayName();
 				}
 			}
 		}

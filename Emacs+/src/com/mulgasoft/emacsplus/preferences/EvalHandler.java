@@ -151,6 +151,7 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 						mbState.run(editor);
 						break;
 					case INTEGER:
+					case P_INTEGER:
 						mbState = numberState(var);
 						mbState.run(editor);
 						break;
@@ -221,7 +222,8 @@ public class EvalHandler extends PreferenceHandler implements IMinibufferExecuta
 				boolean result = true;
 				if (minibufferResult != null && minibufferResult instanceof Integer) {
 					var.setValue(minibufferResult);
-					setResultMessage(minibufferResult.toString(), false, editor);
+					// A P_INTEGER disallows negative values, so retrieve it for display
+					setResultMessage(var.getValue().toString(), false, editor);
 				} else {
 					setResultMessage(ABORT, true, editor);
 				}

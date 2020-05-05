@@ -509,6 +509,12 @@
 		optional="true"
 		typeId="com.mulgasoft.emacsplus.Integer">
 	  </commandParameter>
+	  <commandParameter
+		id="numericArg"
+		name="State"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
     </command>
 
 	<command
