@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2014 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2020 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -116,6 +116,7 @@ public class EmacsPlusUtils {
 	
 	/** the universal-argument name used by Emacs+ */	
 	public static final String UNIVERSAL_ARG = "universalArg";  											  //$NON-NLS-1$	
+	public static final String NUMERIC_ARG = "numericArg";  											  //$NON-NLS-1$	
 	/** the load kbd macro name argument used by Emacs+ */	
 	public static final String KBDMACRO_NAME_ARG = "Name";  												  //$NON-NLS-1$	
 	/** force the kbd macro load without any questions */	
@@ -139,6 +140,10 @@ public class EmacsPlusUtils {
 		return getPreferenceStore().getBoolean(key);
 	}
 	
+	public static Integer getPreferenceInt(String key) {
+		return getPreferenceStore().getInt(key);
+	}
+
 	public static String getPreferenceString(String key) {
 		return getPreferenceStore().getString(key);
 	}
@@ -436,9 +441,9 @@ public class EmacsPlusUtils {
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {	
 			Map<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put(EmacsPlusUtils.UNIVERSAL_ARG, count);
-		return (editor == null) ? executeCommand(commandId, parameters, event) : executeCommand(commandId, parameters, event, editor);
+		return  executeCommand(commandId, parameters, event, editor);
 	}
-	
+
 	/**
 	 * Invoke the specified parameterized command using the handler service from the editor site
 	 * 
@@ -455,9 +460,10 @@ public class EmacsPlusUtils {
 	 */
 	public static Object executeCommand(String commandId, Map<String,?> parameters, Event event, IWorkbenchPart editor)
 	throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException, CommandException {
-		return executeCommand(commandId,parameters,event,
-				(ICommandService) editor.getSite().getService(ICommandService.class),
-				(IHandlerService) editor.getSite().getService(IHandlerService.class));
+		return (editor == null) ? executeCommand(commandId, parameters, event) :
+			executeCommand(commandId,parameters,event,
+					(ICommandService) editor.getSite().getService(ICommandService.class),
+					(IHandlerService) editor.getSite().getService(IHandlerService.class));
 	}
 
 	private static Object executeCommand(String commandId, Map<String,?> parameters, Event event, ICommandService ics, IHandlerService ihs)
