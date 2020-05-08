@@ -30,7 +30,7 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
  * 
  * @author mfeber
  */
-public class ModeLineFlasher extends StatusItemSupport {
+public class ModeLineFlasher extends StatusItemSupport implements Flasher {
 	
 	private static ModeLineFlasher instance = null;
 	private ModeLineFlasher() {};
@@ -59,19 +59,14 @@ public class ModeLineFlasher extends StatusItemSupport {
 	private static Color[] backs = { PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED), PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_BLACK)}; 
 
 	public static boolean ring() {
-		getInstance().flashModeLine(Display.getCurrent());
+		getInstance().flash(Display.getCurrent());
 		return true;
-	}
-
-	private Color invertColor(Color c) {
-		RGB rgb = c.getRGB();
-		return new Color(c.getDevice(), 255 - rgb.red, 255 - rgb.green, 255 - rgb.blue);
 	}
 
 	private void setColors() {
 		ColorRegistry colorRegistry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry();
-		backs[0] = invertColor(colorRegistry.get(backgroundKey));
-		backs[1] = invertColor(colorRegistry.get(foregroundKey));
+		backs[0] = Flasher.invertColor(colorRegistry.get(backgroundKey));
+		backs[1] = Flasher.invertColor(colorRegistry.get(foregroundKey));
 	}
 
 	private void asyncForce(final ITextEditor editor) {
@@ -102,16 +97,16 @@ public class ModeLineFlasher extends StatusItemSupport {
 	 * 
 	 * @param display
 	 */
-	public void flashModeLine(Display display) {
+	public void flash(Display display) {
 		final ITextEditor editor = EmacsPlusUtils.getCurrentEditor();
 		addStatusContribution(editor, MINIBUFF_ID);
 		asyncForce(editor);
 		Display.getDefault().asyncExec(() -> {
-			runFlash(flashCount, flashItem, editor);
+			runFlasher(flashCount, flashItem, editor);
 		});
 	}	
 
-	private void runFlash(final int count, FlashLineContributionItem item, final ITextEditor editor) {
+	private void runFlasher(final int count, FlashLineContributionItem item, final ITextEditor editor) {
 		if (count > 0) {
 			Display.getDefault().syncExec(() -> {
 				item.setBackground(backs[count % backs.length]);					
@@ -123,7 +118,7 @@ public class ModeLineFlasher extends StatusItemSupport {
 				}
 				Display.getDefault().asyncExec(() -> {
 					clearIt(item, editor);
-					runFlash(count -1, item, editor);
+					runFlasher(count -1, item, editor);
 				});
 			});
 		} 
