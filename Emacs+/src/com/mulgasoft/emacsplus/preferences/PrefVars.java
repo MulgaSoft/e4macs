@@ -31,6 +31,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 import com.mulgasoft.emacsplus.ModeLineFlasher;
+import com.mulgasoft.emacsplus.ScreenFlasher;
 
 /**
  * Define selected internal/preference variables in an enum
@@ -55,6 +56,7 @@ public enum PrefVars {
 	SEARCH_EXIT_OPTION(Ptype.STRING, SearchExitOption.t),
 	SHOW_OTHER_HORIZONTAL(Ptype.BOOLEAN, false),
 	SETQ(Ptype.BOOLEAN, true),
+	VISIBLE_BELL(Ptype.BOOLEAN, false),	
 	;
 	
 	private final static String DOC = "_DOC";	//$NON-NLS-1$
@@ -233,7 +235,8 @@ public enum PrefVars {
 	public enum RingBellOptions implements DisplayOption {
 		nil, 
 		ignore,
-		flash_mode_line(PV_FLASH_MODE_LINE);
+		flash_mode_line(PV_FLASH_MODE_LINE),
+		;
 
 		private String displayName = null;
 		private RingBellOptions() {}

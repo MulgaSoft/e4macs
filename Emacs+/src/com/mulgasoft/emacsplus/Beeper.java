@@ -8,9 +8,11 @@
  */
 package com.mulgasoft.emacsplus;
 
+import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceBoolean;
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceString;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.RING_BELL_FUNCTION;
+import static com.mulgasoft.emacsplus.preferences.PrefVars.VISIBLE_BELL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,8 +30,11 @@ import com.mulgasoft.emacsplus.preferences.PrefVars.RingBellOptions;
  */
 public class Beeper {
 
+	private static boolean visibleBell = false;
 	private static RingBellOptions ringer;
 	static {
+		//initialize the visible bell from our properties
+		visibleBell = getPreferenceBoolean(VISIBLE_BELL.getPref());
 		//initialize the ring bell function from our properties
 		setRingBellOption(getPreferenceString(RING_BELL_FUNCTION.getPref()));
 		// listen for changes in the property store
@@ -38,6 +43,8 @@ public class Beeper {
 					public void propertyChange(PropertyChangeEvent event) {
 						if (RING_BELL_FUNCTION.getPref().equals(event.getProperty())) {
 							setRingBellOption((String)event.getNewValue());
+						} else if (VISIBLE_BELL.getPref().equals(event.getProperty())) {
+							visibleBell = (Boolean)event.getNewValue();
 						}
 					}
 				}
@@ -45,7 +52,7 @@ public class Beeper {
 	}
 
 	private static boolean ringBell() {
-		return (ringer != null ? ringer.ringBell() : false);
+		return (visibleBell ? ScreenFlasher.ring() : (ringer != null ? ringer.ringBell() : false));
 	}
 
 	private static void setRingBellOption(String option) {
