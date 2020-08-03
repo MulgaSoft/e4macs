@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -65,7 +67,17 @@ public class EmacsPlusActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		addBundlerListener(context);		
 		super.start(context);
-		EmacsPlusActivation.getInstance().activateListeners();
+		if (Display.getCurrent() != null) {
+			// execution occurs in the UI thread
+			EmacsPlusActivation.getInstance().activateListeners();
+		} else {
+			// execution occurs in a non-UI thread
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					EmacsPlusActivation.getInstance().activateListeners();
+				}
+			});
+		}
 	}
 
 	private void addBundlerListener(BundleContext context) {
