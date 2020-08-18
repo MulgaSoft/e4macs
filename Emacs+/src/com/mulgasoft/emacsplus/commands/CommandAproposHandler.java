@@ -41,7 +41,6 @@ public class CommandAproposHandler extends MinibufferExecHandler implements INon
 
 	private static final String A_MSG = "[";														   //$NON-NLS-1$ 
 	private static final String Z_MSG = "] ";   													   //$NON-NLS-1$ 
-	private static final String MX_MSG = "M-x ... RET";												   //$NON-NLS-1$ 
 	
 	private static String APROPOS_PREFIX = EmacsPlusActivator.getResourceString("Cmd_Apropos_Prefix"); //$NON-NLS-1$  
 	private static String APROPOS_FAIL = EmacsPlusActivator.getResourceString("Cmd_Fail");  		   //$NON-NLS-1$  
@@ -137,8 +136,9 @@ public class CommandAproposHandler extends MinibufferExecHandler implements INon
 	private void printCommand(String name, Command command, EmacsPlusConsole console) {
 		console.printBold(name + SWT.TAB);
 		String bindingStrings = CommandHelp.getKeyBindingString(command, true);
-		bindingStrings = (bindingStrings == null) ? MX_MSG : bindingStrings; 
-		console.printContext(A_MSG + bindingStrings + Z_MSG);
+		if (bindingStrings != null) {
+			console.printContext(A_MSG + bindingStrings + Z_MSG);
+		}
 		try {
 			String desc = command.getDescription();
 			if (desc != null) {
