@@ -17,7 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -70,9 +69,7 @@ public class ModeLineFlasher extends StatusItemSupport implements Flasher {
 	}
 
 	private void asyncForce(final ITextEditor editor) {
-		Display.getDefault().asyncExec(() -> {
-			EmacsPlusUtils.forceStatusUpdate(editor);
-		});
+		Display.getDefault().asyncExec(() -> EmacsPlusUtils.forceStatusUpdate(editor));
 	}
 	
 	private void clearIt(IContributionItem item, ITextEditor editor) {
@@ -101,9 +98,7 @@ public class ModeLineFlasher extends StatusItemSupport implements Flasher {
 		final ITextEditor editor = EmacsPlusUtils.getCurrentEditor();
 		addStatusContribution(editor, MINIBUFF_ID);
 		asyncForce(editor);
-		Display.getDefault().asyncExec(() -> {
-			runFlasher(flashCount, flashItem, editor);
-		});
+		Display.getDefault().asyncExec(() -> runFlasher(flashCount, flashItem, editor));
 	}	
 
 	private void runFlasher(final int count, FlashLineContributionItem item, final ITextEditor editor) {

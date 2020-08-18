@@ -9,6 +9,8 @@
 package com.mulgasoft.emacsplus.preferences;
 
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_FLASH_MODE_LINE;
+import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_SCROLL_MARGIN;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_SEXP;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_CLIP_WORD;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_DOT_SEXP;
@@ -19,8 +21,6 @@ import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_RING_SIZE;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_SPLIT_SELF;
 import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.P_UNDER_SEXP;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_FLASH_MODE_LINE;
-import static com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants.PV_SCROLL_MARGIN;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -31,7 +31,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusActivator;
 import com.mulgasoft.emacsplus.ModeLineFlasher;
-import com.mulgasoft.emacsplus.ScreenFlasher;
 
 /**
  * Define selected internal/preference variables in an enum
