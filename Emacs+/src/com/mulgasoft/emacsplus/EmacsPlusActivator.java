@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009-2021 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -65,7 +66,12 @@ public class EmacsPlusActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		addBundlerListener(context);		
 		super.start(context);
-		EmacsPlusActivation.getInstance().activateListeners();
+		// Ensure this occurs in the UI thread
+		if (Display.getCurrent() != null) {
+			EmacsPlusActivation.getInstance().activateListeners();
+		} else {
+			EmacsPlusUtils.asyncUiRun(() -> EmacsPlusActivation.getInstance().activateListeners());
+		}		
 	}
 
 	private void addBundlerListener(BundleContext context) {
@@ -93,11 +99,7 @@ public class EmacsPlusActivator extends AbstractUIPlugin {
 	private void bundleStarted() {
 		setEmacsIds();
 		// must be run in a UI thread
-		EmacsPlusUtils.asyncUiRun(new Runnable() {
-			public void run() {
-				KbdMacroSupport.getInstance().autoLoadMacros();
-			}
-		});
+		EmacsPlusUtils.asyncUiRun(() -> KbdMacroSupport.getInstance().autoLoadMacros());
 	}
 	
 	/**
@@ -120,9 +122,11 @@ public class EmacsPlusActivator extends AbstractUIPlugin {
 			return key;
 		}
 	}
+	
 	public static String getString(String key) {
 		return  getResourceString(key);
 	}
+	
 	/**
 	 * Returns the plugin's resource bundle,
 	 */
