@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.3.5"
+      version="4.3.4"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -59,7 +59,7 @@ have changed radically
    </description>
 
    <copyright url="http://www.mulgasoft.com/emacs-plug-in-license">
-      Copyright (c) 2009-2021 Mark Feber All rights reserved.
+      Copyright (c) 2009-2014 Mark Feber All rights reserved.
    </copyright>
 
    <license url="http://www.mulgasoft.com/emacsplus/mpl-v-1-0">
