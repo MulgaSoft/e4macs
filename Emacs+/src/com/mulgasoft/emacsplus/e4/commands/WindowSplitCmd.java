@@ -1,4 +1,16 @@
+/**
+ * Copyright (c) 2009-2021 Mark Feber
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ */
 package com.mulgasoft.emacsplus.e4.commands;
+
+import static org.eclipse.e4.ui.workbench.modeling.EModelService.ABOVE;
+import static org.eclipse.e4.ui.workbench.modeling.EModelService.LEFT_OF;
 
 import javax.inject.Named;
 
@@ -17,9 +29,6 @@ import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
 
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.RIGHT_OF;
-import static org.eclipse.e4.ui.workbench.modeling.EModelService.BELOW;
-
 /**
  * Split the current window using the direction passed in the context
  * 
@@ -30,18 +39,26 @@ public class WindowSplitCmd extends E4WindowCmd {
 	private static final float ratio = 0.5f;
 
 	public static int getDirection(boolean horizontal) {
-		return (horizontal ? RIGHT_OF : BELOW);
+		return (horizontal ? LEFT_OF : ABOVE);
 	}
 	
 	@Execute
 	public Object execute(@Active MPart apart, @Active IEditorPart editor, @Named(E4CmdHandler.CMD_CTX_KEY)int cmd, 
 			@Active EmacsPlusCmdHandler handler) {
-		if (handler.isUniversalPresent()) {
-			// convenience hack
-			// change setting without changing preference store
-			setSplitSelf(!isSplitSelf());
+		boolean up = handler.isUniversalPresent();
+		try {
+			if (up) {
+				// convenience hack
+				// temporarily change setting without changing preference store
+				setSplitSelf(!isSplitSelf());
+			}
+			split(apart, editor, cmd);
+		} finally {
+			if (up) {	
+				// restore setting 
+				setSplitSelf(!isSplitSelf());
+			}
 		}
-		split(apart, editor, cmd);
 		return null;
 	}
 	
