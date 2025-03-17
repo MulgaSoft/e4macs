@@ -79,7 +79,7 @@ public class SelectionDialog extends PopupDialog {
 	@SuppressWarnings("deprecation")	// backward compatibility
 	public SelectionDialog(Shell parent, ISelectExecute mini, ITextEditor editor) {
 		// Europa compatible constructor
-		super((Shell) null, PopupDialog.HOVER_SHELLSTYLE, false, false, false, false, null, null);
+		super((Shell) null, PopupDialog.HOVER_SHELLSTYLE, false, false, false, false, false, null, null);
 		this.editor = editor;
 		this.minibuffer = mini;
 	}
