@@ -2565,22 +2565,50 @@
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%isearchforward.command.description"
 		id="com.mulgasoft.emacsplus.isearchForward"
-		name="%isearchforward.command.name"/>
+		name="%isearchforward.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>	  
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%isearchforwardr.command.description"
 		id="com.mulgasoft.emacsplus.isearchRegexpForward"
-		name="%isearchforwardr.command.name"/>
+		name="%isearchforwardr.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>	  
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%isearchbackward.command.description"
 		id="com.mulgasoft.emacsplus.isearchBackward"
-		name="%isearchbackward.command.name"/>
+		name="%isearchbackward.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>	  
 	<command
 		categoryId="org.eclipse.ui.category.textEditor"
 		description="%isearchbackwardr.command.description"
 		id="com.mulgasoft.emacsplus.isearchRegexpBackward"
-		name="%isearchbackwardr.command.name"/>
+		name="%isearchbackwardr.command.name">
+	  <commandParameter
+		id="universalArg"
+		name="Arg"
+		optional="true"
+		typeId="com.mulgasoft.emacsplus.Integer">
+	  </commandParameter>
+	</command>	  
   </extension>
    
   <extension

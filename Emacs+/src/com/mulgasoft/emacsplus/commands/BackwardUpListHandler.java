@@ -178,7 +178,7 @@ public class BackwardUpListHandler extends SexpBaseBackwardHandler implements IC
 		if (isMarkEnabled(editor,origSelection)) {
 			return selectTransform(editor,offset,origSelection,selection);
 		} else {
-			return noSelectTransform(editor,offset,selection,true);	
+			return noSelectTransform(editor,offset,selection,false);	
 		}
 	}
 
