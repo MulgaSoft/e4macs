@@ -33,4 +33,14 @@ public class ISearchRegexpForwardHandler extends MinibufferHandler implements IN
 		
 		return bufferTransform(new ISearchMinibuffer(true, true), editor, event); 		
 	}
+
+		/**
+	 * @see com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler#getDispatchId(java.lang.String, int)
+	 */
+	@Override
+	protected String getDispatchId(String checkId, int arg) {
+		// dispatch to isearch, and clear arg to avoid recursion 
+		setUniversalCount(1);
+		return com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.ISEARCH_FORWARD;
+	}
 }
