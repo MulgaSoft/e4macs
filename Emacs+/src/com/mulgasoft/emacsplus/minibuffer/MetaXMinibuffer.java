@@ -287,7 +287,7 @@ public class MetaXMinibuffer extends CompletionMinibuffer implements IExecutionL
 			Command com = null;
 			if ((com = commandList.get(cmd)) != null) {
 				// get the active bindings
-				String bindings = CommandHelp.getKeyBindingString(com,true);
+				String bindings = CommandHelp.getKeyBindingString(com);
 				if (bindings != null) {
 					cmd = String.format(BINDINGS, cmd, bindings);					
 				} else {

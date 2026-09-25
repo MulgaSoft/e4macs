@@ -87,8 +87,7 @@ public class CommandDescribeHandler extends MinibufferExecHandler implements INo
 	 * @param console
 	 */
 	void printCmdDetails(ParameterizedCommand cmd, EmacsPlusConsole console) {
-		String[] bindings = CommandHelp.getKeyBindingStrings(cmd, false);
-		String[] abindings = CommandHelp.getKeyBindingStrings(cmd, true);
+		String[] strBindings = CommandHelp.getKeyBindingStrings(cmd);
 		
 		console.print(SWT.TAB + DESC_ID);
 		console.printContext(cmd.getId() + CR);
@@ -106,7 +105,7 @@ public class CommandDescribeHandler extends MinibufferExecHandler implements INo
 		}
 		
 		console.printBold(' ' + CMD_KEY_HEADING + CR);
-		printDetails(cmd.getCommand(), bindings, abindings, console);
+		printDetails(cmd.getCommand(), strBindings, console);
 	}
 	
 	/**
@@ -116,36 +115,22 @@ public class CommandDescribeHandler extends MinibufferExecHandler implements INo
 	 * @param console
 	 */
 	void printCmdDetails(Command cmd, EmacsPlusConsole console) {
-		String[] bindings = CommandHelp.getKeyBindingStrings(cmd, false);
-		String[] abindings = CommandHelp.getKeyBindingStrings(cmd, true);
+		String[] strBindings = CommandHelp.getKeyBindingStrings(cmd);
 		
 		console.print(SWT.TAB + DESC_ID);
 		console.printContext(cmd.getId() + CR);
 		console.printBold(' ' + CMD_KEY_HEADING + CR);
-		printDetails(cmd, bindings, abindings, console);
+		printDetails(cmd, strBindings, console);
 	}
 	
-	private void printDetails(Command cmd, String[] bindings, String[] abindings, EmacsPlusConsole console) {
-		if (bindings.length == 0) {
+	private void printDetails(Command cmd, String[] strBindings, EmacsPlusConsole console) {
+
+		if (strBindings.length == 0) {
 			console.printBold(SWT.TAB + CMD_NO_BINDING + CR);
 		} else {
-			for (int i = 0; i < abindings.length; i+=2) {
-				console.printBinding(SWT.TAB + abindings[i]);
-				console.printContext(A_MSG + abindings[i+1] + Z_MSG + CR);
-			}
-			for (int i = 0; i < bindings.length; i+=2) {
-				boolean printit = true;
-				for (int j=0; j < abindings.length; j+=2) {
-					if (bindings[i].equals(abindings[j])) {
-						printit = false;
-						break;
-					}
-				}
-				if (printit) {
-					// don't bold non-active bindings
-					console.print(SWT.TAB + bindings[i]);
-					console.printContext(A_MSG + bindings[i+1] + Z_MSG + CR);
-				}
+			for (int i = 0; i < strBindings.length; i+=2) {
+				console.printBinding(SWT.TAB + strBindings[i]);
+				console.printContext(A_MSG + strBindings[i+1] + Z_MSG + CR);
 			}
 		}
 		console.printBold(' ' + CMD_DESC_HEADING + CR + SWT.TAB);
