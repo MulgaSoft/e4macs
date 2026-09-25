@@ -136,7 +136,7 @@ public class CommandAproposHandler extends MinibufferExecHandler implements INon
 	
 	private void printCommand(String name, Command command, EmacsPlusConsole console) {
 		console.printBold(name + SWT.TAB);
-		String bindingStrings = CommandHelp.getKeyBindingString(command, true);
+		String bindingStrings = CommandHelp.getKeyBindingString(command);
 		bindingStrings = (bindingStrings == null) ? MX_MSG : bindingStrings; 
 		console.printContext(A_MSG + bindingStrings + Z_MSG);
 		try {

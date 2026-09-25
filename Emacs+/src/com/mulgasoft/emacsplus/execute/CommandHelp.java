@@ -24,8 +24,12 @@ import org.eclipse.ui.keys.IBindingService;
  * @author Mark Feber - initial API and implementation
  */
 public class CommandHelp {
-
+	
 	private static final String COMMA_SEPR = ", ";	//$NON_NLS-1$
+	
+	private static IBindingService getBS() {
+		return (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class); 
+	}
 	
 	/**
 	 * Get the key-binding information for the command
@@ -35,41 +39,22 @@ public class CommandHelp {
 	 * 
 	 * @return an array of binding information
 	 */
-	public static Binding[] getBindings(Command com, boolean activep) {
-		
-		IBindingService binder = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
-		Binding[] bindings = binder.getBindings();
-		List<Binding> vbindings = new ArrayList<Binding>();
+	public static Binding[] getBindings(Command cmd, boolean activep) {
+		IBindingService binder = getBS();
+		List<Binding> resultBindings = new ArrayList<Binding>();
+		TriggerSequence[] trs = binder.getActiveBindingsFor(cmd.getId());
 		String platform = SWT.getPlatform();
-		for (Binding bind : bindings) {
-			ParameterizedCommand pc = bind.getParameterizedCommand();
-			if (pc != null && com.equals(pc.getCommand())) {
-				// Only return binding info for applicable platforms
-				String plat = bind.getPlatform();
-				if (plat == null || platform.equals(plat)) {
-					vbindings.add(bind);
-				}
+		for (TriggerSequence ts : trs) {
+			Binding b = binder.getPerfectMatch(ts);
+			String plat = b.getPlatform(); 
+			if ((plat == null || plat.equals(platform)) &&
+					(cmd.equals(b.getParameterizedCommand().getCommand()))) {
+				resultBindings.add(b);
 			}
 		}
-		if (activep && !vbindings.isEmpty()) {
-			TriggerSequence[] atrigs= binder.getActiveBindingsFor(com.getId()); 
-			List<Binding> abindings = new ArrayList<Binding>();
-			for (TriggerSequence trig : atrigs) {
-				for (Binding bind : vbindings) {
-					if (bind.getTriggerSequence().equals(trig)) {
-						abindings.add(bind);
-						break;
-					}
-				}
-			}
-			bindings = abindings.toArray(new Binding[0]);
-		} else {
-			bindings = vbindings.toArray(new Binding[0]);
-		}
-		
-		return bindings;
+		return resultBindings.toArray(new Binding[0]);		
 	}
-	
+
 	/**
 	 * Get the best binding (as determined by Eclipse) for the Command
 	 * 
@@ -77,13 +62,7 @@ public class CommandHelp {
 	 * @return the binding or null
 	 */
 	public static String getBestBinding(Command cmd) {
-		String result = null;
-		IBindingService binder = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
-		TriggerSequence bindingFor = binder.getBestActiveBindingFor(cmd.getId());
-		if (bindingFor != null) {
-			result = bindingFor.format(); 
-		}
-		return result;
+		return getBS().getBestActiveBindingFormattedFor(cmd.getId());
 	}
 	
 	/**
@@ -94,24 +73,8 @@ public class CommandHelp {
 	 * 
 	 * @return a String array of binding sequence binding context information
 	 */
-	public static String[] getKeyBindingStrings(Command com, boolean activep) {
-		String id = com.getId();
-
-		TriggerSequence trigger;
-		// Get platform bindings for Command 
-		Binding[] bindings = getBindings(com,activep);
-
-		List<String> bindingInfo = new ArrayList<String>();
-		ParameterizedCommand c;
-		for (Binding bind : bindings) {
-			c = bind.getParameterizedCommand();
-			if (c != null && c.getId().equals(id)) {
-				trigger = bind.getTriggerSequence();
-				bindingInfo.add(trigger.toString());
-				bindingInfo.add(bind.getContextId());
-			}
-		}
-		return bindingInfo.toArray(new String[0]);
+	public static String[] getKeyBindingStrings(Command com) {
+		return getKeyBindingStrings(new ParameterizedCommand(com,null)); 
 	}
 	
 	/**
@@ -119,37 +82,41 @@ public class CommandHelp {
 	 * 
 	 * @param com the command
 	 * @param activep - if true, return only active bindings
+	 * @param <>c 
 	 * 
 	 * @return a String array of binding sequence binding context information
 	 */
-	public static String[] getKeyBindingStrings(ParameterizedCommand com, boolean activep) {
-		TriggerSequence trigger;
+	public static String[] getKeyBindingStrings(ParameterizedCommand com) {
 		// Get platform bindings for the ParameterizedCommand's Command 
-		Binding[] bindings = getBindings(com.getCommand(),activep);
-
+		IBindingService binder = getBS();
+		TriggerSequence[] trs = binder.getActiveBindingsFor(com);
 		List<String> bindingInfo = new ArrayList<String>();
-		ParameterizedCommand c;
-		for (Binding bind : bindings) {
-			c = bind.getParameterizedCommand();
-			if (c != null && c.equals(com)) {
-				trigger = bind.getTriggerSequence();
-				bindingInfo.add(trigger.toString());
+		for (TriggerSequence tr : trs) {
+			Binding bind = binder.getPerfectMatch(tr);
+			if (com.equals(bind.getParameterizedCommand())) {
+				bindingInfo.add(tr.toString());
 				bindingInfo.add(bind.getContextId());
 			}
 		}
 		return bindingInfo.toArray(new String[0]);
 	}
 
-	public static String getKeyBindingString(Command com, boolean activep) {
+	/**
+	 * Get a string representation of all the applicable bindings for the command
+	 * 
+	 * @param com
+	 * @return a String representation of the bindings
+	 */
+	public static String getKeyBindingString(Command com) {
 		String result = null;
-		String[] bindings = getKeyBindingStrings(com, activep);
+		String[] strBindings = getKeyBindingStrings(com);
 		StringBuilder bindingsBuf = new StringBuilder();
-		if (bindings.length > 0) {
-			for (int i=0; i < bindings.length; i+=2) {
+		if (strBindings.length > 0) {
+			for (int i=0; i < strBindings.length; i+=2) {
 				if (i != 0) {
 					bindingsBuf.append(COMMA_SEPR);
 				}
-				bindingsBuf.append(bindings[i]);
+				bindingsBuf.append(strBindings[i]);
 			}
 			result = bindingsBuf.toString();
 		}

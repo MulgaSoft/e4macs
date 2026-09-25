@@ -61,15 +61,15 @@ public class CommandWhereIsHandler extends MinibufferExecHandler implements INon
 
 			ICommandResult commandR = (ICommandResult) minibufferResult;
 			String name = commandR.getName();
-			String[] bindings = CommandHelp.getKeyBindingStrings(commandR.getCommand(), true);
-			if (bindings.length == 0) {
+			String[] strBindings = CommandHelp.getKeyBindingStrings(commandR.getCommand());
+			if (strBindings.length == 0) {
 				console.print(String.format(CMD_NO_RESULT,name));
 				console.printBinding(CMD_NO_BINDING);
 			} else {
 				console.print(String.format(CMD_RESULT,name) + CR);
-				for (int i = 0; i < bindings.length; i+=2) {
-					console.printBinding(SWT.TAB + bindings[i]);
-					console.printContext(A_MSG + bindings[i+1] + Z_MSG + CR);
+				for (int i = 0; i < strBindings.length; i+=2) {
+					console.printBinding(SWT.TAB + strBindings[i]);
+					console.printContext(A_MSG + strBindings[i+1] + Z_MSG + CR);
 				}
 			}
 		}
