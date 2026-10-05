@@ -17,10 +17,13 @@ import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 
 import com.mulgasoft.emacsplus.RingBuffer;
-import com.mulgasoft.emacsplus.YankRotate;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
+import com.mulgasoft.emacsplus.YankRotate;
 
 /**
  * Support a minibuffer with RingBuffer based history list
@@ -89,8 +92,8 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 				result = true;
 				break;
 			// TODO - window captures Alt-SPACE first
-			/*	
-			case ' ': // space completion
+			/*
+			case SWT.SPACE: // space completion
 			if (isCompleting()) {
 				showCompletions();
 				result = true;
@@ -239,4 +242,46 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 				break;
 		}
 	}
+	
+	/*
+	 * Enable context behavior to trick Eclipse into allowing M-p, M-n in the key VerifyEvent
+	 */	
+	final static String META_CONTEXTID = "com.mulgasoft.emacsplus.minibufferMeta"; 	// $NON-NLS-1$
+
+	// Remember the context activation object for deactivation
+	private IContextActivation minimeta = null;
+
+	/**
+	 * Activate a context for binding with the M-n/p interception hack
+	 * 
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#afterInstall()
+	 */
+	@Override
+	protected void afterInstall() {
+		super.afterInstall();
+		if (handlesAlt()) {
+			IContextService service = PlatformUI.getWorkbench().getService(IContextService.class);
+			if (service != null && minimeta == null) {
+				minimeta = service.activateContext(META_CONTEXTID);
+			}
+		}
+	}
+
+	/**
+	 * Deactivate the context on exiting the History minibuffer
+	 * 
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#afterUninstall()
+	 */
+	@Override
+	protected void afterUninstall() {
+		super.afterUninstall();
+		if (handlesAlt()) {
+			IContextService service = PlatformUI.getWorkbench().getService(IContextService.class);
+			if (service != null && minimeta != null) {
+				service.deactivateContext(minimeta);
+			}
+			minimeta = null;
+		}
+	}
+	// end context behavior
 }
