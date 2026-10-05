@@ -45,7 +45,7 @@ public abstract class KbdMacroDefineHandler extends MinibufferExecHandler implem
 	// Text editors only 
 	final static String KBD_CONTEXTID = "org.eclipse.ui.textEditorScope";   									  //$NON-NLS-1$
 	// Emacs+ scheme id 
-	final static String KBD_SCHEMEID = "com.mulgasoft.emacsplusConfiguration";  								  //$NON-NLS-1$
+	final static String KBD_SCHEMEID = EmacsPlusUtils.EMP_SCHEMEID;
 	
 	// for yes/no questions
 	static final String YESORNO_YES = EmacsPlusActivator.getResourceString("YesOrNo_Yes");  					  //$NON-NLS-1$ 

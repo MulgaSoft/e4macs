@@ -186,6 +186,10 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 		WithMinibuffer.mxLaunch = mxLaunch;
 	}
 
+	static boolean getMxLaunch() {
+		return WithMinibuffer.mxLaunch;
+	}
+
 	/**
 	 * @return the editor
 	 */
@@ -306,6 +310,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			}
 		}
 		addStatusContribution(editor);		
+		afterInstall();
 		return installed;
 	}
 	
@@ -344,7 +349,20 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			widget = null;
 			page = null;	// TODO: elsewhere?
 			installed = false;
+			afterUninstall();
 		}
+	}
+	
+	/**
+	 * Give subclasses an opportunity to contribute to the install
+	 */
+	protected void afterInstall() {
+	}
+	
+	/**
+	 * Give subclasses an opportunity to contribute to the uninstall
+	 */
+	protected void afterUninstall() {
 	}
 	
 	private boolean left = false;
@@ -569,7 +587,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			event.doit = false;
 			break;
 			//case '?': // ? completion disabled as its used as a simple wildcard
-		case ' ': // space completion
+		case SWT.SPACE: // space completion
 			if (isCompleting()) {
 				showCompletions();
 				event.doit = false;

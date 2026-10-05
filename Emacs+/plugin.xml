@@ -1622,6 +1622,7 @@
   </extension>		
      
  <!-- ********************** Meta X ********************** -->
+ 
   <extension
 		point="org.eclipse.ui.commands"> 
 	<command
@@ -1653,7 +1654,50 @@
 		schemeId="com.mulgasoft.emacsplusConfiguration"
 		sequence="M3+X" />
   </extension>
+  
+ <!-- **************** Minibuffer Support ***************** -->
    
+  <extension
+		point="org.eclipse.ui.contexts">
+    <context
+		name="%maskmeta.context.name"
+		description="%maskmeta.command.description"
+		id="com.mulgasoft.emacsplus.minibufferMeta"
+		parentId="org.eclipse.ui.contexts.dialogAndWindow">
+    </context>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.commands"> 
+   	<command
+		categoryId="gazonk.del"
+		description="%maskmeta.command.description"
+		id="com.mulgasoft.emacsplus.maskMeta"
+		name="%maskmeta.command.name">
+	</command>
+  </extension>
+
+  <extension
+		point="org.eclipse.ui.handlers">
+	<handler
+		class="com.mulgasoft.emacsplus.commands.MaskMetaHandler"
+		commandId="com.mulgasoft.emacsplus.maskMeta"/>
+  </extension>
+  
+  <extension
+		point="org.eclipse.ui.bindings">
+	<key
+		commandId="com.mulgasoft.emacsplus.maskMeta"
+		contextId="com.mulgasoft.emacsplus.minibufferMeta"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+P" />
+	<key
+		commandId="com.mulgasoft.emacsplus.maskMeta"
+		contextId="com.mulgasoft.emacsplus.minibufferMeta"
+		schemeId="com.mulgasoft.emacsplusConfiguration"
+		sequence="M3+N" />
+  </extension>
+
  <!-- *************** Command Help Commands *************** -->
 
   <extension
