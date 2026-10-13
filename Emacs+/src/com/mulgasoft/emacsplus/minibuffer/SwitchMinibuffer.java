@@ -138,16 +138,6 @@ public class SwitchMinibuffer extends CompletionMinibuffer {
 		return true;
 	}
 	
-	/**
-	 * Enable history commands
-	 * 
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesAlt()
-	 */
-	@Override
-	protected boolean handlesAlt() {
-		return true;
-	}
-
 	protected SortedMap<String,?> getCompletions(String searcher) {
 		return getBuffers(RWILD + searcher + RWILD, false, true);
 	}

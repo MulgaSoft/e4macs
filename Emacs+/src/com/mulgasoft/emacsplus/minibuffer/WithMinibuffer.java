@@ -567,8 +567,14 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			}
 			executeCR(event);
 			break;
-		case 0x1B: // ESC - another way to leave
+		case 0x1B: // ESC - either continue or leave
+			if (handlesAlt() && getLastKeyCode() != SWT.ESC) {
+				// Keep looking if we haven't already seen an ESC
+				// to support ESC n, ESC p in HistoryMinibuffer
+				break;
+			}
 			// TODO - could also be ^[
+			// ESC - if doubled, or Alt not supported, leave
 			KbdMacroSupport.getInstance().exitWhenDefining();				
 			leave(true);
 			event.doit = false;
@@ -620,8 +626,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 				// but if the key has a command binding associated, then leave and process 
 				if (special && hasBinding(event)) {
 					ITextEditor ed = editor;					
-					leave();
-					executeBinding(ed,event);
+					leaveWithBinding(ed,event);
 					event.doit = false;
 				} else if (sm == 0 || sm == SWT.SHIFT || special) {
 					event.doit = false;
@@ -734,6 +739,12 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			getMB().toRight();			
 			event.doit = false;
 			break;
+		default:
+			// process, as keys like F1 etc are often bound to a useful command
+			Binding b = getBinding(event, event.stateMask, true);
+			if (b != null) {
+				defaultDispatch(event);
+			}
 		}
 	}
 	
@@ -789,10 +800,9 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	 * @return true (always leave)
 	 */
 	protected boolean defaultDispatch(VerifyEvent event) {
-		// default behavior queue binding and leaves
+		// default behavior queues the binding and leaves
 		ITextEditor ed = editor;
-		leave();
-		executeBinding(ed,event);
+		leaveWithBinding(ed,event);
 		return true;
 	}
 
@@ -800,10 +810,10 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 		return hasBinding(event,((event.stateMask & SWT.MODIFIER_MASK) == 0 ? SWT.MOD3 : event.stateMask));
 	}
 	
-	protected boolean hasBinding(KeyEvent event, int mode) {
+	protected boolean hasBinding(KeyEvent event, int modifier) {
 		boolean result = false;
 		// ensure key is upper case
-		KeyStroke key = KeyStroke.getInstance(mode, Character.toUpperCase(event.keyCode));
+		KeyStroke key = KeyStroke.getInstance(modifier, Character.toUpperCase(event.keyCode));
 		boolean isFilterDisabled = !getKeyFilter();
 		try {
 			if (isFilterDisabled) {
@@ -826,11 +836,11 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	 * @return a binding that perfectly matches the KeyEvent, or null
 	 */
 	// TODO explain why always force ALT in normal case?
-	private Binding getBinding(KeyEvent event, int mode, boolean checkEnabled) {
+	private Binding getBinding(KeyEvent event, int modifier, boolean checkEnabled) {
 
 		Binding result = null;
 		// ensure key is upper case
-		KeyStroke key = KeyStroke.getInstance(mode, Character.toUpperCase(event.keyCode));
+		KeyStroke key = KeyStroke.getInstance(modifier, Character.toUpperCase(event.keyCode));
 		boolean isFilterDisabled = !getKeyFilter();
 		try {
 			if (isFilterDisabled) {
@@ -855,19 +865,25 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	}
 	
 	/**
-	 * Execute the binding if possible, else resend the event
-	 * 
+	 * If the event has a binding execute it, else resend the event
+	 * When executing, tell the kbdmacro support about it as well
+	 *  
 	 * @param ed
 	 * @param event from which to determine the binding
 	 * @return true if binding executed 
 	 */
-	protected boolean executeBinding(ITextEditor ed, VerifyEvent event) {
-		return executeBinding(ed,((event.stateMask & SWT.MODIFIER_MASK)== 0 ? SWT.MOD3 : event.stateMask),event);
+	protected boolean leaveWithBinding(ITextEditor ed, VerifyEvent event) {	// 
+		return leaveWithBinding(ed,((event.stateMask & SWT.MODIFIER_MASK)== 0 ? SWT.MOD3 : event.stateMask),event);
 	}
 	
-	protected boolean executeBinding(ITextEditor ed, int mode, VerifyEvent event) {
+	protected boolean leaveWithBinding(ITextEditor ed, int modifier, VerifyEvent event) {
 		boolean result = false;
-		Binding binding = getBinding(event, mode, true);
+		// always leave first
+		leave();
+		// when defining a kbdmacro, remove the event that caused the exit
+		// and add the minibuffer exit notation
+		KbdMacroSupport.getInstance().exitWhenDefining(event);
+		Binding binding = getBinding(event, modifier, true);
 		if (binding != null && ed != null) { 
 			// inform kbd macro of direct execution by minibuffer
 			if (KbdMacroSupport.getInstance().isExecuting(binding)) {
