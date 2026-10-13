@@ -394,14 +394,6 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 	protected String getMinibufferPrefix() {return EMPTY_STR;}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesAlt()
-	 */
-	@Override
-	protected boolean handlesAlt() {
-		return true;
-	}
-	
-	/**
 	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
 	 */
 	@Override
@@ -419,7 +411,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 			if (isQuoting) {
 				event.data = QUOTING;
 			}
-			if (event.keyCode != SWT.ALT) {
+			if (event.keyCode != SWT.ALT && event.keyCode != SWT.ESC) {
 				// ignore naked alt
 				setYanked(false);
 			}
@@ -452,28 +444,11 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 				// since Mac doesn't handle simple resendEvent well
 				event.doit = false;
 				ITextEditor ed= this.getEditor();
-				leave();
-				executeBinding(ed, event.stateMask, event);
+				leaveWithBinding(ed, event.stateMask, event);
 				break;
 			default:
 				super.noCharEvent(event);
 				break;
-		}
-	}
-
-	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#charEvent(org.eclipse.swt.events.VerifyEvent)
-	 */
-	@Override
-	protected void charEvent(VerifyEvent event) {
-		switch (event.character) {
-
-		case 0x1B: // ESC - leave, but re-send for processing
-			super.charEvent(event);
-			this.resendEvent(event);
-			break;
-		default:
-			super.charEvent(event);
 		}
 	}
 
@@ -693,8 +668,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 		if (!result && hasBinding(event)) {
 			// exit search and execute the command
 			ITextEditor ed = getEditor();					
-			leave();
-			executeBinding(ed,event);
+			leaveWithBinding(ed,event);
 			result = true;
 		}
 		return result;

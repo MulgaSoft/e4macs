@@ -152,38 +152,65 @@ public class KbdMacroSupport extends RepeatingSupport {
 		return isdefining;
 	}
 
+	// remember our executions
+	private int executeCount = 0;
+	
+	/**
+	 * @return true if executing, else false
+	 */
 	public boolean isExecuting() {
 		return executeCount > 0;
 	}
-	private int executeCount = 0;
 
 	/**
-	 * When defining, add the command binding to the definition 
+	 * Return true if we're executing a macro, else false.
+	 * Also when defining, add the command binding to the definition 
 	 * Should only be called from a minibuffer
 	 *  
 	 * @param binding
 	 * @return true is kbd macro is executing
 	 */
 	public boolean isExecuting(Binding binding) {
-		// If called with binding while defining, look for extraneous 
-		// Key event in macro for removal
+		// If called with binding while defining insert it into the macro
 		if (isDefining() && !kbdMacro.isEmpty()) {
-			kbdMacro.checkBinding(binding);
+			getKbdMacroEvents().add(new KbdEvent(binding.getParameterizedCommand().getId()));
 		}
 		return isExecuting();
 	}
-	
+
 	/**
 	 * Add a minibuffer exit event directly
 	 * Should only be called from a minibuffer  
 	 */
 	public void exitWhenDefining() {
-		if (isDefining()) {
+		exitWhenDefining(null);
+	}
+	
+	public void exitWhenDefining(VerifyEvent event) {
+		if (isDefining() && !kbdMacro.isEmpty()) {
+			if (event != null) {
+				Event kbdEvent = kbdMacro.getKbdMacro().getLast().getEvent();
+				if (kbdEvent.keyCode== event.keyCode && kbdEvent.stateMask == event.stateMask) {
+					kbdMacro.pop();
+				}
+			}
 			// flag minibuffer exit
-			kbdMacro.addExit();
+			kbdMacro.addMiniExit();
 		}
 	}
 	
+	/**
+	 * Swap ESC n/p with single Alt+n/p
+	 * Should only be called from a minibuffer
+	 */
+	public void swapEscWhenDefining(VerifyEvent event) {
+		// exclude the call in MetaX as we just store the final command chosen
+		if (isDefining() && !isInMetaXCommand()) {
+			kbdMacro.pop();
+			addToMacro(event);
+		}
+	}
+
 	private void setEditor(ITextEditor editor) {
 		this.editor = editor;
 	}
@@ -925,6 +952,12 @@ public class KbdMacroSupport extends RepeatingSupport {
 			macro.add(event);
 		}
 
+		public void pop() {
+			if (!isEmpty()) {
+				macro.removeLast();
+			}
+		}
+		
 		public ArrayList<KbdEvent> getKbdMacro() {
 			return macro;
 		}
@@ -964,8 +997,8 @@ public class KbdMacroSupport extends RepeatingSupport {
 			return result;
 		}
 
-		void addExit() {
-			if (!macro.isEmpty() && !macro.get(macro.size()-1).isExit()) {
+		void addMiniExit() {
+			if (!macro.isEmpty() && !macro.getLast().isExit()) {
 				macro.add(new KbdEvent(true));
 			}
 		}
@@ -974,7 +1007,7 @@ public class KbdMacroSupport extends RepeatingSupport {
 		 * 1) A command binding not handled by the minibuffer is detected:
 		 *    - The minibuffer is exited
 		 *    - and the command id is executed manually from there
-		 *    -- handled by checkBinding (called from within the minibuffer code)
+		 *    -- handled on execution check (called from within the minibuffer code)
 		 *
 		 * 2) A binding that is not a full command and is not handled by the minibuffer
 		 *    - the minibuffer is exited
@@ -986,38 +1019,6 @@ public class KbdMacroSupport extends RepeatingSupport {
 		 */
 
 		/**
-		 * Check for a full command binding that was executed directly by the minibuffer
-		 * Remove the binding entry and add the command id entry
-		 * 
-		 * @param binding
-		 */
-		void checkBinding(Binding binding) {
-			boolean processed = false;
-			int index = macro.size() -1;
-			Event keyevent = macro.get(index).getEvent();
-			if (keyevent != null) {
-				KeyStroke keyStroke = KeyStroke.getInstance(keyevent.stateMask, (int)Character.toUpperCase((char)keyevent.keyCode));
-				if (keyStroke.equals(binding.getTriggerSequence().getTriggers()[0])) {
-					// remove (possibly partial) binding
-					macro.remove(index);
-					// flag for minibuffer exit
-					addExit();
-					// and insert command
-					macro.add(new KbdEvent(binding.getParameterizedCommand().getId()));
-					processed = true;
-				}
-			}			
-			if (!processed) {
-				// then it's a command unto itself (e.g. ARROW_RIGHT) 
-				// flag for minibuffer exit
-				addExit();
-				// and insert command
-				macro.add(new KbdEvent(binding.getParameterizedCommand().getId()));
-				processed = true;	
-			}
-		}
-
-		/**
 		 * Check for a binding that is not a full command and was not handled by the minibuffer
 		 * Remove the partial binding and add the command id entry
 		 * 
@@ -1025,7 +1026,6 @@ public class KbdMacroSupport extends RepeatingSupport {
 		 * @param trigger
 		 * @param onExit - it is the endMacro command, ignore id entry
 		 */
-
 		void checkTrigger(String cmdId, Map<?,?> parameters, Event trigger, boolean onExit) {
 			int index = macro.size() -1;
 			if (!macro.isEmpty() && trigger != null && macro.get(index).isSubCmd()) {
@@ -1040,7 +1040,7 @@ public class KbdMacroSupport extends RepeatingSupport {
 						// remove (possibly partial) binding
 						macro.remove(index);
 						// flag for minibuffer exit
-						macro.add(new KbdEvent(true));
+						addMiniExit();
 						break;
 					}
 				}

@@ -21,9 +21,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
 
+import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.RingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
 import com.mulgasoft.emacsplus.YankRotate;
+import com.mulgasoft.emacsplus.execute.KbdMacroSupport;
 
 /**
  * Support a minibuffer with RingBuffer based history list
@@ -109,7 +111,27 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Support Alt+n (or p) and ESC n (or p) to cycle through the minibuffer history  
+	 * 
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handleKey(org.eclipse.swt.events.VerifyEvent)
+	 */
+	@Override
+	protected void handleKey(VerifyEvent event) {
+		if (handlesAlt() 
+				&& getLastKeyCode() == SWT.ESC 
+				&& (event.character == PREV || event.character == NEXT)) {
+			// e.g. ESC n -> Alt+n
+			event.stateMask = SWT.ALT;
+			setLastKeyCode(event.keyCode);
+			// when defining, the event is processed by the kbd macro definition first,
+			// so we swap out the standalone ESC with Alt+<character>
+			KbdMacroSupport.getInstance().swapEscWhenDefining(event);
+		}
+		super.handleKey(event);
+	}
+
 	/**
 	 * Update the minibuffer string with the history entry
 	 * 
