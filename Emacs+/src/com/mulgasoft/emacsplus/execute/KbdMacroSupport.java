@@ -189,7 +189,8 @@ public class KbdMacroSupport extends RepeatingSupport {
 	public void exitWhenDefining(VerifyEvent event) {
 		if (isDefining() && !kbdMacro.isEmpty()) {
 			if (event != null) {
-				Event kbdEvent = kbdMacro.getKbdMacro().getLast().getEvent();
+				int size = kbdMacro.getKbdMacro().size();
+				Event kbdEvent = kbdMacro.getKbdMacro().get(size-1).getEvent();
 				if (kbdEvent.keyCode== event.keyCode && kbdEvent.stateMask == event.stateMask) {
 					kbdMacro.pop();
 				}
@@ -954,7 +955,7 @@ public class KbdMacroSupport extends RepeatingSupport {
 
 		public void pop() {
 			if (!isEmpty()) {
-				macro.removeLast();
+				macro.remove(macro.size()-1);
 			}
 		}
 		
@@ -998,7 +999,7 @@ public class KbdMacroSupport extends RepeatingSupport {
 		}
 
 		void addMiniExit() {
-			if (!macro.isEmpty() && !macro.getLast().isExit()) {
+			if (!macro.isEmpty() && !macro.get(macro.size()-1).isExit()) {
 				macro.add(new KbdEvent(true));
 			}
 		}
