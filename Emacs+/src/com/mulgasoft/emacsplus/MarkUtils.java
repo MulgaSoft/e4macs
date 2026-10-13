@@ -55,7 +55,6 @@ import com.mulgasoft.emacsplus.commands.EmacsPlusCmdHandler;
  * 
  * @author Mark Feber - initial API and implementation
  */
-@SuppressWarnings("serial")
 public class MarkUtils {
 
 	private static final String MARK_SET = "Mark_Set";	//$NON-NLS-1$

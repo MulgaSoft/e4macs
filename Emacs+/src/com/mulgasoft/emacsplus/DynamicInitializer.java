@@ -157,27 +157,26 @@ public class DynamicInitializer {
 	private static final String RBYEDITOR = "org.rubypeople.rdt.ui.rubyEditorScope";		  //$NON-NLS-1$
 	private static final String XEDITOR = "org.eclipse.wst.sse.ui.structuredTextEditorScope"; //$NON-NLS-1$
 	
-	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> restBindings = new HashSet<MinderBinder>() {{
 
 		// java bindings
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.show.outline",JEDITOR,"CTRL+]"));   											 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.hierarchy",JEDITOR,"CTRL+[")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",JEDITOR,"ESC ;")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JEDITOR,"CTRL+;"));										 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"ESC P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.toggle.comment",JEDITOR,"ESC ;")); 											     //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JEDITOR,"CTRL+;"));														 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"ESC P"));  													 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JEDITOR,"M3+P"));   													 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"ESC N")); 													 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.jdt.ui.edit.text.java.open.editor",JEDITOR,"ESC .",MarkUtils.getTagListener()));  					 //$NON-NLS-1$ //$NON-NLS-2$
 
-		// javascript bindings
+																																				 // javascript bindings
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.show.outline", JSEDITOR,"CTRL+]"));										 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy",JSEDITOR,"CTRL+["));   									 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.toggle.comment",JSEDITOR,"ESC ;"));										 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JSEDITOR,"CTRL+;")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"ESC P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"M3+P")); 											 //$NON-NLS-1$ //$NON-NLS-2$
-		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"ESC N")); 											 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.appendcomment",JSEDITOR,"CTRL+;"));   													 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"ESC P")); 													 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.preappendcomment",JSEDITOR,"M3+P"));  													 //$NON-NLS-1$ //$NON-NLS-2$
+		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"ESC N"));													 //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("org.eclipse.wst.jsdt.ui.edit.text.java.open.editor",JSVEDITOR,"ESC .",MarkUtils.getTagListener()));   			 //$NON-NLS-1$ //$NON-NLS-2$
 
 		// pde bindings
@@ -198,7 +197,6 @@ public class DynamicInitializer {
 		add(new MinderBinder("org.rubypeople.rdt.ui.edit.text.ruby.open.editor",RBYEDITOR,"ESC .",MarkUtils.getTagListener())); 				 //$NON-NLS-1$ //$NON-NLS-2$
 	}};
 	
-	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> altBindings = new HashSet<MinderBinder>() {{
 
 		// java bindings
@@ -227,21 +225,18 @@ public class DynamicInitializer {
 		
 	}};
 
-	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> nomacBindings = new HashSet<MinderBinder>() {{
 		// don't add on Mac OS X as it conflicts with <Option>+n non-spacing-mark ñ
 		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JSEDITOR,"M3+N")); //$NON-NLS-1$ //$NON-NLS-2$
 		add(new MinderBinder("com.mulgasoft.emacsplus.postappendcomment",JEDITOR,"M3+N")); //$NON-NLS-1$ //$NON-NLS-2$
 	}};
 	
-	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> macBindings = new HashSet<MinderBinder>() {{
 		// NB: adding this to a plugin.xml doesn't work, so add it here
 		// TODO does a similar command exist on other platforms?
 		add(new MinderBinder("org.eclipse.ui.cocoa.fullscreenWindow",WINDOW,"CTRL+X CTRL+M")); //$NON-NLS-1$ //$NON-NLS-2$
 	}};
 	
-	@SuppressWarnings("serial")
 	private static final Set<MinderBinder> cmdBindings = new HashSet<MinderBinder>() {{
 
 		// java bindings

@@ -63,7 +63,7 @@ public class CountLinesRegion extends EmacsPlusNoEditHandler {
 			int charTotal = document.get(offset, mark-offset).length();
 			msg = String.format(COUNT_REGION, lineTotal, charTotal);
 		}
-		setCmdResult(new Integer(lineTotal));		
+		setCmdResult(Integer.valueOf(lineTotal));		
 		EmacsPlusUtils.showMessage(editor, msg, false);
 		return super.transform(editor, document, currentSelection, event);
 	}

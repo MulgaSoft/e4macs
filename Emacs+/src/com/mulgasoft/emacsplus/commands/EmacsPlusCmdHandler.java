@@ -528,7 +528,7 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 		}
 		// if the command set the result specifically, use that, 
 		// otherwise just the offset position (which may be NO_OFFSET)
-		return (hasResult() ? getCmdResult() : new Integer(newOffset));
+		return (hasResult() ? getCmdResult() : Integer.valueOf(newOffset));
 	}
 
 	private Object cmdResult = null;
@@ -1448,7 +1448,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	/**
 	 * Relates command id to action in StyledText widget 
 	 */
-	@SuppressWarnings("serial")
 	protected static final HashMap<String,Integer> dispatchCmdIds = new HashMap<String,Integer>() {
 		{
 			// Eclipse ids
@@ -1489,7 +1488,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	/**
 	 * Relates command id to action in StyledText widget 
 	 */
-	@SuppressWarnings("serial")
 	protected static final HashMap<String,Integer> dispatchSelectIds = new HashMap<String,Integer>() {
 		{
 			// Eclipse ids
@@ -1523,7 +1521,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	};
 
 	// Some commands do something different on 0 argument
-	@SuppressWarnings("serial")
 	protected static final HashMap<String,String> ZeroCmds = new HashMap<String,String>() {
 		{
 			// Eclipse ids
@@ -1532,7 +1529,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	};
 
 	// Override kill behavior on ^U
-	@SuppressWarnings("serial")	
 	private static final HashMap<String,String> InternalCmds = new HashMap<String,String>() {
 		{
 			// translate to internal command with appropriate behavior
@@ -1543,7 +1539,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	};
 	
 	// These are the ids of standard Eclipse commands that we adapt to calling with the C-u argument 
-	@SuppressWarnings("serial")
 	private static final HashMap<String,String> UniversalCmds = new HashMap<String,String>() {
 		{
 			put(IEmacsPlusCommandDefinitionIds.DELETE_NEXT, IEmacsPlusCommandDefinitionIds.DELETE_NEXT);
@@ -1573,7 +1568,6 @@ public abstract class EmacsPlusCmdHandler extends AbstractHandler implements IHa
 	};	
 	
 	// These are the ids of standard Eclipse commands that we adapt to calling with a negative C-u argument 
-	@SuppressWarnings("serial")
 	private static final HashMap<String,String> InverseUniversalCmds = new HashMap<String,String>() {
 		{
 			put(IEmacsPlusCommandDefinitionIds.DELETE_NEXT, IEmacsPlusCommandDefinitionIds.DELETE_PREVIOUS);

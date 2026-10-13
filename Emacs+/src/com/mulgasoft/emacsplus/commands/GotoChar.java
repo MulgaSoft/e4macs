@@ -54,7 +54,7 @@ public class GotoChar extends MinibufferExecHandler implements INonEditingComman
 		markSet = this.isMarkEnabled(editor, currentSelection);
 		if (isUniversalPresent()) {
 			int count = getUniversalCount();
-			executeResult(editor,new Integer(count));
+			executeResult(editor,Integer.valueOf(count));
 			return NO_OFFSET;
 		} else {
 			return bufferTransform(new ReadNumberMinibuffer(this), editor, event);

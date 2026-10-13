@@ -46,7 +46,7 @@ public class CountLinesBuffer extends EmacsPlusNoEditHandler {
 		if (document.getLength() == offset) {
 			lineNumber = lineTotal;
 		}
-		setCmdResult(new Integer(lineTotal));
+		setCmdResult(Integer.valueOf(lineTotal));
 		EmacsPlusUtils.showMessage(editor, String.format(COUNT_BUFFER, lineTotal, lineNumber, lineTotal - lineNumber), false);
 		return super.transform(editor, document, currentSelection, event);
 	}

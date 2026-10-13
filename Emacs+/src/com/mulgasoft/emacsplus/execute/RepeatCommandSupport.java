@@ -176,7 +176,6 @@ public class RepeatCommandSupport extends RepeatingSupport {
 			this(id, event.getParameters());
 		}
 		
-		@SuppressWarnings("serial")
 		private Cmd(String id, final Integer count) {
 			this(id, new HashMap<String,Object>() {{put(UNIVERSAL_ARG, count); }});
 		}
@@ -232,7 +231,6 @@ public class RepeatCommandSupport extends RepeatingSupport {
 		return (excludeCmds.get(id) != null ? true : inKbd);
 	}
 
-	@SuppressWarnings("serial")
 	protected static final HashMap<String,Boolean> excludeCmds = new HashMap<String,Boolean>() {
 		{
 			put(UNIVERSAL_ARGUMENT, Boolean.TRUE);
