@@ -39,7 +39,7 @@ public class BooleanMinibuffer extends StrictMinibuffer {
 		Boolean result = null;
 		String match = matchCandidate(cmdResult, true);
 		if (match != null) {
-			result = new Boolean(match);
+			result = Boolean.parseBoolean(match);
 		}
 		return result;
 	}

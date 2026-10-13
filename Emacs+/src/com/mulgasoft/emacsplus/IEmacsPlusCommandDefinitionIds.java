@@ -18,7 +18,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
  * 
  * @author Mark Feber - initial API and implementation
  */
-@SuppressWarnings({"serial", "deprecation"})
+@SuppressWarnings("deprecation")
 public interface IEmacsPlusCommandDefinitionIds extends ITextEditorActionDefinitionIds {
 //and elsewhere, org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
 	

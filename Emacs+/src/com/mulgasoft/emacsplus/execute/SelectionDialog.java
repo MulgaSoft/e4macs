@@ -75,8 +75,8 @@ public class SelectionDialog extends PopupDialog {
 		return ((selectables != null) ? selectables.keySet().toArray(new String[0]) : null);
 	}
 
-    //		super(parent, shellStyle, takeFocusOnOpen, persistSize, persistLocation, showDialogMenu, showPersistActions, titleText, infoText);
-	@SuppressWarnings("deprecation")	// backward compatibility
+    // super(parent, shellStyle, takeFocusOnOpen, persistSize, persistLocation, showDialogMenu, showPersistActions, titleText, infoText);
+	// backward compatibility
 	public SelectionDialog(Shell parent, ISelectExecute mini, ITextEditor editor) {
 		// Europa compatible constructor
 		super((Shell) null, PopupDialog.HOVER_SHELLSTYLE, false, false, false, false, false, null, null);

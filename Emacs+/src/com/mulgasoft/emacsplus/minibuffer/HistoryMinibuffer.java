@@ -21,7 +21,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
 
-import com.mulgasoft.emacsplus.Beeper;
 import com.mulgasoft.emacsplus.RingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
 import com.mulgasoft.emacsplus.YankRotate;

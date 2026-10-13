@@ -58,7 +58,7 @@ public class WhatCursorPosition extends EmacsPlusNoEditHandler {
 		} else {
 			char curChar = document.getChar(offset);
 			String sChar = "";	//$NON-NLS-1$
-			int percent = new Float(((offset * 100) / docLen) + .5).intValue();
+			int percent = Float.valueOf((float)(((offset * 100) / docLen) + .5)).intValue();
 
 			if (offset == line.getOffset() + line.getLength()){
 				String ld = document.getLineDelimiter(document.getLineOfOffset(offset));
@@ -75,7 +75,7 @@ public class WhatCursorPosition extends EmacsPlusNoEditHandler {
 			}
 		}
 		EmacsPlusUtils.showMessage(editor, msg, false);
-		setCmdResult(new Integer(offset));
+		setCmdResult(Integer.valueOf(offset));
 		return super.transform(editor, document, currentSelection, event);
 
 	}
