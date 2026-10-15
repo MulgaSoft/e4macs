@@ -13,23 +13,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.IWorkbenchCommandConstants;
 /**
  * For convenience, extend the Eclipse interface hierarchy defining command ids
  * 
  * @author Mark Feber - initial API and implementation
  */
-@SuppressWarnings("deprecation")
 public interface IEmacsPlusCommandDefinitionIds extends ITextEditorActionDefinitionIds {
 //and elsewhere, org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
 	
-	// These deprecated ids are used for backward compatibility
-	final String EMP_COPY= COPY;			 //$NON-NLS-1$
-	final String EMP_CUT= CUT;  			 //$NON-NLS-1$
-	final String EMP_DELETE= DELETE;		 //$NON-NLS-1$
-	final String EMP_PASTE= PASTE;  		 //$NON-NLS-1$
-	final String EMP_REDO= REDO;			 //$NON-NLS-1$
-	final String EMP_SELECT_ALL= SELECT_ALL; //$NON-NLS-1$
-	final String EMP_UNDO= UNDO;			 //$NON-NLS-1$
+	// TODO check for modern Eclipse. These deprecated ids were used for backward compatibility 
+	final String EMP_COPY= IWorkbenchCommandConstants.EDIT_COPY;
+	final String EMP_CUT= IWorkbenchCommandConstants.EDIT_CUT;
+	final String EMP_DELETE= IWorkbenchCommandConstants.EDIT_DELETE;
+	final String EMP_PASTE= IWorkbenchCommandConstants.EDIT_PASTE;
+	final String EMP_REDO= IWorkbenchCommandConstants.EDIT_REDO;
+	final String EMP_SELECT_ALL= IWorkbenchCommandConstants.EDIT_SELECT_ALL;
+	final String EMP_UNDO= IWorkbenchCommandConstants.EDIT_UNDO;
 	
 	// these commands print results to status area and so Meta-X should not update status after execution
 	final Map<String,String> statusCommands = new HashMap<String,String>() {
