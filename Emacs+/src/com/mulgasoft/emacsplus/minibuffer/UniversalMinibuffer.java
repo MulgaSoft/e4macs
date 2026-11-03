@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2010, 2026 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds;
 import com.mulgasoft.emacsplus.execute.IBindingResult;
 import com.mulgasoft.emacsplus.execute.IUniversalResult;
@@ -100,6 +101,7 @@ public class UniversalMinibuffer extends KeyHandlerMinibuffer {
 				triggerMask = ((Event)eTrigger).stateMask;
 				if (Character.isDigit(c)) {
 					countBuf.append(c);
+					setArgumentCount(1);
 				} else if (isMinus((Event)eTrigger)) {
 					countBuf.append('-');
 					setArgumentCount(-1);
@@ -156,14 +158,40 @@ public class UniversalMinibuffer extends KeyHandlerMinibuffer {
 		updatePrefix(this.getTrigger(keyCode, stateMask));
 	}
 	
+	/**
+	 * Check if we've been invoked by M<num> instead of ^U
+	 * 
+	 * @return true if invoked with M-<num>
+	 */
+	private boolean checkAlt() {
+		return (triggerMask == SWT.ALT || EmacsPlusUtils.isMac() && triggerMask == SWT.COMMAND);
+	}
+	
+	/**
+	 * Check if we've been invoked by C-M<num> instead of ^U
+	 * 
+	 * @return true if invoked with C-M-<num>
+	 */
+	private boolean checkAltCtrl() {
+		return (triggerMask == (SWT.ALT | SWT.CTRL) || EmacsPlusUtils.isMac() && triggerMask == (SWT.COMMAND | SWT.CTRL));
+	}
+	
+	/**
+	 * Check for a subsequent ^U after invocation
+	 * 
+	 * @return true if invoked with M3-<num>
+	 */
 	private boolean isUniversalKey(VerifyEvent event) {
 		
 		boolean result = false;
-		if (result= (event.character == triggerChar && event.stateMask == triggerMask)) {
+		if (result= (checkAlt() || 
+				(checkAltCtrl() ) || 
+				(event.character == triggerChar && event.stateMask == triggerMask))) {
 			if (triggerChar == '-') {
 				uprefix = getTrigger(event.keyCode,event.stateMask);
 				result = false;
 			} else if (result = (event.character == uTriggerChar && (event.stateMask  & SWT.MODIFIER_MASK) == uTriggerMask)) {
+				// ^U after invocation (e.g. ^U <num> ^U or M<num> ^U) will execute the next item <num> times.
 				// the universal reset value
 				uprefix = getTrigger(event.keyCode,event.stateMask);
 			}

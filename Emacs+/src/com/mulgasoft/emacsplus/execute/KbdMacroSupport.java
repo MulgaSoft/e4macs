@@ -12,6 +12,7 @@ import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_EN
 import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_END_CALL;
 import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KBDMACRO_EXECUTE;
 import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.KEYBOARD_QUIT;
+import static com.mulgasoft.emacsplus.IEmacsPlusCommandDefinitionIds.UNIVERSAL_ARGUMENT; 
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -489,12 +490,11 @@ public class KbdMacroSupport extends RepeatingSupport {
 		e.keyCode = event.keyCode;
 		// display.post() wants the key character sans modifier
 		e.character = (event.keyCode != 0 ? (char)event.keyCode : event.character);
-//		e.character = event.character;
 		e.type = SWT.KeyDown;
 		e.doit = true;
 		return e;
 	}
-	
+
 	private Event matchEvent(char c, int keyCode, int mask) {
 		Event e = new Event();
 		e.keyCode = keyCode;
@@ -1048,9 +1048,28 @@ public class KbdMacroSupport extends RepeatingSupport {
 			}
 			if (!onExit) {
 				macro.add(new KbdEvent(cmdId, parameters));
+				char cmdChar = trigger.character;
+				if (UNIVERSAL_ARGUMENT.equals(cmdId) && 
+						(Character.isDigit(cmdChar) || cmdChar == '-')) {
+					// uArg invoked by M<num> style key seq., so manually add the count (or -)
+					Event ev = copyEvent(trigger);
+					ev.stateMask = 0;
+					macro.add(new KbdEvent(ev));
+				}				
 			}
 		}
 
+		private Event copyEvent(Event event) {
+			Event e = new Event();
+			e.stateMask = event.stateMask;
+			e.keyCode = event.keyCode;
+			// display.post() wants the key character sans modifier
+			e.character = (event.keyCode != 0 ? (char)event.keyCode : event.character);
+			e.type = SWT.KeyDown;
+			e.doit = true;
+			return e;
+		}
+		
 		public String toString() {
 			return makeString(false);
 		}
