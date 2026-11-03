@@ -182,7 +182,7 @@ public class KbdMacroMinibuffer extends CompletionMinibuffer {
 	}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesAlt()
 	 */
 	@Override
 	protected boolean handlesAlt() {

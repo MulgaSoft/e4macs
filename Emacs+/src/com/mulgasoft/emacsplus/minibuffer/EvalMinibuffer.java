@@ -54,7 +54,11 @@ public class EvalMinibuffer extends CompletionMinibuffer {
 	 */
 	@Override
 	protected boolean executeResult(ITextEditor editor, Object commandResult) {
-		return super.executeResult(editor,getCompletions().get(commandResult));
+		PrefVars var = getCompletions().get(commandResult);
+		if (var != null) {
+			addToHistory(var.getDisplayName());
+		}
+		return super.executeResult(editor,var);
 	}
 		
 	/**
