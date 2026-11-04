@@ -137,14 +137,6 @@ public class KeyHandlerMinibuffer extends ExecutingMinibuffer {
 	}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
-	 */
-	@Override
-	protected boolean handlesCtrl() {
-		return true;
-	}
-
-	/**
 	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesTab()
 	 */
 	@Override

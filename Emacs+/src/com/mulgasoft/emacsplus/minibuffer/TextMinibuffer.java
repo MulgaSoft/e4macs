@@ -20,12 +20,6 @@ import com.mulgasoft.emacsplus.RingBuffer;
 public class TextMinibuffer extends ExecutingMinibuffer {
 
 	protected final static String BAD_NUMBER = EmacsPlusActivator.getResourceString("Bad_Number");  						   //$NON-NLS-1$
-	
-	static final String YESORNO_Y = EmacsPlusActivator.getResourceString("YesOrNo_Y");  									   //$NON-NLS-1$ 
-	static final String YESORNO_YES = EmacsPlusActivator.getResourceString("YesOrNo_Yes");  								   //$NON-NLS-1$ 
-	static final String YESORNO_N = EmacsPlusActivator.getResourceString("YesOrNo_N");  									   //$NON-NLS-1$ 
-	static final String YESORNO_NO = EmacsPlusActivator.getResourceString("YesOrNo_No");									   //$NON-NLS-1$ 
-	static final String YESORNO_BAD = String.format(EmacsPlusActivator.getResourceString("YesOrNo_Bad"),YESORNO_Y, YESORNO_N); //$NON-NLS-1$ 
 
 	boolean isYesOrNo(String yesOrNo) throws YesOrNoException {
 		boolean result = false;
@@ -53,15 +47,7 @@ public class TextMinibuffer extends ExecutingMinibuffer {
 	}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
-	 */
-	@Override
-	protected boolean handlesCtrl() {
-		return false;
-	}
-
-	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesAlt()
 	 */
 	@Override
 	protected boolean handlesAlt() {

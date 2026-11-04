@@ -29,7 +29,7 @@ import com.mulgasoft.emacsplus.MarkUtils;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
 
 /**
- * Support regular and regexp i-search minibuffer processing.
+ * Support regular and regexp isearch minibuffer processing.
  * Used directly by: isearch-forward, isearch-backward, isearch-forward-regexp, isearch-backward-regexp
  * 
  * Support typing `M-c' within an incremental search to toggle the case sensitivity of that search.  
@@ -80,6 +80,25 @@ public class ISearchMinibuffer extends SearchMinibuffer {
 	 */
 	public ISearchMinibuffer(boolean forward, boolean regexp) {
 		super(forward, regexp);
+		setGnuSubCommands(GNU_YANK);		
+	}
+	
+	/**
+	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#withInstall()
+	 */
+	@Override
+	protected void withInstall() {
+		setAllowCtrlEdits(false);  	// turn off edit behavior of C-a & C-k
+		super.withInstall();
+	}
+
+	/**
+	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#withUninstall()
+	 */
+	@Override
+	protected void withUninstall() {
+		setAllowCtrlEdits(true);
+		super.withUninstall();
 	}
 
 	protected void addIt(VerifyEvent event, boolean searcher) {	

@@ -28,8 +28,10 @@ import com.mulgasoft.emacsplus.RingBuffer;
 public abstract class StrictMinibuffer extends CompletionMinibuffer {
 
 	private List<String> candidates = Collections.emptyList();
-	// If true, execute immediately if only one completion is found
+	// If true, execute immediately if only one completion is found.
+	// candidates should be single characters only when immediate
 	private boolean immediate = false;
+	private boolean caseSensitive = false;
 
 	/**
 	 * @param executable
@@ -48,11 +50,11 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 		setImmediate(immediate);
 	}
 
-	void setImmediate(boolean immediate) {
+	protected void setImmediate(boolean immediate) {
 		this.immediate = immediate;
 	}
 
-	boolean isImmediate() {
+	protected boolean isImmediate() {
 		return immediate;
 	}
 
@@ -68,9 +70,10 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 		String result = null;
 		// weirdly, startsWith returns true on the empty string  
 		if (possible != null && possible.length() > 0) {
+			String can = (caseSensitive ? possible : possible.toLowerCase()); 
 			for (String c : candidates) {
 				int count = 0;
-				if (c.startsWith(possible)) {
+				if (c.startsWith(can)) {
 					if (++count > 1 && !allowMultiples) {
 						result = null;
 						break;
@@ -108,6 +111,7 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 	protected boolean executeResult(ITextEditor editor, Object commandResult) {
 		Object result = commandResult;
 		// A subclass might have already converted the minibuffer result to some relevant non-String object
+		// that will be passed back to the handler
 		if (commandResult instanceof String) {
 			result = matchCandidate((String)commandResult, false);
 		}
@@ -142,19 +146,29 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 						event.doit = false;
 						break;
 					}
-				} else if (Character.isLetter(event.character) && ((event.stateMask & SWT.MODIFIER_MASK) == 0)
-						&& (canBeCandidate(getMBString() + event.character))) {
+				} else if (checkCharacter(event)) {
 					super.charEvent(event);
+					if (isImmediate()) {
+						executeCR(event);
+					}
+					break;
 				} else {
 					beep();
 				}
 		}
 	}
+	
+	private boolean checkCharacter(VerifyEvent event) {
+		boolean result = (Character.isLetter(event.character) && 
+				((event.stateMask & SWT.MODIFIER_MASK) == 0 || (event.stateMask ^ SWT.MOD2) == 0) &&
+				(canBeCandidate(getMBString() + event.character)));		
+		return result;
+	}
 
 	protected boolean dispatchCtrl(VerifyEvent event) {
-		boolean result = false;
-
-		switch (event.keyCode) {
+		boolean result = checkExit(event) || checkEdit(event);
+		if (!result) {
+			switch (event.keyCode) {
 			case 'g':
 				leave();
 				result = true;
@@ -162,6 +176,7 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 			default:
 				beep();
 				break;
+			}
 		}
 		return result;
 	}
@@ -174,28 +189,20 @@ public abstract class StrictMinibuffer extends CompletionMinibuffer {
 	}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#getHistoryRing()
-	 */
-	@Override
-	protected <T> RingBuffer<T> getHistoryRing() {
-		return null;
-	}
-
-	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
-	 */
-	@Override
-	protected boolean handlesCtrl() {
-		return true;
-	}
-
-	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesAlt()
 	 */
 	@Override
 	protected boolean handlesAlt() {
 		// disable history for strict commands
 		return false;
+	}
+
+	/**
+	 * @see com.mulgasoft.emacsplus.minibuffer.HistoryMinibuffer#getHistoryRing()
+	 */
+	@Override
+	protected <T> RingBuffer<T> getHistoryRing() {
+		return null;
 	}
 
 }

@@ -366,14 +366,6 @@ public abstract class CompletionMinibuffer extends ExecutingMinibuffer implement
 	}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
-	 */
-	@Override
-	protected boolean handlesCtrl() {
-		return true;
-	}
-
-	/**
 	 * Support ^s and ^r for searching within buffer list and ^g to break out of search
 	 * 
 	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#dispatchCtrl(org.eclipse.swt.events.VerifyEvent)
@@ -389,19 +381,15 @@ public abstract class CompletionMinibuffer extends ExecutingMinibuffer implement
 			case 'r':
 				backwardSearch();
 				break;
-			case 'k':
-				// revert to initial state
-				resetSearch();
-				break;
 			case 'g':
 				if (isSearching) {
+					// when searching ^g returns to initial state
 					resetSearch();
 					break;
 				}
-				// otherwise, ^g interrupts
+			// else fall through and if ^g, interrupt
 			default:
-				leave();
-				result = true;
+				result = super.dispatchCtrl(event);
 		}
 		return result;
 	}

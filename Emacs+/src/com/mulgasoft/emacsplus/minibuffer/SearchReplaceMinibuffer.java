@@ -31,7 +31,6 @@ import com.mulgasoft.emacsplus.EmacsPlusActivator;
 import com.mulgasoft.emacsplus.MarkUtils;
 import com.mulgasoft.emacsplus.RegexpRingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer;
-import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
 
 /**
  * Emacs style replace & query-replace minibuffer
@@ -58,10 +57,6 @@ import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
 public class SearchReplaceMinibuffer extends SearchMinibuffer {
 
 	// TODO - html files don't seem to come with a undoer - can we add?
-	
-	// Preference: use yank & yank pop for C-y & M-y if true
-	// else use unified approach
-	private static boolean GNU_YANK = EmacsPlusActivator.getDefault().getPreferenceStore().getBoolean(EmacsPlusPreferenceConstants.P_GNU_YANK);
 	
 	// TODO - preferences ? contextualized sub-commands?
 	private static final char QUIT = 'q';
@@ -426,48 +421,53 @@ public class SearchReplaceMinibuffer extends SearchMinibuffer {
 	 */
 	@Override
 	protected boolean dispatchCtrl(VerifyEvent event) {
-		boolean result = false;
-		switch(state) {
-		case Query:
-			result = super.dispatchCtrl(event);
-			break;
-		case Replace:
-			if (isQuoting()) {
-				return super.dispatchCtrl(event,false);
-			} else {
-				switch (event.keyCode) {
-				case EOL:
-					result = super.dispatchCtrl(event,false);					
-					break;
-				case CTRL_QUOTE:
-					result = super.dispatchCtrl(event);
-					break;
-				case LINEorYANK:
-					if (isGnuYankCommands()) {
-						boolean wasEnabled = isSearchEnabled(); 
-						try {
-							setSearchEnabled(false);
-							result = super.dispatchCtrl(event);
-						} finally {
-							setSearchEnabled(wasEnabled);
+		boolean result = checkExit(event);
+		if (!result) {
+			switch(state) {
+			case Query:
+				result = super.dispatchCtrl(event);
+				break;
+			case Replace:
+				if (isQuoting()) {
+					return super.dispatchCtrl(event,false);
+				} else {
+					switch (event.keyCode) {
+					case EOL:
+						result = super.dispatchCtrl(event,false);					
+						break;
+					case CTRL_QUOTE:
+						result = super.dispatchCtrl(event);
+						break;
+					case LINEorYANK:
+						if (isGnuYankCommands()) {
+							boolean wasEnabled = isSearchEnabled(); 
+							try {
+								setSearchEnabled(false);
+								result = super.dispatchCtrl(event);
+							} finally {
+								setSearchEnabled(wasEnabled);
+							}
+							break;
 						}
+					case CANCEL:
+					case WORD:
+						result = cancelSearch();
+						break;
+					default:
+						result = super.dispatchCtrl(event,false);
 						break;
 					}
+				}
+				break;
+			case Search:
+				switch (event.keyCode) {
 				case CANCEL:
-				case WORD:
 					result = cancelSearch();
 					break;
 				}
-			}
-			break;
-		case Search:
-			switch (event.keyCode) {
-			case CANCEL:
-				result = cancelSearch();
+				finish();
 				break;
 			}
-			finish();
-			break;
 		}
 		return result;
 	}

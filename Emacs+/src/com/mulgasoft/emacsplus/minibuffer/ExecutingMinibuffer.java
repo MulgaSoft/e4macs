@@ -29,6 +29,11 @@ public abstract class ExecutingMinibuffer extends HistoryMinibuffer {
 	static String ABORT_MSG = A_MSG + EmacsPlusActivator.getResourceString("Exec_Abort") + Z_MSG;   	  //$NON-NLS-1$  
 	static String COMPLETE_MSG = A_MSG + EmacsPlusActivator.getResourceString("Exec_Completion") + Z_MSG; //$NON-NLS-1$  
 	static String NOMATCH_MSG = A_MSG + EmacsPlusActivator.getResourceString("Exec_NoMatch") + Z_MSG;     //$NON-NLS-1$ 
+	static final String YESORNO_Y = EmacsPlusActivator.getResourceString("YesOrNo_Y");  									   //$NON-NLS-1$ 
+	static final String YESORNO_YES = EmacsPlusActivator.getResourceString("YesOrNo_Yes");  								   //$NON-NLS-1$ 
+	static final String YESORNO_N = EmacsPlusActivator.getResourceString("YesOrNo_N");  									   //$NON-NLS-1$ 
+	static final String YESORNO_NO = EmacsPlusActivator.getResourceString("YesOrNo_No");									   //$NON-NLS-1$ 
+	static final String YESORNO_BAD = String.format(EmacsPlusActivator.getResourceString("YesOrNo_Bad"),YESORNO_Y, YESORNO_N); //$NON-NLS-1$ 
 	
 	private IMinibufferExecutable executable;
 	
@@ -155,6 +160,8 @@ public abstract class ExecutingMinibuffer extends HistoryMinibuffer {
 					event.doit = false;
 					break;
 				}
+			} else if (checkEdit(event)) {
+				break;
 			} else if ((Character.isDigit(event.character) && ((event.stateMask & SWT.MODIFIER_MASK) == 0)) || ('-' == event.character)) { 
 				// accept if plain number or minus				
 				super.charEvent(event);

@@ -91,7 +91,6 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	private String commandId = null;	// the command id of the invoker
 	private String resultString = null; // final message on completion
 	private boolean resultError = false; // final status type on completion
-	
 
 	private boolean inBegin = false;
 	private boolean executing = false;
@@ -105,12 +104,28 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	
 	private int lastKeyCode = -1;
 	private String eol = null;
-	
+
 	private static boolean mxLaunch = false;
 	// we don't want to clear the M-x status result on M-x launch
 	private boolean initStatusMsg() {
 		return !mxLaunch;
 	}
+	
+	// when true, enable C-a & C-k (disabled in isearch)
+	private boolean allowCtrlEdits = true;
+	/**
+	 * @return the value of allowCtrlEdits
+	 */
+	protected boolean isAllowCtrlEdits() {
+		return allowCtrlEdits;
+	}
+	/**
+	 * @param allowCtrlEdits
+	 */
+	protected void setAllowCtrlEdits(boolean allowCtrlEdits) {
+		this.allowCtrlEdits = allowCtrlEdits;
+	}
+	
 	protected abstract void addOtherListeners(IWorkbenchPage page,ISourceViewer viewer, StyledText widget);
 	protected abstract void removeOtherListeners(IWorkbenchPage page,ISourceViewer viewer, StyledText widget);
 	
@@ -281,36 +296,39 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	 * Installs this target. I.e. adds all required listeners.
 	 */
 	private boolean install() {
-		if (editor instanceof AbstractTextEditor && !isInstalled()) {
-			bindingService = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
-			viewer = findSourceViewer(editor);
-			if (viewer != null) {
-				widget = viewer.getTextWidget();
-				if (widget == null || widget.isDisposed()) {
-					viewer = null;
-					widget = null;
-					return false;
-				}
-				widget.addMouseListener(this);
-				widget.addFocusListener(this);
-				viewer.addTextListener(this);
+		if (!isInstalled()) {
+			withInstall();
+			if (editor instanceof AbstractTextEditor) {
+				bindingService = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
+				viewer = findSourceViewer(editor);
+				if (viewer != null) {
+					widget = viewer.getTextWidget();
+					if (widget == null || widget.isDisposed()) {
+						viewer = null;
+						widget = null;
+						return false;
+					}
+					widget.addMouseListener(this);
+					widget.addFocusListener(this);
+					viewer.addTextListener(this);
 
-				ISelectionProvider selectionProvider = viewer.getSelectionProvider();
-				if (selectionProvider != null)
-					selectionProvider.addSelectionChangedListener(this);
+					ISelectionProvider selectionProvider = viewer.getSelectionProvider();
+					if (selectionProvider != null)
+						selectionProvider.addSelectionChangedListener(this);
 
-				if (viewer instanceof ITextViewerExtension){
-					((ITextViewerExtension) viewer).prependVerifyKeyListener(this);
-					KbdMacroSupport.getInstance().continueKbdMacro(this,editor);
-				} else {
-					widget.addVerifyKeyListener(this);
+					if (viewer instanceof ITextViewerExtension){
+						((ITextViewerExtension) viewer).prependVerifyKeyListener(this);
+						KbdMacroSupport.getInstance().continueKbdMacro(this,editor);
+					} else {
+						widget.addVerifyKeyListener(this);
+					}
+					addOtherListeners(page,viewer, widget);
+					installed = true;
+					left = false;
 				}
-				addOtherListeners(page,viewer, widget);
-				installed = true;
 			}
 		}
 		addStatusContribution(editor);		
-		afterInstall();
 		return installed;
 	}
 	
@@ -349,20 +367,20 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			widget = null;
 			page = null;	// TODO: elsewhere?
 			installed = false;
-			afterUninstall();
+			withUninstall();
 		}
 	}
 	
 	/**
 	 * Give subclasses an opportunity to contribute to the install
 	 */
-	protected void afterInstall() {
+	protected void withInstall() {
 	}
 	
 	/**
 	 * Give subclasses an opportunity to contribute to the uninstall
 	 */
-	protected void afterUninstall() {
+	protected void withUninstall() {
 	}
 	
 	private boolean left = false;
@@ -517,9 +535,13 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	
 	/* ***************** key handling *******************/
 	
-	protected abstract boolean handlesCtrl(); 
+//	protected abstract boolean handlesCtrl();
 	protected abstract boolean handlesAlt();
 	protected abstract boolean handlesTab();
+	// TODO Assume everyone wants C-a C-k behavior
+	protected boolean handlesCtrl() {
+		return true;
+	}; 
 
 	/**
 	 * @return the lastKeyCode
@@ -527,10 +549,10 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	protected int getLastKeyCode() {
 		return lastKeyCode;
 	}
-	
+
 	// Added to enable TRAVERSE key workaround (see HistoryMinibuffer)
-	protected void setLastKeyCode(int keyCode) {
-		lastKeyCode = keyCode;
+	protected void setLastKeyCode(VerifyEvent event) {
+		lastKeyCode = event.keyCode;
 	}
 
 	protected void handleKey(VerifyEvent event) {
@@ -547,7 +569,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 			System.out.println(e);
 			e.printStackTrace();
 		} finally {
-			setLastKeyCode(event.keyCode);
+			setLastKeyCode(event);
 		}
 	}
 	protected final static Character QUOTING = 'Q';
@@ -573,7 +595,6 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 				// to support ESC n, ESC p in HistoryMinibuffer
 				break;
 			}
-			// TODO - could also be ^[
 			// ESC - if doubled, or Alt not supported, leave
 			KbdMacroSupport.getInstance().exitWhenDefining();				
 			leave(true);
@@ -756,8 +777,72 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
  	 * @return true
 	 */
 	protected boolean dispatchCtrl(VerifyEvent event) {
-		return defaultDispatch(event);
+		boolean result = true;
+		if (!checkExit(event) && !checkEdit(event)) { 
+				result = defaultDispatch(event);
+			}
+		return result;
 	}
+	
+	/**
+	 * Add an exit key for minibuffers analogous to abort-recursive-edit
+	 * @param event
+	 * @return true on exiting, else false
+	 */
+	protected boolean checkExit(VerifyEvent event) {
+		// TODO: should we beep as well? 
+		boolean result = false;
+		if (event.keyCode == ']') {
+			leave(true);
+			event.doit = false;
+			result = true;
+		}
+		return result;
+	}
+	
+	/**
+	 * Check and execute simple edit behavior
+	 * 
+	 * @param event
+	 * @return true if did something, else false
+	 */
+	protected boolean checkEdit(VerifyEvent event) {
+		boolean result = false;
+		if (isAllowCtrlEdits()) {	// isearch disables this behavior
+			result = true;
+			event.doit = false;
+			switch (event.keyCode) {
+			case 'a':
+				// Ctrl+a move to beginning of text in minibuffer
+				getMB().toBegin();
+				break;
+			case 'b':
+				// Ctrl+b move left in minibuffer
+				getMB().toLeft();
+				break;
+			case 'd':
+				// Ctrl+d delete character in minibuffer
+				updateStatusLine(getMB().delChar());
+				break;
+			case 'e':
+				// Ctrl+e move to end of text in minibuffer
+				getMB().toEnd();
+				break;
+			case 'f':
+				// Ctrl+f move right in minibuffer
+				getMB().toRight();
+				break;
+			case 'k':
+				// Ctrl+k kill from current pos to end
+				updateStatusLine(getMB().delFrom());
+				break;
+			default:
+				result = false;
+				event.doit = true;	// restore the state
+			} 
+		} 
+		return result;
+	}	
 	
 	/**
 	 * Allow children to handle <TAB>

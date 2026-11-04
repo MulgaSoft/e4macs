@@ -31,6 +31,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.mulgasoft.emacsplus.EmacsPlusActivator;
 import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.KillRing;
 import com.mulgasoft.emacsplus.MarkUtils;
@@ -38,6 +39,7 @@ import com.mulgasoft.emacsplus.RegexpRingBuffer;
 import com.mulgasoft.emacsplus.RegexpRingBuffer.RegexpRingBufferElement;
 import com.mulgasoft.emacsplus.RingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
+import com.mulgasoft.emacsplus.preferences.EmacsPlusPreferenceConstants;
 import com.mulgasoft.emacsplus.preferences.PrefVars.SearchExitOption;
 import static com.mulgasoft.emacsplus.preferences.PrefVars.SEARCH_EXIT_OPTION;
 import static com.mulgasoft.emacsplus.EmacsPlusUtils.getPreferenceStore;
@@ -63,6 +65,10 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 	private static final  String CASE_SENSITIVE = "Case_Sensitive_Message"; 	//$NON-NLS-1$
 	private static final  String CASE_INSENSITIVE = "Case_Insensitive_Message"; //$NON-NLS-1$
 
+	// Preference: use yank & yank pop for C-y & M-y if true
+	// else use unified approach
+	protected static boolean GNU_YANK = EmacsPlusActivator.getDefault().getPreferenceStore().getBoolean(EmacsPlusPreferenceConstants.P_GNU_YANK);
+	
 	// TODO preferences?
 	// Alts
 	protected static final char YANK = 'y';
@@ -102,7 +108,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 	private boolean gnuYankCommands = false;
 	private boolean wasYanked = false;
 	private boolean yanked = false;
-	
+
 	/**
 	 * Record manual case sensitivity state; override text input case if not OFF
 	 */
@@ -144,7 +150,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 		setRegexp(regexp);
 		setForward(forward);
 	}
-	
+
 	/**
 	 * Get the state of the manual case sensitivity setting.
 	 * @see com.mulgasoft.emacsplus.minibuffer.SearchMinibuffer.Case_Sensitive
@@ -394,14 +400,6 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 	protected String getMinibufferPrefix() {return EMPTY_STR;}
 
 	/**
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
-	 */
-	@Override
-	protected boolean handlesCtrl() {
-		return true;
-	}
-
-	/**
 	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handleKey(org.eclipse.swt.events.VerifyEvent)
 	 */
 	@Override
@@ -410,10 +408,6 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 		try {
 			if (isQuoting) {
 				event.data = QUOTING;
-			}
-			if (event.keyCode != SWT.ALT && event.keyCode != SWT.ESC) {
-				// ignore naked alt
-				setYanked(false);
 			}
 			setSearching(true);
 			super.handleKey(event);
@@ -452,6 +446,23 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 		}
 	}
 
+	
+	/**
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#charEvent(org.eclipse.swt.events.VerifyEvent)
+	 */
+	@Override
+	protected void charEvent(VerifyEvent event) {
+		switch (event.keyCode ) {
+		case SWT.ESC:
+			// could be for ESC-y (i.e. M-y)
+			break;
+		default:
+			// otherwise, remove yank flag
+			setYanked(false);
+		}
+		super.charEvent(event);
+	}
+
 	protected boolean dispatchCtrl(VerifyEvent event) {
 		return dispatchCtrl(event,true);
 	}
@@ -487,25 +498,19 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 				result = true;
 				break;
 
+				// support kill ring yank or ancient xemacs behavior
 			case LINEorYANK: // C-y
-				switch(search_exit_option) {
-					case t:
-						if (isGnuYankCommands()) {
-							// yank from kill buffer onto search string
-							yankStr(false);
-							result = true;
-							break;
-						} 
-						// yank rest of line from buffer onto end of search string & continue
-						regExp = LINE_EXP;
+				if (search_exit_option == SearchExitOption.t) {
+					if (isGnuYankCommands()) {
+						// gnu emacs: yank from kill buffer onto search string
+						yankStr(false);
+						result = true;
 						break;
-					case nil:
-						quoteIt(event);
-						break;
-					case disable:
-						result = super.dispatchCtrl(event);
-						break;
+					} 
+					// xemacs: yank rest of line from buffer onto end of search string & continue
+					regExp = LINE_EXP;
 				}
+				// Fall through on xemacs behavior
 			case WORD: // yank word from buffer onto end of search string & continue
 				switch(search_exit_option) {
 					case t:					
@@ -536,6 +541,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 							result = true;
 							break;
 						}
+						break;
 					case nil:
 						quoteIt(event);
 						break;
@@ -560,7 +566,6 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 				} else {
 					result = super.dispatchCtrl(event);
 				}
-			break;
 			}
 		}
 		return result;
@@ -586,7 +591,7 @@ public abstract class SearchMinibuffer extends HistoryMinibuffer {
 						result = true;
 						break;
 					case disable:
-						result = super.dispatchCtrl(event);
+						result = super.dispatchAlt(event);
 						break;
 				}				
 				break;

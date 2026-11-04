@@ -31,4 +31,11 @@ public class ZapMinibuffer extends TextMinibuffer {
 	protected void charEvent(VerifyEvent event) {
 		immediateCharEvent(event);
 	}
+	
+	/**
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#handlesCtrl()
+	 */
+	protected boolean handlesCtrl() {
+		return false;
+	}; 
 }

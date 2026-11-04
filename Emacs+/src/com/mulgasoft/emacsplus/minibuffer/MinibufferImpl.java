@@ -131,13 +131,23 @@ public class MinibufferImpl {
 	// TODO needs to pay attention to forward delete of eol
 	
 	public String delChar() {
-		int len = minibufferString.length();
-		if (len > 0 && cpos < len) {
-			minibufferString.deleteCharAt(cpos);
-			if (cpos > -1 && cpos == len - 1){
-				cpos--;
-			}
+		int len = getLength();
+		// check begin and end boundaries
+		if (len > 0 && cpos+1 < len) {
+			minibufferString.deleteCharAt(cpos+1);
 		}
+		return minibufferString.toString();
+	}
+
+	/**
+	 * If not at the end position, delete everything after cpos
+	 * @return the resulting minibuffer contents
+	 */
+	public String delFrom() {
+		int end = cpos+1;
+		if (end < getLength()) {
+			init (minibufferString.substring(0, end));
+			}
 		return minibufferString.toString();
 	}
 	
@@ -178,7 +188,7 @@ public class MinibufferImpl {
 	}
 	
 	public void toLeft() {
-		if (cpos > 0){
+		if (cpos > -1){
 			cpos--;
 		}
 	}

@@ -123,7 +123,7 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 				&& (event.character == PREV || event.character == NEXT)) {
 			// e.g. ESC n -> Alt+n
 			event.stateMask = SWT.ALT;
-			setLastKeyCode(event.keyCode);
+			setLastKeyCode(event);
 			// when defining, the event is processed by the kbd macro definition first,
 			// so we swap out the standalone ESC with Alt+<character>
 			KbdMacroSupport.getInstance().swapEscWhenDefining(event);
@@ -275,14 +275,14 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 	/**
 	 * Activate a context for binding with the M-n/p interception hack
 	 * 
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#afterInstall()
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#withInstall()
 	 */
 	@Override
-	protected void afterInstall() {
-		super.afterInstall();
-		if (handlesAlt()) {
+	protected void withInstall() {
+		super.withInstall();
+		if (handlesAlt() && minimeta == null) {
 			IContextService service = PlatformUI.getWorkbench().getService(IContextService.class);
-			if (service != null && minimeta == null) {
+			if (service != null) {
 				minimeta = service.activateContext(META_CONTEXTID);
 			}
 		}
@@ -291,14 +291,14 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 	/**
 	 * Deactivate the context on exiting the History minibuffer
 	 * 
-	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#afterUninstall()
+	 * @see com.mulgasoft.emacsplus.minibuffer.WithMinibuffer#withUninstall()
 	 */
 	@Override
-	protected void afterUninstall() {
-		super.afterUninstall();
-		if (handlesAlt()) {
+	protected void withUninstall() {
+		super.withUninstall();
+		if (handlesAlt() && minimeta != null) {
 			IContextService service = PlatformUI.getWorkbench().getService(IContextService.class);
-			if (service != null && minimeta != null) {
+			if (service != null) {
 				service.deactivateContext(minimeta);
 			}
 			minimeta = null;
