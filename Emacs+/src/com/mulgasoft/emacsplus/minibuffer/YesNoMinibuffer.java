@@ -9,7 +9,7 @@
  */
 package com.mulgasoft.emacsplus.minibuffer;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -27,7 +27,7 @@ public class YesNoMinibuffer extends StrictMinibuffer {
 	 */
 	public YesNoMinibuffer(IMinibufferExecutable executable) {
 		super(executable);
-		setCandidates(List.of(YESORNO_YES,YESORNO_NO));
+		setCandidates(Arrays.asList(YESORNO_YES,YESORNO_NO));
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class YesNoMinibuffer extends StrictMinibuffer {
 	public YesNoMinibuffer(IMinibufferExecutable executable, boolean immediately) {
 		this(executable);
 		setImmediate(immediately);
-		setCandidates(List.of(YESORNO_Y,YESORNO_N));
+		setCandidates(Arrays.asList(YESORNO_Y,YESORNO_N));
 	}
 	
 	/**
