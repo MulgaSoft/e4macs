@@ -2,7 +2,7 @@
 <feature
       id="com.mulgasoft.emacsplus.feature"
       label="Emacs+"
-      version="4.3.6"
+      version="4.3.7"
       provider-name="MulgaSoft"
       plugin="com.mulgasoft.emacsplus">
 
@@ -10,56 +10,43 @@
       Emacs+ - Eclipse Extensions for Emacs Expatriates -
 provides an enhanced Emacs-like experience in the eclipse text
 editors.  
-See emacs+news (C-h n) for history details.  Recent changes include:
-4.2.0:
-- Add Repeat(C-X Z) of most recently executed edit command
-- Support context bound re-Repeat
-4.1.5:
-- Add focus forcing on Deactivate Window for all platforms
-- Improve performance of sexp commands when called with count
-- Fix issues with sexp commands and selections
-- Add some ESC bindings for sexp commands
-- Skip &apos;initial&apos; whitespace when changing case in reverse
-4.1.4:
-- Remove dynamic binding (^C^V^Y) to restore ^C for those who
-want it
-4.1.3:
-- On C-X 0 activate the selected buffer in the target window
-- Add workaround to show correct buffer after split in Kepler
-4.1.2:
-- Add C-X 4 . Open Declaration Other Window
-4.1.1:
-- Use earlier API to support Frame commands in Kepler
-- Address issues with singleton editor and split self edge cases
-4.1.0:
-- Add Frame commands: C-X 5 0,1,2,B,O,C-O
-- Add preferences for initial and default frame positions
-4.0.5:
-- Enhance semantics of begin/end-line
-- Remove Eclipse&apos;s emacs scheme bogus binding of M-/
-- Fix next/previous comment bindings
-4.0.4:
-- Improve Scroll Other Window
-- Add Mac Cmd bindings for Other Window commands
-4.0.3:
-- Add Reposition Window
-- Remove former binding for C-M-L
-4.0.2:
-- Add Switch/Display Buffer Other Window
-- Populate Switch history with activation order buffer list
-- Reset Switch prompt to initial state on ^K
-4.0.1:
-- Restore support for split windows
-- Add shrink window and related commands
-- Not backward compatible with pre-E4 versions of Eclipse
-4.0.0:
-- Initial E4 version - reset numbering
-- Remove non-E4 version of split window commands - Eclipse internals
-have changed radically
+See emacs+news (C-h n) for complete history.  Recent changes include:
+4.3.7
+- Support simple editing commands in minibuffers (i.e. C-a, C-b, C-d, C-e, C-f, C-k)
+- Revive support for M-n/p in History minibuffers
+- Add support for ESC-n/p in History minibuffers
+- Add C-] to abort and exit minibuffer command
+- Add C-u to i-searches (switch between regular - regexp)
+- Improve C-u support after universal-argument
+- Correct the help commands
+- Clean up assorted strings
+4.3.6
+- Minor fixes to support changes in the Eclipse platform
+4.3.5:
+- Fix issue 32/34
+4.3.4:
+- Correct semantics of recenter (C-L) when called with C-U [arg]
+- Add scroll-margin
+- Add visible-bell
+4.3.3:
+- Improve cursor restoration on join commands
+- Improve deduplication on join commands
+- Minibuffer fixes for some OSs
+- Add flash-mode-line
+4.3.2:
+- Restore shrink/enlarge window commands
+- Add optional binding for previous-view
+4.3.1:
+- Disable negative argument binding (C--), as it is now preempted by zoom out
+- Assorted (mostly invisible) fixes
+4.3.0:
+- Fix issues that hobble running in newer (Neon+) versions
+- Advance required Java to 1.8
+
    </description>
 
    <copyright url="http://www.mulgasoft.com/emacs-plug-in-license">
-      Copyright (c) 2009-2014 Mark Feber All rights reserved.
+      Copyright (c) 2009-2026 Mark Feber All rights reserved.
    </copyright>
 
    <license url="http://www.mulgasoft.com/emacsplus/mpl-v-1-0">
@@ -145,9 +132,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="com.mulgasoft.emacsplus"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

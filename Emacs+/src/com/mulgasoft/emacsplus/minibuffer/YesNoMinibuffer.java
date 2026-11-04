@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2010 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2026 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -10,6 +10,7 @@
 package com.mulgasoft.emacsplus.minibuffer;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -21,13 +22,16 @@ import org.eclipse.ui.texteditor.ITextEditor;
  * @author Mark Feber - initial API and implementation
  */
 public class YesNoMinibuffer extends StrictMinibuffer {
+	
+	private final static List<String> yn = Arrays.asList(YESORNO_Y,YESORNO_N);
+	private final static List<String> yesno = Arrays.asList(YESORNO_YES,YESORNO_NO);
 
 	/**
 	 * @param executable
 	 */
 	public YesNoMinibuffer(IMinibufferExecutable executable) {
 		super(executable);
-		setCandidates(Arrays.asList(YESORNO_YES,YESORNO_NO));
+		setCandidates(yesno);
 	}
 	
 	/**
@@ -36,7 +40,7 @@ public class YesNoMinibuffer extends StrictMinibuffer {
 	public YesNoMinibuffer(IMinibufferExecutable executable, boolean immediately) {
 		this(executable);
 		setImmediate(immediately);
-		setCandidates(Arrays.asList(YESORNO_Y,YESORNO_N));
+		setCandidates(yn);
 	}
 	
 	/**

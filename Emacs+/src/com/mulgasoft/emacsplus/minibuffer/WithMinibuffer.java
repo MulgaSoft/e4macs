@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2020 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2026 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -103,6 +103,7 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	private boolean lowercase = false;
 	
 	private int lastKeyCode = -1;
+	private int prevKeyCode = -1;
 	private String eol = null;
 
 	private static boolean mxLaunch = false;
@@ -549,9 +550,13 @@ public abstract class WithMinibuffer extends StatusItemSupport implements FocusL
 	protected int getLastKeyCode() {
 		return lastKeyCode;
 	}
+	protected int getPrevKeyCode() {
+		return prevKeyCode;
+	}
 
 	// Added to enable TRAVERSE key workaround (see HistoryMinibuffer)
 	protected void setLastKeyCode(VerifyEvent event) {
+		prevKeyCode = lastKeyCode; 
 		lastKeyCode = event.keyCode;
 	}
 

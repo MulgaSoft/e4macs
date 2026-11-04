@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009, 2013 Mark Feber, MulgaSoft
+ * Copyright (c) 2009, 2026 Mark Feber, MulgaSoft
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -21,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
 
+import com.mulgasoft.emacsplus.EmacsPlusUtils;
 import com.mulgasoft.emacsplus.RingBuffer;
 import com.mulgasoft.emacsplus.RingBuffer.IRingBufferElement;
 import com.mulgasoft.emacsplus.YankRotate;
@@ -175,7 +176,10 @@ public abstract class HistoryMinibuffer extends WithMinibuffer implements Traver
 	}
 
 	private boolean wasHistKey(VerifyEvent event) {
-		int last = getLastKeyCode(); 
+		int last = getLastKeyCode();
+		if (last == SWT.ALT || last == SWT.ESC || (EmacsPlusUtils.isMac() && last == SWT.COMMAND)) {
+			last = getPrevKeyCode();
+		}
 		return (last == NEXT || last == PREV || last == NEXT_ARROW || last == PREV_ARROW);
 	}
 	
