@@ -586,6 +586,16 @@
       contextId="org.eclipse.debug.ui.debugging"
       schemeId="com.mulgasoft.emacsplusConfiguration"
       sequence="CTRL+X CTRL+A CTRL+F"/>
+    <key
+      commandId="org.eclipse.jdt.debug.ui.commands.Inspect"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+C CTRL+P"/>
+    <key
+      commandId="org.eclipse.jdt.debug.ui.commands.Inspect"
+      contextId="org.eclipse.debug.ui.debugging"
+      schemeId="com.mulgasoft.emacsplusConfiguration"
+      sequence="CTRL+X CTRL+A CTRL+P"/>
   </extension>		
 
 <!-- *************** Universal Argument Bindings *************** -->
